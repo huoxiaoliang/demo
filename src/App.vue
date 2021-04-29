@@ -1,28 +1,50 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Map :options="opt" @onload="onload" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Map from './components/Map.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      opt: {}
+    }
+  },
   components: {
-    HelloWorld
+    Map
+  },
+  created() {
+    this.opt = { imageryProvider: null, navigation: true, showlogo: { show: true } }
+  },
+  methods: {
+    onload(map) {
+      console.log('>>>>> 地图创建成功 >>>>', map)
+      // map.destroy()
+      // console.log('>>>>> 地图销废 >>>>', map)
+    }
   }
 }
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 </style>
