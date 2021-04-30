@@ -1,3 +1,4 @@
+import BaseClass from '../core/BaseClass'
 import Token from '../const/Token'
 // 导入修改版导航盘插件
 import CesiumNavigation from '../widget/navigation'
@@ -7,7 +8,7 @@ import ViewerCesiumInformationBarMixin from '../widget/informationBar'
  *
  * 地图配置项
  *
- * @property {Boolean} [navigation=true] 显示导航盘
+ * @property {Boolean} [navigation= { enableDistanceLegend: true, enableZoomControls: false, enableCompass: true }] 显示导航盘
  * @property {Object} [showlogo={show:true,logoHref,logoSrc}] 显示logo
  * @property {Object} [mapRange={minx:100.0,miny:-20.0,maxx:130.0,maxy:90.0}] 地图默认范围
  *
@@ -18,26 +19,29 @@ import ViewerCesiumInformationBarMixin from '../widget/informationBar'
  * @param {String } container 地图div容器的id
  * @param {Map.ConstructorOptions} [options] 参数对象
  */
-export default class Map {
+export default class Map extends BaseClass {
   constructor(container, options) {
+    super()
     const { defined, DeveloperError } = Cesium
     if (!defined(container)) {
       throw new DeveloperError('container is required.')
     }
     creatar_init()
     const defaultOpt = {
-      navigation: true,
-      infoBar: true,
+      mapRange: { minx: 100.0, miny: -20.0, maxx: 130.0, maxy: 90.0 }, // 默认位置
+      basemaps: [], // 基础地理地图
+      navigation: { enableDistanceLegend: true, enableZoomControls: false, enableCompass: true }, // 导航盘
+      infoBar: true, // 状态栏
       animation: false,
       timeline: false,
-      homeButton: false,
-      navigationHelpButton: false,
-      sceneModePicker: false,
-      baseLayerPicker: false,
-      infoBox: false,
-      geocoder: false,
-      fullscreenButton: false,
-      selectionIndicator: false,
+      homeButton: false, // 复位按钮
+      navigationHelpButton: true, // 帮助按钮
+      sceneModePicker: true, // 模式选择按钮
+      baseLayerPicker: true, // 基础图层切换
+      infoBox: true,
+      geocoder: true,
+      fullscreenButton: true, // 全体按钮
+      selectionIndicator: true,
       contextOptions: {
         //cesium状态下允许canvas转图片convertToImage
         webgl: {
@@ -55,8 +59,10 @@ export default class Map {
     options = Object.assign(defaultOpt, options)
     this.options = options
     this._viewer = new Cesium.Viewer(container, defaultOpt)
+
     this._initControls()
   }
+
   /**
    * 初始化基础插件
    */
@@ -71,14 +77,28 @@ export default class Map {
 
     // 加载导航盘
     if (defined(this.options.navigation) && defined(this._viewer)) {
-      CesiumNavigation(this._viewer)
+      CesiumNavigation(this._viewer, this.options.navigation)
     }
     //状态栏
     if (defined(this.options.infoBar)) this._viewer.extend(ViewerCesiumInformationBarMixin, {})
 
     //设置logo
     this._setLogo()
+
+    // 设置基础组件位置
+    if (this.options.homeButton) {
+      this._viewer.homeButton._element.title = '复位视角'
+    }
+    if (this.options.fullscreenButton) {
+      this._viewer._toolbar.appendChild(this._viewer.fullscreenButton._container)
+      this._viewer.fullscreenButton._element.title = '全屏'
+    }
+
+    if (defined(this.options.navigation) && !this.options.navigation.enableZoomControls) {
+      this._viewer._toolbar.style.top = '200px'
+    }
   }
+
   /**
    * 设置logo
    */
@@ -87,9 +107,13 @@ export default class Map {
       const logoHref = this.options.showlogo.logoHref || 'http://creatar.com'
       const logoSrc = this.options.showlogo.logoSrc || 'http://creatar.com/data/logo/logo.png'
       // 实例化默认logo
-      const defaultCredit = new Cesium.Credit(`<a href="${logoHref}" target="_blank"><img src="${logoSrc}" title="Cesium ion"/></a>`, true)
+      const defaultCredit = new Cesium.Credit(`<a href="${logoHref}" target="_blank"><img src="${logoSrc}" title="creatar"/></a>`, true)
       Cesium.CreditDisplay.cesiumCredit = defaultCredit
+
       this.viewer.scene.frameState.creditDisplay._defaultCredit = defaultCredit
+      this.viewer.scene.frameState.creditDisplay._expandLink.textContent = '数据来源'
+      this.viewer.scene.frameState.creditDisplay._lightboxCredits.children[0].innerHTML = '数据提供者'
+      // console.log()
       this.viewer.scene.frameState.creditDisplay.container.style.display = 'block'
     } else {
       this.viewer.scene.frameState.creditDisplay.container.style.display = 'none'

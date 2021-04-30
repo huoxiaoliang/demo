@@ -7,8 +7,9 @@
 <script>
 import Vue from 'vue'
 import * as creatar from '../../Source/creatar.js'
-// import * as creatar from '../../Build/creatar.js'
 import '../../Source/creatar.css'
+// import * as creatar from '../../Build/creatar.js'
+// import '../../Build/creatar.css'
 // 为了方便使用,绑定到原型链，在其他vue文件，直接 this.globe 来使用
 Vue.prototype.creatar = creatar
 export default {

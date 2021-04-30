@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+/Build
 
 
 # local env files
@@ -26,5 +27,3 @@ pnpm-debug.log*
 babel.config.js
 package-lock.json
 babel.config.js
-
-package-lock.json

@@ -22,8 +22,8 @@ class InformationBar {
 
     this.container = document.createElement('div')
     this.container.className = 'crt-information-bar'
-    const cesiumWidget = Cesium.defined(this.viewer.cesiumWidget) ? this.viewer.cesiumWidget : this.viewer
-    cesiumWidget.container.appendChild(this.container)
+    const bottomContainer = Cesium.defined(this.viewer.bottomContainer) ? this.viewer.bottomContainer : this.viewer
+    bottomContainer.appendChild(this.container)
     Cesium.knockout.track(this, ['lng', 'lat', 'alt', 'heading', 'pitch', 'roll'])
     if (Cesium.defined(this.viewer) && Cesium.defined(this.viewer.cesiumWidget) && Cesium.defined(this.viewer.cesiumWidget.screenSpaceEventHandler)) {
       this.updateBarinfo()

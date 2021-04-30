@@ -18,7 +18,7 @@ export default {
     Map
   },
   created() {
-    this.opt = { imageryProvider: null, navigation: true, showlogo: { show: true } }
+    this.opt = { imageryProvider: null, showlogo: { show: true } }
   },
   methods: {
     onload(map) {
