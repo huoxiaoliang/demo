@@ -2,7 +2,8 @@ const path = require('path')
 // 代码加密
 const JavaScriptObfuscator = require('webpack-obfuscator')
 //引入单独提取css插件
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = {
   entry: {
     common: '/Source/creatar.js'
@@ -18,25 +19,39 @@ module.exports = {
     filename: 'creatar.js'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/, // 正则表达式，表示.css后缀的文件
-        use: ExtractTextPlugin.extract({
-          use: [
-            // 提取的时候，继续用下面的方式处理
-            {
-              loader: 'css-loader'
-            }
-          ]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader"
+          }
+        ]
+        // use: ExtractTextPlugin.extract({
+        //   use: [
+        //     // 提取的时候，继续用下面的方式处理
+        //     {
+        //       loader: 'css-loader'
+        //     }
+        //   ]
+        // })
       },
-      { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ }
+      {
+        test: /\.js$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      }
     ]
   },
+  optimization: {
+    minimizer: [new OptimizeCssAssetsPlugin()]
+  },
   plugins: [
-    new ExtractTextPlugin('creatar.css'),
-    new JavaScriptObfuscator(
-      {
+
+    new MiniCssExtractPlugin({
+      filename: 'creatar.css'
+    }),
+    new JavaScriptObfuscator({
         rotateUnicodeArray: true,
         // 压缩代码
         compact: true,
