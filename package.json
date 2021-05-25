@@ -5,11 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "bulid:lib": "webpack --config lib.config.js"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "cesium": "^1.80.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
   },

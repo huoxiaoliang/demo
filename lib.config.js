@@ -1,16 +1,21 @@
+
+/**
+ * 单独打包Source下代码到creatar.js、creatar.css
+ */
 const path = require('path')
 // 代码加密
 const JavaScriptObfuscator = require('webpack-obfuscator')
-//引入单独提取css插件
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+//单独提取css插件 webpack 4.x 版本使用
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// css压缩
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 module.exports = {
   entry: {
     common: '/Source/creatar.js'
   },
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, './Build'),
+    path: path.resolve(__dirname, './Build'), // 打包输出位置
     // libraryExport: 'default', // ibraryExport属性作用是取export下的default对象,不设置获取全部导出内容
     library: 'creatar', // // 指定类库名,主要用于直接引用的方式(比如使用script 标签)
     libraryTarget: 'umd', // 定义打包方式
@@ -19,22 +24,15 @@ module.exports = {
     filename: 'creatar.js'
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.css$/, // 正则表达式，表示.css后缀的文件
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader"
+            loader: 'css-loader'
           }
         ]
-        // use: ExtractTextPlugin.extract({
-        //   use: [
-        //     // 提取的时候，继续用下面的方式处理
-        //     {
-        //       loader: 'css-loader'
-        //     }
-        //   ]
-        // })
       },
       {
         test: /\.js$/,
@@ -47,11 +45,11 @@ module.exports = {
     minimizer: [new OptimizeCssAssetsPlugin()]
   },
   plugins: [
-
     new MiniCssExtractPlugin({
       filename: 'creatar.css'
     }),
-    new JavaScriptObfuscator({
+    new JavaScriptObfuscator(
+      {
         rotateUnicodeArray: true,
         // 压缩代码
         compact: true,
