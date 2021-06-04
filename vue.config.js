@@ -1,5 +1,5 @@
-
 const path = require('path')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 module.exports = {
   assetsDir: './static',
   productionSourceMap: false,
@@ -62,5 +62,8 @@ module.exports = {
       },
       plugins: plugins
     }
+  },
+  chainWebpack: config => {
+    config.plugin('monaco-editor').use(MonacoWebpackPlugin)
   }
 }

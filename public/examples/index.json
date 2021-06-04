@@ -1,0 +1,34 @@
+{
+  "dev":[
+    {
+      "name": "Graphic",
+      "label": "图形",
+      "children": [
+        {
+          "name": "Drill",
+          "label": "钻孔"
+        }
+      ]
+    },
+    {
+      "name": "Layer",
+      "label": "数据图层",
+      "children": [
+        {
+          "name": "Graphic",
+          "label": "矢量图层"
+        }
+      ]
+    },
+    {
+      "name": "Draw",
+      "label": "标绘",
+      "children": [
+        {
+          "name": "Draw",
+          "label": "标绘"
+        }
+      ]
+    }
+  ]
+}

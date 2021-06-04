@@ -1,0 +1,31 @@
+<div id="viewer-container"></div>
+<script>
+    let map = undefined
+    function initViewer() {
+        map = new CWC.Viewer('viewer-container')
+        map.setOptions({
+            globe: {
+                depthTestAgainstTerrain: true
+            },
+            cameraController: {
+                enableCollisionDetection: false
+            },
+            widgetController: {
+                enableCompass: true,
+                enableStateBar: true,
+                enableDistanceLegend: true
+            }
+        })
+        let layer = new CWC.GraphicLayer()
+        map.addLayer(layer)
+        const plot = new CWC.Plot(map)
+        plot.draw('polygon', overlay => {
+            layer.addGraphic(overlay)
+            //   plot.edit(overlay)
+        })
+    }
+
+    CWC.ready(initViewer)
+</script>
+<style>
+</style>

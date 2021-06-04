@@ -1,6 +1,7 @@
 <template>
   <div :id="`globe-container${mapKey}`" :class="['globe-container']">
     <div></div>
+    <el-button type="" @click="test">test</el-button>
   </div>
 </template>
 
@@ -55,21 +56,18 @@ export default {
   },
 
   methods: {
+    test() {
+      this.$router.push({ name: 'example' })
+    },
     initglobe(options) {
       if (this[`map${this.mapKey}`]) return
-
-      const mapOptions = {
-        ...options,
-        ...this.options
-      }
 
       // 创建三维地球场景
       window.CWC = CWC
       // CWC.use(CWCCore)
       CWC.ready(() => {
-        const map = new CWC.Viewer(`globe-container${this.mapKey}`, mapOptions) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景
+        const map = new CWC.Viewer(`globe-container${this.mapKey}`, options) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景
         Vue.prototype.$map = map
-
         this[`map${this.mapKey}`] = map
 
         // 挂载到全局对象下，所有组件通过 this.map 访问
