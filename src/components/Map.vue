@@ -1,7 +1,6 @@
 <template>
   <div :id="`globe-container${mapKey}`" :class="['globe-container']">
     <div></div>
-    <el-button type="" @click="test">test</el-button>
   </div>
 </template>
 
@@ -56,9 +55,6 @@ export default {
   },
 
   methods: {
-    test() {
-      this.$router.push({ name: 'example' })
-    },
     initglobe(options) {
       if (this[`map${this.mapKey}`]) return
 

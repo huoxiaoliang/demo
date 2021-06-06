@@ -2,16 +2,56 @@
   <div class="sandcastle-box">
     <div class="sandcastle-content">
       <!-- 编辑器 -->
-      <div ref="sandcastlCodebox" class="sandcastl-codebox" v-show="codeVisible">
+      <div
+        ref="sandcastlCodebox"
+        class="sandcastl-codebox"
+        v-show="codeVisible"
+      >
         <div class="sandcastl-codebox-title">
           <h4>代码编辑器</h4>
           <div class="btn">
-            <el-button type="warning" size="mini" icon="el-icon-refresh" @click="reset"></el-button>
-            <el-button type="success" size="mini" icon="el-icon-video-play" @click="run"></el-button>
+            <el-button
+              type="warning"
+              size="mini"
+              icon="el-icon-refresh"
+              @click="reset"
+            ></el-button>
+            <el-button
+              type="success"
+              size="mini"
+              icon="el-icon-video-play"
+              @click="run"
+            ></el-button>
+          </div>
+        </div>
+        <div class="sandcastl-codebox-header">
+          <div class="sandcastl-code-type">
+            <span
+              v-bind:class="{ typeActive: jsEditorShow }"
+              @click="tabClickHandler('js-editor')"
+              >JavaScript</span
+            >
+            <span
+              v-bind:class="{ typeActive: htmlEditorShow }"
+              @click="tabClickHandler('html-editor')"
+              >HTML</span
+            >
+            <span
+              v-bind:class="{ typeActive: cssEditorShow }"
+              @click="tabClickHandler('css-editor')"
+              >CSS</span
+            >
           </div>
         </div>
         <div class="sandcastl-codebox-content">
-          <el-tabs v-model="activeName" @tab-click="tabClickHandler">
+          <div v-show="jsEditorShow" class="js-editor" ref="js-editor"></div>
+          <div
+            v-show="htmlEditorShow"
+            class="html-editor"
+            ref="html-editor"
+          ></div>
+          <div v-show="cssEditorShow" class="css-editor" ref="css-editor"></div>
+          <!-- <el-tabs v-model="activeName" @tab-click="tabClickHandler">
             <el-tab-pane label="JS" name="js-editor">
               <div class="js-editor" ref="js-editor"></div>
             </el-tab-pane>
@@ -21,10 +61,12 @@
             <el-tab-pane label="CSS" name="css-editor">
               <div class="css-editor" ref="css-editor"></div>
             </el-tab-pane>
-          </el-tabs>
+          </el-tabs> -->
         </div>
       </div>
-      <div class="sandcastl-drag" @drag="sandcastlDrag" draggable="true"><div></div></div>
+      <div class="sandcastl-drag" @drag="sandcastlDrag" draggable="true">
+        <div></div>
+      </div>
       <!-- 视图 -->
       <div class="sandcastl-global">
         <div class="example" ref="example"></div>
@@ -33,211 +75,262 @@
     <!-- 底部 -->
     <div class="sandcastle-footer">
       <div class="sandcastle-footer-type">
-        <span v-for="item in examplesType" :key="item" v-bind:class="{ typeActive: item === activeItem }" @click="footerType(item)">{{ item }}</span>
+        <span
+          v-for="item in examplesType"
+          :key="item"
+          v-bind:class="{ typeActive: item === activeItem }"
+          @click="footerType(item)"
+          >{{ item }}</span
+        >
       </div>
       <ul class="sandcastle-footerUl">
-        <li v-for="item in examplesData" :key="item.name" v-bind:class="{ nameActive: item.name.toLowerCase() === example }" v-show="item.show" @click="changeExample(item)">
+        <li
+          v-for="item in examplesData"
+          :key="item.name"
+          v-bind:class="{ nameActive: item.name.toLowerCase() === example }"
+          v-show="item.show"
+          @click="changeExample(item)"
+        >
           <p>
             <span>{{ item.label }}</span>
           </p>
-          <div><img :src="'examples/images/' + item.type.toLowerCase() + '/' + item.name.toLowerCase() + '.png'" /></div>
+          <div>
+            <img
+              :src="
+                'examples/images/' +
+                  item.type.toLowerCase() +
+                  '/' +
+                  item.name.toLowerCase() +
+                  '.png'
+              "
+            />
+          </div>
         </li>
       </ul>
     </div>
   </div>
 </template>
 <script>
-import * as axios from 'axios'
-import * as monaco from 'monaco-editor'
+import * as axios from "axios";
+import * as monaco from "monaco-editor";
 
 export default {
-  name: 'example',
+  name: "example",
   data() {
     return {
-      examplesType: ['All'],
+      examplesType: ["All"],
       examplesData: [],
-      activeName: 'js-editor',
-      activeItem: '',
-      type: '',
-      example: '',
-      tempHtml: '',
-      oriHtmlStr: '',
-      htmlStr: '',
-      oriJsStr: '',
-      jsStr: '',
-      oriCssStr: '',
-      cssStr: '',
+      activeName: "",
+      activeItem: "",
+      type: "",
+      example: "",
+      tempHtml: "",
+      oriHtmlStr: "",
+      htmlStr: "",
+      oriJsStr: "",
+      jsStr: "",
+      oriCssStr: "",
+      cssStr: "",
       htmlEditor: null,
       jsEditor: null,
       cssEditor: null,
-      codeVisible: true
-    }
+      codeVisible: true,
+      jsEditorShow: false,
+      cssEditorShow: false,
+      htmlEditorShow: false,
+    };
   },
   watch: {
     codeVisible(newValue) {
       if (newValue) {
         this.$nextTick(() => {
-          this.createEditor()
-        })
+          this.createEditor();
+        });
       }
-    }
+    },
+    activeName(newValue) {
+      switch (newValue) {
+        case "js-editor":
+          this.jsEditorShow = true;
+          this.cssEditorShow = false;
+          this.htmlEditorShow = false;
+          break;
+        case "html-editor":
+          this.jsEditorShow = false;
+          this.cssEditorShow = false;
+          this.htmlEditorShow = true;
+          break;
+        case "css-editor":
+          this.jsEditorShow = false;
+          this.cssEditorShow = true;
+          this.htmlEditorShow = false;
+          break;
+      }
+    },
   },
   methods: {
     createEditor() {
       const config = {
-        theme: 'vs-dark',
+        theme: "vs-dark",
         formatOnPaste: true,
         fontSize: 14,
         scrollbar: {
-          verticalScrollbarSize: 2
+          verticalScrollbarSize: 2,
         },
         automaticLayout: true,
         scrollBeyondLastLine: false,
-        autoIndent: false
-      }
-      if (this.activeName === 'js-editor') {
+        autoIndent: false,
+      };
+      if (this.activeName === "js-editor") {
         if (!this.jsEditor) {
-          this.jsEditor = monaco.editor.create(this.$refs['js-editor'], {
-            language: 'javascript',
-            ...config
-          })
-          this.jsEditor.setValue(this.jsStr)
+          this.jsEditor = monaco.editor.create(this.$refs["js-editor"], {
+            language: "javascript",
+            ...config,
+          });
+          this.jsEditor.setValue(this.jsStr);
         } else {
-          this.jsEditor.setValue(this.jsStr)
+          this.jsEditor.setValue(this.jsStr);
         }
-      } else if (this.activeName === 'html-editor') {
+      } else if (this.activeName === "html-editor") {
         if (!this.htmlEditor) {
-          this.htmlEditor = monaco.editor.create(this.$refs['html-editor'], {
-            language: 'html',
-            ...config
-          })
-          this.htmlEditor.setValue(this.htmlStr)
+          this.htmlEditor = monaco.editor.create(this.$refs["html-editor"], {
+            language: "html",
+            ...config,
+          });
+          this.htmlEditor.setValue(this.htmlStr);
         } else {
-          this.htmlEditor.setValue(this.htmlStr)
+          this.htmlEditor.setValue(this.htmlStr);
         }
-      } else if (this.activeName === 'css-editor') {
+      } else if (this.activeName === "css-editor") {
         if (!this.cssEditor) {
-          this.cssEditor = monaco.editor.create(this.$refs['css-editor'], {
-            language: 'css',
-            ...config
-          })
-          this.cssEditor.setValue(this.cssStr)
+          this.cssEditor = monaco.editor.create(this.$refs["css-editor"], {
+            language: "css",
+            ...config,
+          });
+          this.cssEditor.setValue(this.cssStr);
         } else {
-          this.cssEditor.setValue(this.cssStr)
+          this.cssEditor.setValue(this.cssStr);
         }
       }
     },
     reset() {
-      this.jsStr = this.oriJsStr
-      this.htmlStr = this.oriHtmlStr
-      this.cssStr = this.oriCssStr
-      this.jsEditor && this.jsEditor.setValue(this.jsStr)
-      this.htmlEditor && this.htmlEditor.setValue(this.htmlStr)
-      this.cssEditor && this.cssEditor.setValue(this.cssStr)
-      this.loadExample()
+      this.jsStr = this.oriJsStr;
+      this.htmlStr = this.oriHtmlStr;
+      this.cssStr = this.oriCssStr;
+      this.jsEditor && this.jsEditor.setValue(this.jsStr);
+      this.htmlEditor && this.htmlEditor.setValue(this.htmlStr);
+      this.cssEditor && this.cssEditor.setValue(this.cssStr);
+      this.loadExample();
     },
     run() {
-      this.jsStr = this.jsEditor ? this.jsEditor.getValue() : this.oriJsStr
-      this.htmlStr = this.htmlEditor ? this.htmlEditor.getValue() : this.oriHtmlStr
-      this.cssStr = this.cssEditor ? this.cssEditor.getValue() : this.oriCssStr
-      this.loadExample()
+      this.jsStr = this.jsEditor ? this.jsEditor.getValue() : this.oriJsStr;
+      this.htmlStr = this.htmlEditor
+        ? this.htmlEditor.getValue()
+        : this.oriHtmlStr;
+      this.cssStr = this.cssEditor ? this.cssEditor.getValue() : this.oriCssStr;
+      this.loadExample();
     },
     getTempPage() {
-      return axios.get('examples/pages/temp.html')
+      return axios.get("examples/pages/temp.html");
     },
     getExamplePage() {
-      return axios.get(`examples/pages/${this.type}/${this.example}.html`)
+      return axios.get(`examples/pages/${this.type}/${this.example}.html`);
     },
     loadExample() {
-      this.createEditor()
-      const iFrame = this.createIFrame()
-      const iframeDocument = iFrame.contentWindow.document
-      iframeDocument.open()
-      const content = this.htmlStr + '<script>' + this.jsStr + '<' + '/script>'
-      const cssContent = '<style>' + this.cssStr + '<' + '/style>'
-      iframeDocument.write(this.tempHtml.replace('<htmlTemp />', content))
-      iframeDocument.write(this.tempHtml.replace('<cssTemp />', cssContent))
-      iframeDocument.close()
+      this.createEditor();
+      const iFrame = this.createIFrame();
+      const iframeDocument = iFrame.contentWindow.document;
+      iframeDocument.open();
+      const content = this.htmlStr + "<script>" + this.jsStr + "<" + "/script>";
+      const cssContent = "<style>" + this.cssStr + "<" + "/style>";
+      iframeDocument.write(this.tempHtml.replace("<htmlTemp />", content));
+      iframeDocument.write(this.tempHtml.replace("<cssTemp />", cssContent));
+      iframeDocument.close();
     },
     createIFrame() {
-      const examplePage = this.$refs['example']
-      examplePage.innerHTML = ''
-      const iframe = document.createElement('iframe')
-      iframe.setAttribute('id', 'innerPage')
-      iframe.setAttribute('name', 'innerPage')
-      examplePage.append(iframe)
-      return iframe
+      const examplePage = this.$refs["example"];
+      examplePage.innerHTML = "";
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("id", "innerPage");
+      iframe.setAttribute("name", "innerPage");
+      examplePage.append(iframe);
+      return iframe;
     },
     tabClickHandler(tab) {
+      this.activeName = tab;
+
       this.$nextTick(() => {
-        this.createEditor()
-      })
+        this.createEditor();
+      });
     },
     getExamplesData() {
-      axios.get('examples/index.json').then(res => {
-        const data = res.data.dev || []
-        data.forEach(d => {
-          this.examplesType.push(d.name)
+      axios.get("examples/index.json").then((res) => {
+        const data = res.data.dev || [];
+        data.forEach((d) => {
+          this.examplesType.push(d.name);
           d.children &&
-            d.children.forEach(c => {
+            d.children.forEach((c) => {
               this.examplesData.push({
                 type: d.name,
                 name: c.name,
                 label: c.label,
-                show: true
-              })
-            })
-        })
-      })
+                show: true,
+              });
+            });
+        });
+      });
     },
     footerType(item) {
-      this.activeItem = item
-      if (item === 'All') {
-        this.examplesData.forEach(e => {
-          e.show = true
-        })
+      this.activeItem = item;
+      if (item === "All") {
+        this.examplesData.forEach((e) => {
+          e.show = true;
+        });
       } else {
-        this.examplesData.forEach(e => {
-          e.type === item ? (e.show = true) : (e.show = false)
-        })
+        this.examplesData.forEach((e) => {
+          e.type === item ? (e.show = true) : (e.show = false);
+        });
       }
     },
     changeExample(item) {
-      this.type = item.type.toLowerCase()
-      this.example = item.name.toLowerCase()
+      this.activeName = "js-editor";
+      this.type = item.type.toLowerCase();
+      this.example = item.name.toLowerCase();
       axios.all([this.getTempPage(), this.getExamplePage()]).then(
         axios.spread((tempPage, examplePage) => {
-          this.tempHtml = tempPage.data
-          const exampleHtml = examplePage.data
+          this.tempHtml = tempPage.data;
+          const exampleHtml = examplePage.data;
           if (exampleHtml && this.tempHtml) {
-            const index = exampleHtml.indexOf('<script>')
-            const endIndex = exampleHtml.indexOf('<\/script>')
-            this.oriHtmlStr = exampleHtml.substring(0, index)
-            this.oriJsStr = exampleHtml.substring(index, endIndex).replace(/<\/?script>\n?/g, '')
+            const index = exampleHtml.indexOf("<script>");
+            const endIndex = exampleHtml.indexOf("<\/script>");
+            this.oriHtmlStr = exampleHtml.substring(0, index);
+            this.oriJsStr = exampleHtml
+              .substring(index, endIndex)
+              .replace(/<\/?script>\n?/g, "");
             this.oriCssStr = exampleHtml
               .substring(endIndex)
-              .replace(/<\/?style>\n?/g, '')
-              .replace(/<\/?script>\n?/g, '')
-            this.jsStr = this.oriJsStr
-            this.htmlStr = this.oriHtmlStr
-            this.cssStr = this.oriCssStr
-            this.loadExample()
+              .replace(/<\/?style>\n?/g, "")
+              .replace(/<\/?script>\n?/g, "");
+            this.jsStr = this.oriJsStr;
+            this.htmlStr = this.oriHtmlStr;
+            this.cssStr = this.oriCssStr;
+            this.loadExample();
           }
         })
-      )
+      );
     },
     sandcastlDrag(e) {
       if (e.screenX > 400) {
-        this.$refs.sandcastlCodebox.style.flex = 'none'
-        this.$refs.sandcastlCodebox.style.height = '100%'
-        this.$refs.sandcastlCodebox.style.width = e.screenX + 'px'
+        this.$refs.sandcastlCodebox.style.flex = "none";
+        this.$refs.sandcastlCodebox.style.height = "100%";
+        this.$refs.sandcastlCodebox.style.width = e.screenX + "px";
       }
-    }
+    },
   },
   mounted() {
-    this.getExamplesData()
-  }
-}
+    this.getExamplesData();
+  },
+};
 </script>
 
 <style lang="scss">
@@ -329,12 +422,40 @@ export default {
         justify-content: space-between;
         padding: 10px 10px;
       }
+      .sandcastl-codebox-header {
+        width: 100%;
+        height: 36px;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        position: relative;
+        span {
+          display: inline-flex;
+          height: calc(100% - 3px);
+          padding: 0 10px;
+          float: left;
+          align-items: center;
+          cursor: pointer;
+        }
+        .typeActive {
+          border-bottom: 3px solid #1389ea;
+          color: #1389e8;
+        }
+      }
       .sandcastl-codebox-content {
         display: flex;
         flex: 1;
         position: relative;
         overflow: hidden;
         margin: 0 11px;
+        > div {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+        }
       }
     }
   }
