@@ -1,14 +1,25 @@
-<div id="viewer-container"></div>
+<div id="viewer-container">
+    <div class="draw">
+        <button onclick="draw('point')">点</button>
+        <button onclick="draw('billboard')">图标点</button>
+        <button onclick="draw('polyline')">线</button>
+        <button onclick="draw('polygon')">多边形</button>
+        <button onclick="draw('circle')">圆</button>
+        <button onclick="draw('rectangle')">矩形</button>
+    </div>
+</div>
 <script>
     let map = undefined
+    let layer = undefined
+    let plot = undefined
     function initViewer() {
         map = new CWC.Viewer('viewer-container')
         map.setOptions({
             globe: {
-                depthTestAgainstTerrain: true
+                depthTestAgainstTerrain: true // 深度检测
             },
             cameraController: {
-                enableCollisionDetection: false
+                enableCollisionDetection: false // 地下模式
             },
             widgetController: {
                 enableCompass: true,
@@ -16,16 +27,35 @@
                 enableDistanceLegend: true
             }
         })
-        let layer = new CWC.GraphicLayer()
+        layer = new CWC.GraphicLayer()
         map.addLayer(layer)
-        const plot = new CWC.Plot(map)
-        plot.draw('polygon', overlay => {
+        plot = new CWC.Plot(map)
+    }
+    function draw(type) {
+        plot.draw(type, overlay => {
             layer.addGraphic(overlay)
             //   plot.edit(overlay)
-        })
+        }, { heightReference: 2 })
     }
-
     CWC.ready(initViewer)
+
 </script>
 <style>
+    .draw {
+        z-index: 2;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        background: #657b7b75;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    button {
+        min-width: 50px;
+        min-height: 30px;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+    }
 </style>
