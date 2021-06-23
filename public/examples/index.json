@@ -1,9 +1,19 @@
 {
-  "dev":[
+  "dev": [
     {
       "name": "Graphic",
       "label": "图形",
       "children": [
+        {
+          "name": "Circle",
+          "label": "圆",
+          "pictureType": "gif"
+        },
+        {
+          "name": "PolyLine",
+          "label": "线",
+          "pictureType": "gif"
+        },
         {
           "name": "Drill",
           "label": "钻孔"
@@ -17,6 +27,10 @@
         {
           "name": "Graphic",
           "label": "矢量图层"
+        },
+        {
+          "name": "czmlLayer",
+          "label": "czml图层"
         }
       ]
     },

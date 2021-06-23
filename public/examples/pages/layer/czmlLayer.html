@@ -1,0 +1,29 @@
+<div id="viewer-container"></div>
+<script>
+    let map = undefined
+
+    function initViewer() {
+        map = new CWC.Viewer('viewer-container')
+        map.setOptions({
+            globe: {
+                depthTestAgainstTerrain: true // 深度检测
+            },
+            cameraController: {
+                enableCollisionDetection: false // 地下模式
+            },
+            widgetController: {
+                enableCompass: true,
+                enableStateBar: true,
+                enableDistanceLegend: true,
+                enableImagerySwitch: true,
+                enableImagerySwitchTerrain: true
+            }
+        })
+        const layer = new CWC.CzmlLayer({ url: "examples/data/simple.czml" })
+        map.addLayer(layer)
+       
+    }
+    CWC.ready(initViewer)
+</script>
+<style>
+</style>

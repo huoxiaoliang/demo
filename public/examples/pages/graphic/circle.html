@@ -1,0 +1,122 @@
+<div id="viewer-container"></div>
+<script>
+    let map = undefined
+    const radius = 800
+    function generatePosition(num) {
+        let list = []
+        for (let i = 0; i < num; i++) {
+            let lng = 117.38105869 + Math.random() * 0.1
+            let lat = 31.10115627 + Math.random() * 0.1
+            list.push(new CWC.Position(lng, lat))
+        }
+        return list
+    }
+    function initViewer() {
+        map = new CWC.Viewer('viewer-container')
+        map.setOptions({
+            globe: {
+                depthTestAgainstTerrain: true // 深度检测
+            },
+            cameraController: {
+                enableCollisionDetection: false // 地下模式
+            },
+            widgetController: {
+                enableCompass: true,
+                enableStateBar: true,
+                enableDistanceLegend: true,
+                enableImagerySwitch: true,
+                enableImagerySwitchTerrain: true
+            }
+        })
+        const layer = new CWC.GraphicLayer()
+        map.addLayer(layer)
+        // 基础圆
+        layer.addGraphic(
+            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: CWC.Cesium.Color.RED,
+                clampToGround: true
+            })
+        )
+        const c = new CWC.Circle({ center: generatePosition(1)[0], radius: 2000 }).setStyle({
+            material: new CWC.Cesium.ImageMaterialProperty({
+                image: 'examples/images/icon/bg_circle.png'
+            }),
+            // clampToGround: true
+        })
+        c.rotateAmount = -1
+        // 背景图片+旋转
+        layer.addGraphic(
+            c
+        )
+        // 波纹圆
+        layer.addGraphic(
+            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: new CWC.CircleWaveMaterialProperty({
+                    color: CWC.Cesium.Color.fromRandom(),
+                    count: 4,
+                    gradient: 0.2
+                }),
+                clampToGround: true
+            })
+        )
+        // 模糊圆
+        layer.addGraphic(
+            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                classificationType: 0,
+                material: new CWC.CircleBlurMaterialProperty({
+                    color: CWC.Cesium.Color.fromRandom().withAlpha(0.2),
+                    speed: 5.0
+                }),
+                clampToGround: true
+            }).setLabel('模糊圆')
+        )
+        // 扩散圆
+        layer.addGraphic(
+            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                classificationType: 0,
+                material: new CWC.CircleDiffuseMaterialProperty({
+                    color: CWC.Cesium.Color.fromRandom().withAlpha(0.2),
+                    speed: 5.0
+                }),
+                clampToGround: true
+            })
+        )
+        // 图片雷达
+        const c2 = new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+            classificationType: 0,
+            material: new CWC.Cesium.ImageMaterialProperty({
+                image: 'examples/images/icon/circleScan.png',
+                color: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+                transparent: true,
+            }),
+            perPositionHeight: true,
+            outline: true,
+            outlineColor: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+            // clampToGround: true
+        })
+        c2.rotateAmount = -1
+        layer.addGraphic(c2)
+        // 波纹雷达
+        layer.addGraphic(
+            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: new CWC.RadarWaveMaterialProperty({
+                    color: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+                    speed: 5.0
+                })
+            })
+        )
+        // 雷达线
+        layer.addGraphic(
+            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: new CWC.RadarLineMaterialProperty({
+                    color: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+                    speed: 8.0
+                })
+            })
+        )
+        map.flyTo(layer)
+    }
+    CWC.ready(initViewer)
+</script>
+<style>
+</style>

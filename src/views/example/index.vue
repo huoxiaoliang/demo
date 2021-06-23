@@ -42,7 +42,7 @@
             <span>{{ item.label }}</span>
           </p>
           <div>
-            <img :src="'examples/images/' + item.type.toLowerCase() + '/' + item.name.toLowerCase() + '.png'" />
+            <img :src="'examples/images/' + item.type.toLowerCase() + '/' + item.name.toLowerCase() + '.' + item.pictureType" />
           </div>
         </li>
       </ul>
@@ -176,8 +176,9 @@ export default {
       iframeDocument.open()
       const content = this.htmlStr + '<script>' + this.jsStr + '<' + '/script>'
       const cssContent = '<style>' + this.cssStr + '<' + '/style>'
-      iframeDocument.write(this.tempHtml.replace('<htmlTemp />', content))
       iframeDocument.write(this.tempHtml.replace('<cssTemp />', cssContent))
+      iframeDocument.write(this.tempHtml.replace('<htmlTemp />', content))
+
       iframeDocument.close()
     },
     createIFrame() {
@@ -203,7 +204,8 @@ export default {
                 type: d.name,
                 name: c.name,
                 label: c.label,
-                show: true
+                show: true,
+                pictureType: c.pictureType || 'png'
               })
             })
         })
@@ -233,11 +235,17 @@ export default {
             const index = exampleHtml.indexOf('<script>')
             const endIndex = exampleHtml.indexOf('<\/script>')
             this.oriHtmlStr = exampleHtml.substring(0, index)
-            this.oriJsStr = exampleHtml.substring(index, endIndex).replace(/<\/?script>\n?/g, '').replace(/(\n[\s\t]*\r*\n)/g, '\n').replace(/^[\n\r\n\t]*|[\n\r\n\t]*$/g, '')
+            this.oriJsStr = exampleHtml
+              .substring(index, endIndex)
+              .replace(/<\/?script>\n?/g, '')
+              .replace(/(\n[\s\t]*\r*\n)/g, '\n')
+              .replace(/^[\n\r\n\t]*|[\n\r\n\t]*$/g, '')
             this.oriCssStr = exampleHtml
               .substring(endIndex)
               .replace(/<\/?style>\n?/g, '')
-              .replace(/<\/?script>\n?/g, '').replace(/(\n[\s\t]*\r*\n)/g, '\n').replace(/^[\n\r\n\t]*|[\n\r\n\t]*$/g, '')
+              .replace(/<\/?script>\n?/g, '')
+              .replace(/(\n[\s\t]*\r*\n)/g, '\n')
+              .replace(/^[\n\r\n\t]*|[\n\r\n\t]*$/g, '')
             this.jsStr = this.oriJsStr
             this.htmlStr = this.oriHtmlStr
             this.cssStr = this.oriCssStr
@@ -313,7 +321,8 @@ export default {
     .sandcastl-codebox {
       display: flex;
       flex-direction: column;
-      flex: 1;
+      // flex: 1;
+      width: 33%;
       .sandcastl-codebox-title {
         background-color: #f0f0f0;
         display: flex;

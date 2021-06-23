@@ -6,6 +6,7 @@
         <button onclick="draw('polygon')">多边形</button>
         <button onclick="draw('circle')">圆</button>
         <button onclick="draw('rectangle')">矩形</button>
+        <button onclick="remove()">清除</button>
     </div>
 </div>
 <script>
@@ -22,20 +23,27 @@
                 enableCollisionDetection: false // 地下模式
             },
             widgetController: {
-                enableCompass: true,
+                enableCompass: true,    
                 enableStateBar: true,
-                enableDistanceLegend: true
+                enableDistanceLegend: true,
+                enableImagerySwitch:true,
+                enableImagerySwitchTerrain:true
             }
         })
-        layer = new CWC.GraphicLayer()
-        map.addLayer(layer)
+        map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+        // layer = new CWC.GraphicLayer()
+        // map.addLayer(layer)
         plot = new CWC.Plot(map)
+        plot.enableEdit=true
     }
     function draw(type) {
         plot.draw(type, overlay => {
-            layer.addGraphic(overlay)
+            // layer.addGraphic(overlay)
             //   plot.edit(overlay)
-        }, { heightReference: 2 })
+        })
+    }
+    function remove() {
+        plot.clear()
     }
     CWC.ready(initViewer)
 
