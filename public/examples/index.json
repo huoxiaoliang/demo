@@ -43,6 +43,16 @@
           "label": "标绘"
         }
       ]
+    },
+    {
+      "name": "Measure",
+      "label": "测量",
+      "children": [
+        {
+          "name": "Measure",
+          "label": "测量"
+        }
+      ]
     }
   ]
 }

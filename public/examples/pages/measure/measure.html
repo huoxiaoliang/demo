@@ -1,0 +1,68 @@
+<div id="viewer-container">
+    <div class="draw">
+        <button onclick="measure('point')">点</button>
+        <button onclick="measure('distance')">距离</button>
+        <button onclick="measure('groundDistance')">贴地距离</button>
+        <button onclick="measure('elevation')">三角测量</button>
+        <button onclick="measure('area')">面积</button>
+        <button onclick="remove()">清除</button>
+    </div>
+</div>
+<script>
+    let map = undefined
+    let layer = undefined
+    let measureFactory = undefined
+    function initViewer() {
+        map = new CWC.Viewer('viewer-container')
+        map.setOptions({
+            globe: {
+                depthTestAgainstTerrain: true // 深度检测
+            },
+            cameraController: {
+                enableCollisionDetection: false // 地下模式
+            },
+            widgetController: {
+                enableCompass: true,
+                enableStateBar: true,
+                enableDistanceLegend: true,
+                enableImagerySwitch: true,
+                enableImagerySwitchTerrain: true
+            }
+        })
+        map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+        // layer = new CWC.GraphicLayer()
+        // map.addLayer(layer)
+        measureFactory = new CWC.MeasureFactory(map)
+
+    }
+    function measure(type) {
+        measureFactory.measure(type, res => {
+            // layer.addGraphic(overlay)
+            //   plot.edit(overlay)
+        })
+    }
+    function remove() {
+        measureFactory.clear()
+    }
+    CWC.ready(initViewer)
+
+</script>
+<style>
+    .draw {
+        z-index: 2;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        background: #657b7b75;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    button {
+        min-width: 50px;
+        min-height: 30px;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+    }
+</style>
