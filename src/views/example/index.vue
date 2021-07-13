@@ -2,7 +2,7 @@
   <div class="sandcastle-box">
     <div class="sandcastle-content">
       <!-- 编辑器 -->
-      <div ref="sandcastlCodebox" class="sandcastl-codebox" v-show="codeVisible">
+      <div v-show="codeVisible" ref="sandcastlCodebox" class="sandcastl-codebox">
         <div class="sandcastl-codebox-title">
           <h4>代码编辑器</h4>
           <div class="btn">
@@ -12,32 +12,32 @@
         </div>
         <div class="sandcastl-codebox-header">
           <div class="sandcastl-code-type">
-            <span v-bind:class="{ typeActive: jsEditorShow }" @click="tabClickHandler('js-editor')">JavaScript</span>
-            <span v-bind:class="{ typeActive: htmlEditorShow }" @click="tabClickHandler('html-editor')">HTML</span>
-            <span v-bind:class="{ typeActive: cssEditorShow }" @click="tabClickHandler('css-editor')">CSS</span>
+            <span :class="{ typeActive: jsEditorShow }" @click="tabClickHandler('js-editor')">JavaScript</span>
+            <span :class="{ typeActive: htmlEditorShow }" @click="tabClickHandler('html-editor')">HTML</span>
+            <span :class="{ typeActive: cssEditorShow }" @click="tabClickHandler('css-editor')">CSS</span>
           </div>
         </div>
         <div class="sandcastl-codebox-content">
-          <div v-show="jsEditorShow" class="js-editor" ref="js-editor"></div>
-          <div v-show="htmlEditorShow" class="html-editor" ref="html-editor"></div>
-          <div v-show="cssEditorShow" class="css-editor" ref="css-editor"></div>
+          <div v-show="jsEditorShow" ref="js-editor" class="js-editor"></div>
+          <div v-show="htmlEditorShow" ref="html-editor" class="html-editor"></div>
+          <div v-show="cssEditorShow" ref="css-editor" class="css-editor"></div>
         </div>
       </div>
-      <div class="sandcastl-drag" @drag="sandcastlDrag" draggable="true">
+      <div class="sandcastl-drag" draggable="true" @drag="sandcastlDrag">
         <div></div>
       </div>
       <!-- 视图 -->
       <div class="sandcastl-global">
-        <div class="example" ref="example"></div>
+        <div ref="example" class="example"></div>
       </div>
     </div>
     <!-- 底部 -->
     <div class="sandcastle-footer">
       <div class="sandcastle-footer-type">
-        <span v-for="item in examplesType" :key="item" v-bind:class="{ typeActive: item === activeItem }" @click="footerType(item)">{{ item }}</span>
+        <span v-for="item in examplesType" :key="item" :class="{ typeActive: item === activeItem }" @click="footerType(item)">{{ item }}</span>
       </div>
-      <ul class="sandcastle-footerUl">
-        <li v-for="item in examplesData" :key="item.name" v-bind:class="{ nameActive: item.name.toLowerCase() === example }" v-show="item.show" @click="changeExample(item)">
+      <ul ref="footer" class="sandcastle-footerUl">
+        <li v-for="item in examplesData" v-show="item.show" :key="item.name" :class="{ nameActive: item.name.toLowerCase() === example }" @click="changeExample(item)">
           <p>
             <span>{{ item.label }}</span>
           </p>
@@ -106,6 +106,19 @@ export default {
           break
       }
     }
+  },
+  mounted() {
+    this.getExamplesData()
+    const that = this
+    this.$refs.footer.addEventListener(
+      'mousewheel',
+      function(e) {
+        if (e.wheelDelta) {
+          that.$refs.footer.scrollLeft -= (e.wheelDelta * 70) / 120
+        }
+      },
+      false
+    )
   },
   methods: {
     createEditor() {
@@ -194,12 +207,12 @@ export default {
       this.activeName = tab
     },
     getExamplesData() {
-      axios.get('examples/index.json').then(res => {
+      axios.get('examples/index.json').then((res) => {
         const data = res.data.dev || []
-        data.forEach(d => {
+        data.forEach((d) => {
           this.examplesType.push(d.name)
           d.children &&
-            d.children.forEach(c => {
+            d.children.forEach((c) => {
               this.examplesData.push({
                 type: d.name,
                 name: c.name,
@@ -214,11 +227,11 @@ export default {
     footerType(item) {
       this.activeItem = item
       if (item === 'All') {
-        this.examplesData.forEach(e => {
+        this.examplesData.forEach((e) => {
           e.show = true
         })
       } else {
-        this.examplesData.forEach(e => {
+        this.examplesData.forEach((e) => {
           e.type === item ? (e.show = true) : (e.show = false)
         })
       }
@@ -233,8 +246,9 @@ export default {
           const exampleHtml = examplePage.data
           if (exampleHtml && this.tempHtml) {
             const index = exampleHtml.indexOf('<script>')
-            const endIndex = exampleHtml.indexOf('<\/script>')
+
             this.oriHtmlStr = exampleHtml.substring(0, index)
+            const endIndex = exampleHtml.indexOf('<' + '/' + 'script>')
             this.oriJsStr = exampleHtml
               .substring(index, endIndex)
               .replace(/<\/?script>\n?/g, '')
@@ -264,9 +278,6 @@ export default {
         this.htmlEditor && this.htmlEditor.layout()
       }
     }
-  },
-  mounted() {
-    this.getExamplesData()
   }
 }
 </script>
@@ -279,7 +290,6 @@ export default {
   overflow: hidden;
 }
 </style>
-
 <style lang="scss">
 .sandcastle-box {
   position: relative;

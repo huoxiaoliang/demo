@@ -31,6 +31,10 @@
         {
           "name": "czmlLayer",
           "label": "czml图层"
+        },
+        {
+          "name": "heatLayer",
+          "label": "热力图"
         }
       ]
     },
