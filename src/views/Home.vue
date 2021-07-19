@@ -30,7 +30,7 @@ export default {
           enableCollisionDetection: false
         },
         widgetController: {
-          enableCompass: true,
+          enableCompass2: true,
           enableStateBar: true,
           enableDistanceLegend: true
         }

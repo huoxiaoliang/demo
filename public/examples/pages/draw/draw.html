@@ -23,18 +23,18 @@
                 enableCollisionDetection: false // 地下模式
             },
             widgetController: {
-                enableCompass: true,    
+                enableCompass2: true,
                 enableStateBar: true,
                 enableDistanceLegend: true,
-                enableImagerySwitch:true,
-                enableImagerySwitchTerrain:true
+                enableImagerySwitch: true,
+                enableImagerySwitchTerrain: true
             }
         })
         map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
         // layer = new CWC.GraphicLayer()
         // map.addLayer(layer)
         plot = new CWC.Plot(map)
-        plot.enableEdit=true
+        plot.enableEdit = true
     }
     function draw(type) {
         plot.draw(type, overlay => {

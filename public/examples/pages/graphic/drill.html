@@ -11,7 +11,7 @@
         enableCollisionDetection: false
       },
       widgetController: {
-        enableCompass: true,
+        enableCompass2: true,
         enableStateBar: true,
         enableDistanceLegend: true
       }
@@ -40,6 +40,8 @@
     layerd.addGraphic(drill2)
     layerd.layerEvent.on(CWC.LayerEventType.CLICK, res => {
       console.log(res)
+      // 显示弹出信息框
+      map.popup.showAt(res.position, 'asdasd')
     })
     map.flyTo(layerd)
   }
