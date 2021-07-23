@@ -16,7 +16,7 @@
         },
         {
           "name": "billboardPrimitive",
-          "label": "图片点"
+          "label": "图片点+文字（Primitive方式）"
         },
         {
           "name": "Drill",
