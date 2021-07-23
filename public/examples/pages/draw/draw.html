@@ -14,7 +14,7 @@
     let layer = undefined
     let plot = undefined
     function initViewer() {
-        map = new CWC.Viewer('viewer-container')
+        map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
             globe: {
                 depthTestAgainstTerrain: true // 深度检测
@@ -31,9 +31,9 @@
             }
         })
         map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
-        // layer = new CWC.GraphicLayer()
+        // layer = new Creatar3d.GraphicLayer()
         // map.addLayer(layer)
-        plot = new CWC.Plot(map)
+        plot = new Creatar3d.Plot(map)
         plot.enableEdit = true
     }
     function draw(type) {
@@ -45,7 +45,7 @@
     function remove() {
         plot.clear()
     }
-    CWC.ready(initViewer)
+    Creatar3d.ready(initViewer)
 
 </script>
 <style>

@@ -10,7 +10,7 @@ module.exports = {
     es6: true
   },
   globals: {
-    CWC: true,
+    Creatar3d: true,
   },
   extends: ['plugin:vue/recommended', 'eslint:recommended'],
 

@@ -15,6 +15,10 @@
           "pictureType": "gif"
         },
         {
+          "name": "billboardPrimitive",
+          "label": "图片点"
+        },
+        {
           "name": "Drill",
           "label": "钻孔"
         }

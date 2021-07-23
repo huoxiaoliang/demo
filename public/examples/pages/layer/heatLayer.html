@@ -15,7 +15,7 @@
         xhr.send();
     }
     function initViewer() {
-        map = new CWC.Viewer('viewer-container')
+        map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
             globe: {
                 depthTestAgainstTerrain: true // 深度检测
@@ -39,7 +39,7 @@
                 var value = feature.properties.value
                 points.push({ lng, lat, value })
             })
-            const layer = new CWC.HeatLayer({
+            const layer = new Creatar3d.HeatLayer({
                 radius: {
                     "1": 5,
                     "0.65": 9,
@@ -56,7 +56,7 @@
 
 
     }
-    CWC.ready(initViewer)
+    Creatar3d.ready(initViewer)
 </script>
 <style>
 </style>

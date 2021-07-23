@@ -36,25 +36,25 @@ export default {
         }
       })
       window.map = map
-      // const layer = new CWC.GraphicLayer('test')
+      // const layer = new Creatar3d.GraphicLayer('test')
 
       // map.addLayer(layer)
-      // const polyline = new CWC.Polyline({ positions: '116, 31; 117, 31' })
+      // const polyline = new Creatar3d.Polyline({ positions: '116, 31; 117, 31' })
       // polyline.setLabel('qweqw')
       // polyline.setStyle({
       //   width: 10,
-      //   material: CWC.Userspace.Cesium.Color.RED,
+      //   material: Creatar3d.Userspace.Cesium.Color.RED,
       //   clampToGround: true
       // })
       // layer.addGraphic(polyline)
       // map.flyTo(layer)
-      // layer.layerEvent.on(CWC.LayerEventType.CLICK, res => {
+      // layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
       //   console.log(res)
       // })
 
-      const layerd = new CWC.CompositeLayer()
+      const layerd = new Creatar3d.CompositeLayer()
       map.addLayer(layerd)
-      const drill = new CWC.Drill({
+      const drill = new Creatar3d.Drill({
         radius: 1000,
         radialSegments: 64,
         position: '116.5, 31',
@@ -64,7 +64,7 @@ export default {
         ]
       })
       layerd.addGraphic(drill)
-      const drill2 = new CWC.Drill({
+      const drill2 = new Creatar3d.Drill({
         radius: 1000,
         radialSegments: 64,
         position: '116.6, 31',
@@ -74,7 +74,7 @@ export default {
         ]
       })
       layerd.addGraphic(drill2)
-      layerd.layerEvent.on(CWC.LayerEventType.CLICK, res => {
+      layerd.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
         console.log(res)
       })
       map.flyTo(layerd)

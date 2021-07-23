@@ -7,12 +7,12 @@
         for (let i = 0; i < num; i++) {
             let lng = 117.38105869 + Math.random() * 0.1
             let lat = 31.10115627 + Math.random() * 0.1
-            list.push(new CWC.Position(lng, lat))
+            list.push(new Creatar3d.Position(lng, lat))
         }
         return list
     }
     function initViewer() {
-        map = new CWC.Viewer('viewer-container')
+        map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
             globe: {
                 depthTestAgainstTerrain: true // 深度检测
@@ -28,17 +28,17 @@
                 enableImagerySwitchTerrain: true
             }
         })
-        const layer = new CWC.GraphicLayer()
+        const layer = new Creatar3d.GraphicLayer()
         map.addLayer(layer)
         // 基础圆
         layer.addGraphic(
-            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
-                material: CWC.Cesium.Color.RED,
+            new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: Creatar3d.Cesium.Color.RED,
                 clampToGround: true
             })
         )
-        const c = new CWC.Circle({ center: generatePosition(1)[0], radius: 2000 }).setStyle({
-            material: new CWC.Cesium.ImageMaterialProperty({
+        const c = new Creatar3d.Circle({ center: generatePosition(1)[0], radius: 2000 }).setStyle({
+            material: new Creatar3d.Cesium.ImageMaterialProperty({
                 image: 'examples/images/icon/bg_circle.png'
             }),
             // clampToGround: true
@@ -50,9 +50,9 @@
         )
         // 波纹圆
         layer.addGraphic(
-            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
-                material: new CWC.CircleWaveMaterialProperty({
-                    color: CWC.Cesium.Color.fromRandom(),
+            new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: new Creatar3d.CircleWaveMaterialProperty({
+                    color: Creatar3d.Cesium.Color.fromRandom(),
                     count: 4,
                     gradient: 0.2
                 }),
@@ -61,10 +61,10 @@
         )
         // 模糊圆
         layer.addGraphic(
-            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+            new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
                 classificationType: 0,
-                material: new CWC.CircleBlurMaterialProperty({
-                    color: CWC.Cesium.Color.fromRandom().withAlpha(0.2),
+                material: new Creatar3d.CircleBlurMaterialProperty({
+                    color: Creatar3d.Cesium.Color.fromRandom().withAlpha(0.2),
                     speed: 5.0
                 }),
                 clampToGround: true
@@ -72,51 +72,51 @@
         )
         // 扩散圆
         layer.addGraphic(
-            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+            new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
                 classificationType: 0,
-                material: new CWC.CircleDiffuseMaterialProperty({
-                    color: CWC.Cesium.Color.fromRandom().withAlpha(0.2),
+                material: new Creatar3d.CircleDiffuseMaterialProperty({
+                    color: Creatar3d.Cesium.Color.fromRandom().withAlpha(0.2),
                     speed: 5.0
                 }),
                 clampToGround: true
             })
         )
         // 图片雷达
-        const c2 = new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+        const c2 = new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
             classificationType: 0,
-            material: new CWC.Cesium.ImageMaterialProperty({
+            material: new Creatar3d.Cesium.ImageMaterialProperty({
                 image: 'examples/images/icon/circleScan.png',
-                color: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+                color: new Creatar3d.Cesium.Color(0, 1.0, 1.0, 0.8),
                 transparent: true,
             }),
             perPositionHeight: true,
             outline: true,
-            outlineColor: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+            outlineColor: new Creatar3d.Cesium.Color(0, 1.0, 1.0, 0.8),
             // clampToGround: true
         })
         c2.rotateAmount = -1
         layer.addGraphic(c2)
         // 波纹雷达
         layer.addGraphic(
-            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
-                material: new CWC.RadarWaveMaterialProperty({
-                    color: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+            new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: new Creatar3d.RadarWaveMaterialProperty({
+                    color: new Creatar3d.Cesium.Color(0, 1.0, 1.0, 0.8),
                     speed: 5.0
                 })
             })
         )
         // 雷达线
         layer.addGraphic(
-            new CWC.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
-                material: new CWC.RadarLineMaterialProperty({
-                    color: new CWC.Cesium.Color(0, 1.0, 1.0, 0.8),
+            new Creatar3d.Circle({ center: generatePosition(1)[0], radius: radius }).setStyle({
+                material: new Creatar3d.RadarLineMaterialProperty({
+                    color: new Creatar3d.Cesium.Color(0, 1.0, 1.0, 0.8),
                     speed: 8.0
                 })
             })
         )
         map.flyTo(layer)
     }
-    CWC.ready(initViewer)
+    Creatar3d.ready(initViewer)
 </script>
 <style>
 </style>

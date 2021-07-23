@@ -3,7 +3,7 @@
     let map = undefined
 
     function initViewer() {
-        map = new CWC.Viewer('viewer-container')
+        map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
             globe: {
                 depthTestAgainstTerrain: true // 深度检测
@@ -19,11 +19,11 @@
                 enableImagerySwitchTerrain: true
             }
         })
-        const layer = new CWC.CzmlLayer({ url: "examples/data/simple.czml" })
+        const layer = new Creatar3d.CzmlLayer({ url: "examples/data/simple.czml" })
         map.addLayer(layer)
 
     }
-    CWC.ready(initViewer)
+    Creatar3d.ready(initViewer)
 </script>
 <style>
 </style>

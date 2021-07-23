@@ -2,7 +2,7 @@
 <script>
   let map = undefined
   function initViewer() {
-    map = new CWC.Viewer('viewer-container')
+    map = new Creatar3d.Viewer('viewer-container')
     map.setOptions({
       globe: {
         depthTestAgainstTerrain: true
@@ -16,9 +16,9 @@
         enableDistanceLegend: true
       }
     })
-    const layerd = new CWC.CompositeLayer()
+    const layerd = new Creatar3d.CompositeLayer()
     map.addLayer(layerd)
-    const drill = new CWC.Drill({
+    const drill = new Creatar3d.Drill({
       radius: 1000,
       radialSegments: 64,
       position: '116.5, 31',
@@ -28,7 +28,7 @@
       ]
     })
     layerd.addGraphic(drill)
-    const drill2 = new CWC.Drill({
+    const drill2 = new Creatar3d.Drill({
       radius: 1000,
       radialSegments: 64,
       position: '116.6, 31',
@@ -38,7 +38,7 @@
       ]
     })
     layerd.addGraphic(drill2)
-    layerd.layerEvent.on(CWC.LayerEventType.CLICK, res => {
+    layerd.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
       console.log(res)
       // 显示弹出信息框
       map.popup.showAt(res.position, 'asdasd')
@@ -46,7 +46,7 @@
     map.flyTo(layerd)
   }
 
-  CWC.ready(initViewer)
+  Creatar3d.ready(initViewer)
 </script>
 <style>
 </style>
