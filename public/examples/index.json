@@ -39,6 +39,10 @@
         {
           "name": "heatLayer",
           "label": "热力图"
+        },
+        {
+          "name": "imageryLayer",
+          "label": "影像图层"
         }
       ]
     },

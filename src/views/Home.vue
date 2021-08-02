@@ -7,13 +7,13 @@ import Map from '../components/Map'
 
 export default {
   name: 'Home',
+  components: {
+    Map
+  },
   data() {
     return {
       opt: {}
     }
-  },
-  components: {
-    Map
   },
   created() {
     this.opt = {}
@@ -52,7 +52,7 @@ export default {
       //   console.log(res)
       // })
 
-      const layerd = new Creatar3d.CompositeLayer()
+      const layerd = new Creatar3d.PrimitiveLayer()
       map.addLayer(layerd)
       const drill = new Creatar3d.Drill({
         radius: 1000,

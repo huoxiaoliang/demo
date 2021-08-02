@@ -30,7 +30,7 @@
                 enableDistanceLegend: true
             }
         })
-        layer = new Creatar3d.CompositeLayer()
+        layer = new Creatar3d.PrimitiveLayer()
         getJSON("examples/data/point.json", function (data) {
             for (var i = 0, len = data.length; i < len; i++) {
                 var item = data[i]
@@ -89,7 +89,7 @@
 
             map.popup.showAt(res.graphic.earthPosition, inthtml)
         })
-        map.flyTo(layer)
+        map.flyToPosition([116.6, 27, 6000000, 0, -70, 0])
     }
 
     Creatar3d.ready(initViewer)

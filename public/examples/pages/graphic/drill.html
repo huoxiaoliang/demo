@@ -16,7 +16,7 @@
         enableDistanceLegend: true
       }
     })
-    const layerd = new Creatar3d.CompositeLayer()
+    const layerd = new Creatar3d.PrimitiveLayer()
     map.addLayer(layerd)
     const drill = new Creatar3d.Drill({
       radius: 1000,
@@ -43,7 +43,7 @@
       // 显示弹出信息框
       map.popup.showAt(res.position, 'asdasd')
     })
-    map.flyTo(layerd)
+    map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
   }
 
   Creatar3d.ready(initViewer)
