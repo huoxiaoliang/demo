@@ -10,9 +10,9 @@
     </div>
 </div>
 <script>
-    let map = undefined
-    let layer = undefined
-    let plot = undefined
+    var map = undefined
+    var layer = undefined
+    var plot = undefined
     function initViewer() {
         map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
@@ -31,15 +31,12 @@
             }
         })
         map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
-        // layer = new Creatar3d.GraphicLayer()
-        // map.addLayer(layer)
         plot = new Creatar3d.Plot(map)
         plot.enableEdit = true
     }
     function draw(type) {
-        plot.draw(type, overlay => {
-            // layer.addGraphic(overlay)
-            //   plot.edit(overlay)
+        plot.draw(type, graphic => {
+            console.log(graphic)
         })
     }
     function remove() {

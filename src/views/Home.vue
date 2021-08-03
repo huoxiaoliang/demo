@@ -1,10 +1,11 @@
 <template>
   <Map :options="opt" @onload="onload" />
+
+ 
 </template>
 
 <script>
 import Map from '../components/Map'
-
 export default {
   name: 'Home',
   components: {
@@ -21,7 +22,6 @@ export default {
   methods: {
     onload(map) {
       console.log('>>>>> 地图创建成功 >>>>', map)
-      console.log(map)
       map.setOptions({
         globe: {
           depthTestAgainstTerrain: true
@@ -36,6 +36,8 @@ export default {
         }
       })
       window.map = map
+      this.map = map
+      
       // const layer = new Creatar3d.GraphicLayer('test')
 
       // map.addLayer(layer)

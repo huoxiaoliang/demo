@@ -1,7 +1,7 @@
 <div id="viewer-container"></div>
 <script>
     let map = undefined
-
+    let layer = undefined
     function initViewer() {
         map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
@@ -19,7 +19,7 @@
                 enableImagerySwitchTerrain: true
             }
         })
-        const layer = new Creatar3d.CzmlLayer({ url: "examples/data/simple.czml" })
+        layer = new Creatar3d.CzmlLayer({ url: "examples/data/simple.czml" })
         map.addLayer(layer)
 
     }

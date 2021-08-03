@@ -1,6 +1,7 @@
 <div id="viewer-container"></div>
 <script>
     var map = undefined
+    var layer = undefined
     function initViewer() {
         map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({
@@ -8,8 +9,11 @@
             skyBox: { show: false },
             globe: {
                 depthTestAgainstTerrain: true, // 深度检测
-                baseColor: new Cesium.Color(0, 0, 0, 0),
-                undergroundColor: new Cesium.Color(0, 0, 0, 0)
+                baseColor: new Cesium.Color(0, 0, 0, 0), // 球表面背景色
+                translucency: {
+                    enabled: true // globe is rendered as a translucent surface.
+                },
+                undergroundColor: new Cesium.Color(0, 0, 0, 0) // 当照相机在地下时，渲染全球的背面的颜色。
             },
             cameraController: {
                 enableCollisionDetection: false // 地下模式
@@ -22,7 +26,7 @@
                 enableImagerySwitchTerrain: false
             }
         })
-        const layer = new Creatar3d.ImageLayer({
+        layer = new Creatar3d.ImageLayer({
             type: Creatar3d.ImageryType.XYZ,
             url: 'http://203.110.222.13:8031/TianDiTu/img_w/ChinaStatllite/G{z}/Y{y}/_{x}_{y}_{z}',
             maximumLevel: 18,

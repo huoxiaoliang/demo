@@ -1,6 +1,7 @@
 <div id="viewer-container"></div>
 <script>
-    let map = undefined
+    var map = undefined
+    var layer = undefined
     function getJSON(url, callback) {
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
@@ -39,7 +40,7 @@
                 var value = feature.properties.value
                 points.push({ lng, lat, value })
             })
-            const layer = new Creatar3d.HeatLayer({
+            layer = new Creatar3d.HeatLayer({
                 radius: {
                     "1": 5,
                     "0.65": 9,

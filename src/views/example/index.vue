@@ -29,6 +29,9 @@
       <!-- 视图 -->
       <div class="sandcastl-global">
         <div ref="example" class="example"></div>
+        <div class="fullScreen" @click="fullMap">
+          <el-button title="全屏" round size="mini" type="primary" icon="el-icon-full-screen"></el-button>
+        </div>
       </div>
     </div>
     <!-- 底部 -->
@@ -79,6 +82,7 @@ export default {
       htmlEditorShow: false
     }
   },
+
   watch: {
     codeVisible(newValue) {
       if (newValue) {
@@ -277,7 +281,24 @@ export default {
         this.cssEditor && this.cssEditor.layout()
         this.htmlEditor && this.htmlEditor.layout()
       }
+    },
+    fullMap() {
+      this.fullScreen(this.$refs.example)
+    },
+    //全屏
+    fullScreen(element) {
+
+      if (element.requestFullscreen) {
+        element.requestFullscreen()
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen()
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen()
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen()
+      }
     }
+
   }
 }
 </script>
@@ -326,6 +347,11 @@ export default {
       position: relative;
       .example {
         width: 100%;
+      }
+      .fullScreen {
+        position: absolute;
+        bottom: 44px;
+        left: 20px;
       }
     }
     .sandcastl-codebox {

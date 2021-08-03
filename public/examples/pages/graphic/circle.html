@@ -1,7 +1,9 @@
 <div id="viewer-container"></div>
 <script>
-    let map = undefined
-    const radius = 800
+    var map = undefined
+    var layer = undefined
+    var radius = 800
+
     function generatePosition(num) {
         let list = []
         for (let i = 0; i < num; i++) {
@@ -28,7 +30,7 @@
                 enableImagerySwitchTerrain: true
             }
         })
-        const layer = new Creatar3d.GraphicLayer()
+        layer = new Creatar3d.GraphicLayer()
         map.addLayer(layer)
         // 基础圆
         layer.addGraphic(

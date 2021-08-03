@@ -1,6 +1,7 @@
 <div id="viewer-container"></div>
 <script>
-  let map = undefined
+  var map = undefined
+  var layer = undefined
   function initViewer() {
     map = new Creatar3d.Viewer('viewer-container')
     map.setOptions({
@@ -16,8 +17,8 @@
         enableDistanceLegend: true
       }
     })
-    const layerd = new Creatar3d.PrimitiveLayer()
-    map.addLayer(layerd)
+    layer = new Creatar3d.PrimitiveLayer()
+    map.addLayer(layer)
     const drill = new Creatar3d.Drill({
       radius: 1000,
       radialSegments: 64,
@@ -27,7 +28,7 @@
         { maxz: 5000, minz: 1, render: '#ffffff' }
       ]
     })
-    layerd.addGraphic(drill)
+    layer.addGraphic(drill)
     const drill2 = new Creatar3d.Drill({
       radius: 1000,
       radialSegments: 64,
@@ -37,8 +38,8 @@
         { maxz: 5000, minz: 1, render: '#ffffff' }
       ]
     })
-    layerd.addGraphic(drill2)
-    layerd.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
+    layer.addGraphic(drill2)
+    layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
       console.log(res)
       // 显示弹出信息框
       map.popup.showAt(res.position, 'asdasd')

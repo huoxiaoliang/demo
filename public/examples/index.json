@@ -29,10 +29,6 @@
       "label": "数据图层",
       "children": [
         {
-          "name": "Graphic",
-          "label": "矢量图层"
-        },
-        {
           "name": "czmlLayer",
           "label": "czml图层"
         },

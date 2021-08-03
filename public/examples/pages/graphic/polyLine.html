@@ -1,6 +1,7 @@
 <div id="viewer-container"></div>
 <script>
-  let map = undefined
+  var map = undefined
+  var layer = undefined
   function initViewer() {
     map = new Creatar3d.Viewer('viewer-container')
     map.setOptions({
@@ -18,7 +19,7 @@
         enableImagerySwitchTerrain: true
       }
     })
-    const layer = new Creatar3d.GraphicLayer()
+    layer = new Creatar3d.GraphicLayer()
     map.addLayer(layer)
 
     // 基础线

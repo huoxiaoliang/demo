@@ -1,6 +1,6 @@
 <div id="viewer-container"></div>
 <script>
-    let map = undefined
+    var map = undefined
     var layer = undefined
     function getJSON(url, callback) {
         const xhr = new XMLHttpRequest();
@@ -89,7 +89,7 @@
 
             map.popup.showAt(res.graphic.earthPosition, inthtml)
         })
-        map.flyToPosition([116.6, 27, 6000000, 0, -70, 0])
+        map.flyToPosition([106.6, 27, 6100000, 0, -85, 0])
     }
 
     Creatar3d.ready(initViewer)
