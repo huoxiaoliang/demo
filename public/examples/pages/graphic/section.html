@@ -1,0 +1,41 @@
+<div id="viewer-container"></div>
+<script>
+    var map = undefined
+    var layer = undefined
+    function initViewer() {
+        map = new Creatar3d.Viewer('viewer-container')
+        map.setOptions({
+            globe: {
+                depthTestAgainstTerrain: true
+            },
+            cameraController: {
+                enableCollisionDetection: false
+            },
+            widgetController: {
+                enableCompass2: true,
+                enableStateBar: true,
+                enableDistanceLegend: true
+            }
+        })
+        layer = new Creatar3d.PrimitiveLayer()
+        map.addLayer(layer)
+        getJSON("examples/data/section.json", function (data) {
+            const section = new Creatar3d.Section({
+                positions: '115.76992505075367, 38.938849159929404, 116.04491332639246, 38.9306948913364',
+                layers: data
+            })
+            layer.addGraphic(section)
+
+            layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
+                console.log(res)
+            })
+            layer.getGraphics()[0].flyTo()
+        })
+
+        // map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
+    }
+
+    Creatar3d.ready(initViewer)
+</script>
+<style>
+</style>

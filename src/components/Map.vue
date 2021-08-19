@@ -6,6 +6,7 @@
 
 <script>
 import Vue from 'vue'
+import { Creatar3d } from '../../public/sdk/Creatar3d.base'
 export default {
   name: 'globeViewer',
 
@@ -57,16 +58,12 @@ export default {
   methods: {
     initglobe(options) {
       if (this[`map${this.mapKey}`]) return
-
       // 创建三维地球场景
       // Creatar3d.use(Creatar3dCore)
       Creatar3d.ready(() => {
         const map = new Creatar3d.Viewer(`globe-container${this.mapKey}`, options) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景
-        Vue.prototype.$map = map
         this[`map${this.mapKey}`] = map
-        window.Cesium = Creatar3d.Cesium
         this.$emit('onload', map)
-      
       })
     }
   }

@@ -1,11 +1,11 @@
 <template>
   <Map :options="opt" @onload="onload" />
-
- 
 </template>
 
 <script>
+import Vue from 'vue'
 import Map from '../components/Map'
+import { Creatar3d } from '../../public/sdk/Creatar3d.base'
 export default {
   name: 'Home',
   components: {
@@ -18,6 +18,13 @@ export default {
   },
   created() {
     this.opt = {}
+    // 定义主视图组件异步回调
+    this._createPromise = new Promise((resolve, reject) => {
+      this._resolve = resolve
+      this._reject = reject
+    })
+    //绑定地图初始化事件到Vue实例，在其他组件通过异步可以获取到map对象
+    Vue.prototype.$mainViewCreatePromise = this._createPromise
   },
   methods: {
     onload(map) {
@@ -35,57 +42,16 @@ export default {
           enableDistanceLegend: true
         }
       })
+      //移除鼠标事件
+      map.mouseEvent.removeEvent()
       window.map = map
       this.map = map
-      
-      // const layer = new Creatar3d.GraphicLayer('test')
-
-      // map.addLayer(layer)
-      // const polyline = new Creatar3d.Polyline({ positions: '116, 31; 117, 31' })
-      // polyline.setLabel('qweqw')
-      // polyline.setStyle({
-      //   width: 10,
-      //   material: Creatar3d.Userspace.Cesium.Color.RED,
-      //   clampToGround: true
-      // })
-      // layer.addGraphic(polyline)
-      // map.flyTo(layer)
-      // layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
-      //   console.log(res)
-      // })
-
-      const layerd = new Creatar3d.PrimitiveLayer()
-      map.addLayer(layerd)
-      const drill = new Creatar3d.Drill({
-        radius: 1000,
-        radialSegments: 64,
-        position: '116.5, 31',
-        layers: [
-          { maxz: 10000, minz: 5000, render: '#ff0000' },
-          { maxz: 5000, minz: 1, render: '#ffffff' }
-        ]
-      })
-      layerd.addGraphic(drill)
-      const drill2 = new Creatar3d.Drill({
-        radius: 1000,
-        radialSegments: 64,
-        position: '116.6, 31',
-        layers: [
-          { maxz: 10000, minz: 5000, render: '#ff0000' },
-          { maxz: 5000, minz: 1, render: '#ffffff' }
-        ]
-      })
-      layerd.addGraphic(drill2)
-      layerd.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
-        console.log(res)
-      })
-      map.flyTo(layerd)
+      this._resolve({ map })
+ 
     }
   },
   destroy() {
-    window.map.destroy()
+    this.map.destroy()
   }
 }
 </script>
-
-

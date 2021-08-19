@@ -8,8 +8,8 @@ VueRouter.prototype.push = function push(location) {
 }
 const routes = [
   {
-    path: '/',
-    name: '',
+    path: '/Home',
+    name: 'Home',
     component: () => import('../views/Home.vue'),
     redirect: '/index',
     children: [
@@ -21,7 +21,7 @@ const routes = [
     ]
   },
   {
-    path: '/example',
+    path: '/',
     name: 'example',
     component: () => import('../views/example/index.vue')
   }

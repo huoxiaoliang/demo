@@ -21,6 +21,10 @@
         {
           "name": "Drill",
           "label": "钻孔"
+        },
+        {
+          "name": "Section",
+          "label": "剖面"
         }
       ]
     },

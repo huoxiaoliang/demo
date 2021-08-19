@@ -3,16 +3,6 @@
     var map = undefined
     var layer = undefined
     var radius = 800
-
-    function generatePosition(num) {
-        let list = []
-        for (let i = 0; i < num; i++) {
-            let lng = 117.38105869 + Math.random() * 0.1
-            let lat = 31.10115627 + Math.random() * 0.1
-            list.push(new Creatar3d.Position(lng, lat))
-        }
-        return list
-    }
     function initViewer() {
         map = new Creatar3d.Viewer('viewer-container')
         map.setOptions({

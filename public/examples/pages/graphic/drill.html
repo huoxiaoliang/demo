@@ -2,6 +2,7 @@
 <script>
   var map = undefined
   var layer = undefined
+
   function initViewer() {
     map = new Creatar3d.Viewer('viewer-container')
     map.setOptions({
@@ -19,32 +20,29 @@
     })
     layer = new Creatar3d.PrimitiveLayer()
     map.addLayer(layer)
-    const drill = new Creatar3d.Drill({
-      radius: 1000,
-      radialSegments: 64,
-      position: '116.5, 31',
-      layers: [
-        { maxz: 10000, minz: 5000, render: '#ff0000' },
-        { maxz: 5000, minz: 1, render: '#ffffff' }
-      ]
+
+    const points = generatePosition(1000)
+    points.forEach(p => {
+      const drill = new Creatar3d.Drill({
+        radius: 20,
+        radialSegments: 64,
+        position: p,
+        layers: [
+          { maxz: 300, minz: 260, render: '#ff4c00' },
+          { maxz: 260, minz: 200, render: '#bb0500' },
+          { maxz: 200, minz: 100, render: '#bb05ff' },
+          { maxz: 100, minz: 50, render: '#ff0000' },
+          { maxz: 50, minz: 1, render: '#ffffff' }
+        ]
+      })
+      layer.addGraphic(drill)
     })
-    layer.addGraphic(drill)
-    const drill2 = new Creatar3d.Drill({
-      radius: 1000,
-      radialSegments: 64,
-      position: '116.6, 31',
-      layers: [
-        { maxz: 10000, minz: 5000, render: '#ff0000' },
-        { maxz: 5000, minz: 1, render: '#ffffff' }
-      ]
-    })
-    layer.addGraphic(drill2)
+
     layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
       console.log(res)
-      // 显示弹出信息框
-      map.popup.showAt(res.position, 'asdasd')
     })
-    map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
+    layer.getGraphics()[0].flyTo()
+    // map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
   }
 
   Creatar3d.ready(initViewer)
