@@ -1,0 +1,98 @@
+<!--
+ * @Author: hxl
+ * @Date: 2021-09-03 12:02:22
+ * @LastEditTime: 2021-09-03 13:45:02
+ * @LastEditors: hxl
+ * @Description: 
+-->
+<div id="viewer-container"></div>
+<script>
+  var map = undefined
+  var layer = undefined
+  function initViewer() {
+    map = new Creatar3d.Viewer('viewer-container')
+    map.setOptions({
+      globe: {
+        depthTestAgainstTerrain: true
+      },
+      cameraController: {
+        enableCollisionDetection: false
+      },
+      widgetController: {
+        enableCompass2: true,
+        enableStateBar: true,
+        enableDistanceLegend: true
+      }
+    })
+    layer = new Creatar3d.HtmlLayer({ name: 'xxxLayer' })
+    map.addLayer(layer)
+    getJSON('examples/data/section.json', function(data) {
+      const div = new Creatar3d.DivIcon({
+        position: '115.76992505075367, 38.938849159929404',
+        content: `<div class="blackPanel  animation-spaceInDown">
+                    <div class="blackPanel-text">三维世界</div>
+                </div>`,
+        style: {
+          distanceDisplayCondition: { near: 0, far: 3000 }
+        }
+      })
+      layer.addGraphic(div)
+
+      layer.on(Creatar3d.LayerEventType.CLICK, res => {
+        console.log(res)
+      })
+      layer.flyTo()
+    })
+
+    // map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
+  }
+
+  Creatar3d.ready(initViewer)
+</script>
+<style>
+  .blackPanel {
+    min-width: 90px;
+    min-height: 35px;
+    position: absolute;
+    left: 16px;
+    bottom: 31px;
+    cursor: default;
+    border-radius: 4px;
+    opacity: 0.96;
+    border: 1px solid #14171c;
+    box-shadow: 0px 2px 21px 0px rgb(33 34 39 / 55%);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: linear-gradient(0deg, #424761 0%, #0d1013 100%);
+  }
+  .blackPanel::before {
+    content: '';
+    width: calc(100% + 22px);
+    height: 39px;
+    position: absolute;
+    bottom: -39px;
+    left: -22px;
+    background: url(./examples/images/icon/popupLbl.png) 0px 0px no-repeat;
+    background-position: 0px 0px;
+  }
+
+  .blackPanel-text {
+    width: 100%;
+    height: 100%;
+    min-height: 33px;
+    text-align: center;
+    padding: 5px 5px 0 5px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #ffffff;
+    border: 1px solid #ffffff4f;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  .blackPanel-highlight {
+    border: 2px solid yellow;
+  }
+</style>

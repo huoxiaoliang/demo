@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { Creatar3d } from '../../public/sdk/Creatar3d.base'
 export default {
   name: 'globeViewer',
 

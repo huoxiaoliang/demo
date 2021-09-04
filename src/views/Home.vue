@@ -5,7 +5,6 @@
 <script>
 import Vue from 'vue'
 import Map from '../components/Map'
-import { Creatar3d } from '../../public/sdk/Creatar3d.base'
 export default {
   name: 'Home',
   components: {

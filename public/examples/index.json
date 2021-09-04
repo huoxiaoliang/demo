@@ -25,6 +25,10 @@
         {
           "name": "Section",
           "label": "剖面"
+        },
+        {
+          "name": "Div",
+          "label": "DIV元素"
         }
       ]
     },
