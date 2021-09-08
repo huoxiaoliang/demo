@@ -1,9 +1,7 @@
 <div id="viewer-container"></div>
 <script>
-  var map = undefined
   var layer = undefined
-  function initViewer() {
-    map = new Creatar3d.Viewer('viewer-container')
+  Creatar3d.ready(initViewer).then(() => {
     map.setOptions({
       showMoon: false,
       skyBox: { show: false },
@@ -19,9 +17,6 @@
         enableCollisionDetection: false // 地下模式
       },
       widgetController: {
-        enableCompass2: true,
-        enableStateBar: true,
-        enableDistanceLegend: true,
         enableImagerySwitch: false,
         enableImagerySwitchTerrain: false
       }
@@ -36,7 +31,6 @@
     })
     map.addLayer(layer)
     map.flyTo(layer)
-  }
-  Creatar3d.ready(initViewer)
+  })
 </script>
 <style></style>

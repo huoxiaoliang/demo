@@ -1,89 +1,73 @@
 <div id="viewer-container"></div>
 <script>
-var map = undefined
-var layer = undefined
-function initViewer() {
-  map = new Creatar3d.Viewer('viewer-container')
-  map.setOptions({
-    globe: {
-      depthTestAgainstTerrain: true
-    },
-    cameraController: {
-      enableCollisionDetection: false
-    },
-    widgetController: {
-      enableCompass2: true,
-      enableStateBar: true,
-      enableDistanceLegend: true,
-      enableImagerySwitchTerrain: true // 默认加载地形
-    }
-  })
-  layer = new Creatar3d.PrimitiveLayer()
-  map.addLayer(layer)
-  getJSON('examples/data/point.json', function(data) {
-    for (var i = 0, len = data.length; i < len; i++) {
-      var item = data[i]
-      var position = [+item.lng, +item.lat, item.z || 0]
+  Creatar3d.ready(initViewer).then(() => {
+    map.setOptions({
+      widgetController: {
+        enableImagerySwitchTerrain: true // 默认加载地形
+      }
+    })
+    layer = new Creatar3d.PrimitiveLayer()
+    map.addLayer(layer)
+    getJSON('examples/data/point.json', function(data) {
+      for (var i = 0, len = data.length; i < len; i++) {
+        var item = data[i]
+        var position = [+item.lng, +item.lat, item.z || 0]
 
-      var primitive = new Creatar3d.BillboardPrimitive({
-        position: position,
-        style: {
-          image: 'examples/images/marker/mark3.png',
-          scale: 0.6,
-          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        var primitive = new Creatar3d.BillboardPrimitive({
+          position: position,
+          style: {
+            image: 'examples/images/marker/mark3.png',
+            scale: 0.6,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.2)
+          },
+          attr: item
+        })
+        primitive.setLabel(item.text, {
+          font: '15px 楷体',
+          fillColor: Cesium.Color.AZURE,
+          outline: true,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.2)
+          pixelOffset: new Cesium.Cartesian2(15, 0), //偏移量
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 90000)
+        })
 
-        },
-        attr: item
-      })
-      primitive.setLabel(item.text, {
-        font: '15px 楷体',
-        fillColor: Cesium.Color.AZURE,
-        outline: true,
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 2,
-        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(15, 0), //偏移量
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 90000)
-      })
+        layer.addGraphic(primitive)
+        // 贴地处理
+        primitive.clampToGround()
+      }
+      layer.flyTo()
+    })
 
-      layer.addGraphic(primitive)
-      // 贴地处理
-      primitive.clampToGround()
-    }
-    layer.flyTo()
+    layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
+      console.log(res)
+      // 显示弹出信息框
+      const item = res.graphic.attr
+      var inthtml =
+        '<table style="width: auto;"><tr>' +
+        '<th scope="col" colspan="4"  style="text-align:center;font-size:15px;">' +
+        item.text +
+        '</th></tr><tr>' +
+        '<td >省：</td><td >' +
+        item.province +
+        '</td></tr><tr>' +
+        '<td >市：</td><td >' +
+        item.city +
+        '</td></tr><tr>' +
+        '<td >县/区：</td><td >' +
+        item.district +
+        '</td></tr><tr>' +
+        '<td >地址：</td><td >' +
+        item.address +
+        '</td></tr><tr>' +
+        '<td colspan="4" style="text-align:right;"></td></tr></table>'
+
+      map.popup.showAt(res.graphic.earthPosition, inthtml)
+    })
   })
-
-  layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
-    console.log(res)
-    // 显示弹出信息框
-    const item = res.graphic.attr
-    var inthtml =
-                '<table style="width: auto;"><tr>' +
-                '<th scope="col" colspan="4"  style="text-align:center;font-size:15px;">' +
-                item.text +
-                '</th></tr><tr>' +
-                '<td >省：</td><td >' +
-                item.province +
-                '</td></tr><tr>' +
-                '<td >市：</td><td >' +
-                item.city +
-                '</td></tr><tr>' +
-                '<td >县/区：</td><td >' +
-                item.district +
-                '</td></tr><tr>' +
-                '<td >地址：</td><td >' +
-                item.address +
-                '</td></tr><tr>' +
-                '<td colspan="4" style="text-align:right;"></td></tr></table>'
-
-    map.popup.showAt(res.graphic.earthPosition, inthtml)
-  })
-}
-
-Creatar3d.ready(initViewer)
 </script>
-<style>
-</style>
+<style></style>

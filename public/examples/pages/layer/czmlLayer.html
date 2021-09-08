@@ -1,29 +1,9 @@
 <div id="viewer-container"></div>
 <script>
-    let map = undefined
-    let layer = undefined
-    function initViewer() {
-        map = new Creatar3d.Viewer('viewer-container')
-        map.setOptions({
-            globe: {
-                depthTestAgainstTerrain: true // 深度检测
-            },
-            cameraController: {
-                enableCollisionDetection: false // 地下模式
-            },
-            widgetController: {
-                enableCompass2: true,
-                enableStateBar: true,
-                enableDistanceLegend: true,
-                enableImagerySwitch: true,
-                enableImagerySwitchTerrain: true
-            }
-        })
-        layer = new Creatar3d.CzmlLayer({ url: "examples/data/simple.czml" })
-        map.addLayer(layer)
-
-    }
-    Creatar3d.ready(initViewer)
+  let layer = undefined
+  Creatar3d.ready(initViewer).then(() => {
+    layer = new Creatar3d.CzmlLayer({ url: 'examples/data/simple.czml' })
+    map.addLayer(layer)
+  })
 </script>
-<style>
-</style>
+<style></style>

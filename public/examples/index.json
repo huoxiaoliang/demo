@@ -29,6 +29,10 @@
         {
           "name": "Div",
           "label": "DIV元素"
+        },
+        {
+          "name": "Text",
+          "label": "贴图文字"
         }
       ]
     },
@@ -47,6 +51,10 @@
         {
           "name": "imageryLayer",
           "label": "影像图层"
+        },
+        {
+          "name": "tilesetLayer",
+          "label": "3dtile图层"
         }
       ]
     },

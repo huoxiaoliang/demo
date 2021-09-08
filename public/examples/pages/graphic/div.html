@@ -1,7 +1,7 @@
 <!--
  * @Author: hxl
  * @Date: 2021-09-03 12:02:22
- * @LastEditTime: 2021-09-03 13:45:02
+ * @LastEditTime: 2021-09-04 11:58:08
  * @LastEditors: hxl
  * @Description: 
 -->
@@ -9,21 +9,7 @@
 <script>
   var map = undefined
   var layer = undefined
-  function initViewer() {
-    map = new Creatar3d.Viewer('viewer-container')
-    map.setOptions({
-      globe: {
-        depthTestAgainstTerrain: true
-      },
-      cameraController: {
-        enableCollisionDetection: false
-      },
-      widgetController: {
-        enableCompass2: true,
-        enableStateBar: true,
-        enableDistanceLegend: true
-      }
-    })
+  Creatar3d.ready(initViewer).then(() => {
     layer = new Creatar3d.HtmlLayer({ name: 'xxxLayer' })
     map.addLayer(layer)
     getJSON('examples/data/section.json', function(data) {
@@ -45,9 +31,7 @@
     })
 
     // map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
-  }
-
-  Creatar3d.ready(initViewer)
+  })
 </script>
 <style>
   .blackPanel {

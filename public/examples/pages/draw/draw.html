@@ -1,66 +1,48 @@
 <div id="viewer-container">
-    <div class="draw">
-        <button onclick="draw('point')">点</button>
-        <button onclick="draw('billboard')">图标点</button>
-        <button onclick="draw('polyline')">线</button>
-        <button onclick="draw('polygon')">多边形</button>
-        <button onclick="draw('circle')">圆</button>
-        <button onclick="draw('rectangle')">矩形</button>
-        <button onclick="remove()">清除</button>
-    </div>
+  <div class="draw">
+    <button onclick="draw('point')">点</button>
+    <button onclick="draw('billboard')">图标点</button>
+    <button onclick="draw('polyline')">线</button>
+    <button onclick="draw('polygon')">多边形</button>
+    <button onclick="draw('circle')">圆</button>
+    <button onclick="draw('rectangle')">矩形</button>
+    <button onclick="remove()">清除</button>
+  </div>
 </div>
 <script>
-    var map = undefined
-    var layer = undefined
-    var plot = undefined
-    function initViewer() {
-        map = new Creatar3d.Viewer('viewer-container')
-        map.setOptions({
-            globe: {
-                depthTestAgainstTerrain: true // 深度检测
-            },
-            cameraController: {
-                enableCollisionDetection: false // 地下模式
-            },
-            widgetController: {
-                enableCompass2: true,
-                enableStateBar: true,
-                enableDistanceLegend: true,
-                enableImagerySwitch: true,
-                enableImagerySwitchTerrain: true
-            }
-        })
-        map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
-        plot = new Creatar3d.Plot(map)
-        plot.enableEdit = true
-    }
-    function draw(type) {
-        plot.draw(type, graphic => {
-            console.log(graphic)
-        })
-    }
-    function remove() {
-        plot.clear()
-    }
-    Creatar3d.ready(initViewer)
+  var plot = undefined
 
+  Creatar3d.ready(initViewer).then(() => {
+    map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+    plot = new Creatar3d.Plot(map)
+    plot.enableEdit = true
+  })
+
+  function draw(type) {
+    plot.draw(type, graphic => {
+      console.log(graphic)
+    })
+  }
+  function remove() {
+    plot.clear()
+  }
 </script>
 <style>
-    .draw {
-        z-index: 2;
-        position: absolute;
-        top: 50px;
-        left: 50px;
-        background: #657b7b75;
-        padding: 10px;
-        border-radius: 8px;
-    }
+  .draw {
+    z-index: 2;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    background: #657b7b75;
+    padding: 10px;
+    border-radius: 8px;
+  }
 
-    button {
-        min-width: 50px;
-        min-height: 30px;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: white;
-        border: none;
-    }
+  button {
+    min-width: 50px;
+    min-height: 30px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+  }
 </style>

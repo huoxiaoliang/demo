@@ -1,0 +1,48 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  Creatar3d.ready(initViewer).then(() => {
+    layer = new Creatar3d.TilesetLayer()
+    map.addLayer(layer)
+    const tileset = new Creatar3d.Tileset({
+      url: 'http://192.168.1.158:8008/建筑白膜/tileset.json',
+      style: {
+        highlight: { type: 'click', color: '#FFFF00' }
+      }
+    })
+    layer.addGraphic(tileset)
+    let fs = `
+       varying vec3 v_positionEC;
+    
+       void main(void){
+           // 建筑基础色
+           vec4 position = czm_inverseModelView * vec4(v_positionEC,1); // 位置
+           float mars_height = position.z;
+           float _heightRange = 800.0; // 高亮的范围
+           float _glowRange = 800.0; // 光环的移动范围(高度)
+           float mars_a11 = fract(czm_frameNumber / 120.0) * 3.14159265 * 2.0;
+           float mars_a12 = mars_height / _heightRange + sin(mars_a11) * 0.1;
+           gl_FragColor = vec4(0.2,  0.5, 1.0, 1.0); // 颜色
+           gl_FragColor *= vec4(vec3(mars_a12), 1.0);// 渐变
+           // 动态光环
+           float time = fract(czm_frameNumber / 360.0);
+           time = abs(time - 0.5) * 2.0;
+           float diff = step(0.005, abs( clamp(position.z / _glowRange, 0.0, 1.0) - time));
+           gl_FragColor.rgb += gl_FragColor.rgb * (1.0 - diff);
+       }
+      `
+    tileset.setCustomShader(fs)
+    layer.flyTo()
+    tileset.on(Creatar3d.LayerEventType.CLICK, res => {
+      const attr = {}
+      if (res.feature && res.feature.getPropertyNames) {
+        const propertyNames = res.feature.getPropertyNames()
+        propertyNames.forEach(item => {
+          attr[item] = res.feature.getProperty(item)
+        })
+      }
+      console.log(res)
+    })
+  })
+</script>
+<style></style>

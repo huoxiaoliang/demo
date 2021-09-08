@@ -2,23 +2,7 @@
 <script>
   var map = undefined
   var layer = undefined
-  function initViewer() {
-    map = new Creatar3d.Viewer('viewer-container')
-    map.setOptions({
-      globe: {
-        depthTestAgainstTerrain: true // 深度检测
-      },
-      cameraController: {
-        enableCollisionDetection: false // 地下模式
-      },
-      widgetController: {
-        enableCompass2: true,
-        enableStateBar: true,
-        enableDistanceLegend: true,
-        enableImagerySwitch: true,
-        enableImagerySwitchTerrain: true
-      }
-    })
+  Creatar3d.ready(initViewer).then(() => {
     layer = new Creatar3d.GraphicLayer()
     map.addLayer(layer)
 
@@ -60,8 +44,7 @@
         width: 2,
         clampToGround: true,
         material: new Creatar3d.Cesium.PolylineArrowMaterialProperty(Creatar3d.Cesium.Color.PURPLE)
-      }),
-
+      })
     )
     // 虚线
     layer.addGraphic(
@@ -133,9 +116,6 @@
       })
     )
     map.flyTo(layer)
-  }
-
-  Creatar3d.ready(initViewer)
+  })
 </script>
-<style>
-</style>
+<style></style>

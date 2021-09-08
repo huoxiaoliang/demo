@@ -1,10 +1,30 @@
 /*
  * @Author: hxl
  * @Date: 2021-08-16 14:58:53
- * @LastEditTime: 2021-08-16 15:28:16
+ * @LastEditTime: 2021-09-04 11:52:41
  * @LastEditors: hxl
  * @Description: 
  */
+var map = undefined
+var layer = undefined
+
+function initViewer() {
+  map = new Creatar3d.Viewer('viewer-container')
+  map.setOptions({
+    globe: {
+      depthTestAgainstTerrain: true
+    },
+    cameraController: {
+      enableCollisionDetection: false
+    },
+    widgetController: {
+      enableCompass2: true,
+      enableStateBar: true,
+      enableDistanceLegend: true
+    }
+  })
+}
+
 
 function getJSON(url, callback) {
   const xhr = new XMLHttpRequest()
