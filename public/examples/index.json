@@ -50,11 +50,16 @@
         },
         {
           "name": "imageryLayer",
-          "label": "影像图层"
+          "label": "XYZ影像图层"
+        },
+        {
+          "name": "WMSImageryLayer",
+          "label": "WMS服务图层"
         },
         {
           "name": "tilesetLayer",
-          "label": "3dtile图层"
+          "label": "3dtile图层",
+          "pictureType": "gif"
         }
       ]
     },

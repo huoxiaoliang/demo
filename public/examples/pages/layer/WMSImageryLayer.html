@@ -1,0 +1,30 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  Creatar3d.ready(initViewer).then(() => {
+    layer = new Creatar3d.ImageLayer({
+      type: Creatar3d.ImageryType.WMS,
+      url: 'http://192.168.1.9:5351/geoserver/hndz-zhpg/wms',
+      layers: 'hndz-zhpg:hngr_test1',
+      parameters: {
+        service: 'WMS',
+        format: 'image/png',
+        transparent: true
+      }
+    })
+    // 点击事件
+    this.layer.on(
+      Creatar3d.LayerEventType.CLICK,
+      function(param) {
+        console.log(param)
+      },
+      this
+    )
+    map.addLayer(this.layer)
+    // 异步飞向
+    this.layer.flyTo().then(() => {
+      console.log(222)
+    })
+  })
+</script>
+<style></style>
