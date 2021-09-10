@@ -1,7 +1,7 @@
 /*
  * @Author: hxl
  * @Date: 2021-08-16 14:58:53
- * @LastEditTime: 2021-09-04 11:52:41
+ * @LastEditTime: 2021-09-10 17:15:29
  * @LastEditors: hxl
  * @Description: 
  */
@@ -44,7 +44,7 @@ function generatePosition(num) {
   for (let i = 0; i < num; i++) {
     const lng = 117.38105869 + Math.random() * 0.1
     const lat = 31.10115627 + Math.random() * 0.1
-    list.push(new Creatar3d.Position(lng, lat))
+    list.push(new Creatar3d.Position(lng, lat,50))
   }
   return list
 }

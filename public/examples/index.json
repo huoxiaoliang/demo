@@ -33,6 +33,11 @@
         {
           "name": "Text",
           "label": "贴图文字"
+        },
+        {
+          "name": "Path",
+          "label": "动态路径",
+          "pictureType": "gif"
         }
       ]
     },
