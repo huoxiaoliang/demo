@@ -1,5 +1,5 @@
 <div id="viewer-container">
-  <div class="draw">
+  <div class="group-btn ">
     <button onclick="draw('point')">点</button>
     <button onclick="draw('billboard')">图标点</button>
     <button onclick="draw('polyline')">线</button>
@@ -27,22 +27,3 @@
     plot.clear()
   }
 </script>
-<style>
-  .draw {
-    z-index: 2;
-    position: absolute;
-    top: 50px;
-    left: 50px;
-    background: #657b7b75;
-    padding: 10px;
-    border-radius: 8px;
-  }
-
-  button {
-    min-width: 50px;
-    min-height: 30px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-  }
-</style>

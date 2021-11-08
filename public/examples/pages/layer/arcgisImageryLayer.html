@@ -1,0 +1,42 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  Creatar3d.ready(initViewer).then(async () => {
+    // map.setOptions({
+    //   showMoon: false,
+    //   skyBox: { show: false },
+    //   globe: {
+    //     depthTestAgainstTerrain: true, // 深度检测
+    //     baseColor: new Cesium.Color(0, 0, 0, 0), // 球表面背景色
+    //     translucency: {
+    //       enabled: true // globe is rendered as a translucent surface.
+    //     },
+    //     undergroundColor: new Cesium.Color(0, 0, 0, 0) // 当照相机在地下时，渲染全球的背面的颜色。
+    //   },
+    //   cameraController: {
+    //     enableCollisionDetection: false // 地下模式
+    //   },
+    //   widgetController: {
+    //     enableImagerySwitch: false,
+    //     enableImagerySwitchTerrain: false
+    //   }
+    // })
+    layer = await Creatar3d.ImageLayer.build({
+      type: Creatar3d.ImageryType.WMS,
+      url: 'http://sdi.igge.cn:6080/arcgis/services/20wgeochemicalstasticsdata/MapServer/WMSServe', // 雄安地址
+      maximumLevel: 18,
+      // tilingScheme: new Cesium.WebMercatorTilingScheme(),
+      // rectangle: Cesium.Rectangle.fromDegrees(115.63486591582787, 38.693515218608646, 116.32532611471878, 39.17440734409456)
+      layers: 'Ag元素统计数据',
+      srs: 'EPSG:3857',
+      parameters: {
+        service: 'WMS',
+        format: 'image/png',
+        transparent: true
+      }
+    })
+    map.addLayer(layer)
+    map.flyTo(layer)
+  })
+</script>
+<style></style>

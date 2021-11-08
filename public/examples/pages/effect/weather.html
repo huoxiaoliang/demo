@@ -1,0 +1,35 @@
+<div id="viewer-container">
+  <div class="group-btn">
+    <button onclick="effect(1)">雨</button>
+    <button onclick="effect(2)">雪</button>
+    <button onclick="effect(3)">雾</button>
+  </div>
+</div>
+<script>
+  let rain, fog, snow
+  Creatar3d.ready(initViewer).then(() => {
+    rain = new Creatar3d.RainEffect({ enable: false })
+    fog = new Creatar3d.FogEffect({ enable: false })
+    snow = new Creatar3d.SnowEffect({ enable: false })
+    map.addEffect(rain)
+    map.addEffect(fog)
+    map.addEffect(snow)
+  })
+  function effect(params) {
+    rain.enable = false
+    fog.enable = false
+    snow.enable = false
+    switch (params) {
+      case 1:
+        rain.enable = true
+        break
+      case 2:
+        snow.enable = true
+        break
+      case 3:
+        fog.enable = true
+        break
+    }
+  }
+</script>
+<style></style>

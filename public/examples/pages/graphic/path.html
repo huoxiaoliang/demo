@@ -2,7 +2,25 @@
 <script>
   var layer = undefined
   var radius = 800
-  Creatar3d.ready(initViewer).then(() => {
+  Creatar3d.ready(() => {
+    map = new Creatar3d.Viewer('viewer-container', {
+      animation: true, //是否创建动画小器件，左下角仪表
+      timeline: true //是否显示时间线控件
+    })
+    map.setOptions({
+      globe: {
+        depthTestAgainstTerrain: true
+      },
+      cameraController: {
+        enableCollisionDetection: false
+      },
+      widgetController: {
+        enableCompass2: true,
+        enableStateBar: true,
+        enableDistanceLegend: true
+      }
+    })
+  }).then(() => {
     layer = new Creatar3d.GraphicLayer()
     map.addLayer(layer)
     var property = new Cesium.SampledPositionProperty()

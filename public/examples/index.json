@@ -15,6 +15,14 @@
           "pictureType": "gif"
         },
         {
+          "name": "PolygonPrimitive",
+          "label": "多边形"
+        },
+        {
+          "name": "ModelPrimitive",
+          "label": "glb/gltf"
+        },
+        {
           "name": "billboardPrimitive",
           "label": "图片点+文字（Primitive方式）"
         },
@@ -37,6 +45,11 @@
         {
           "name": "Path",
           "label": "动态路径",
+          "pictureType": "gif"
+        },
+        {
+          "name": "RoamLine",
+          "label": "漫游",
           "pictureType": "gif"
         }
       ]
@@ -62,6 +75,10 @@
           "label": "WMS服务图层"
         },
         {
+          "name": "arcgisImageryLayer",
+          "label": "Arcgis服务图层"
+        },
+        {
           "name": "tilesetLayer",
           "label": "3dtile图层",
           "pictureType": "gif"
@@ -85,6 +102,27 @@
         {
           "name": "Measure",
           "label": "测量"
+        }
+      ]
+    },
+    {
+      "name": "Widgets",
+      "label": "组件",
+      "children": [
+        {
+          "name": "KeyboardRoaming",
+          "label": "行走模式"
+        }
+      ]
+    },
+    {
+      "name": "Effect",
+      "label": "特效",
+      "children": [
+        {
+          "name": "weather",
+          "label": "天气",
+          "pictureType": "gif"
         }
       ]
     }
