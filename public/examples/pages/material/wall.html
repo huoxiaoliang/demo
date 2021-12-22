@@ -1,0 +1,68 @@
+<div id="viewer-container"></div>
+<script>
+  Creatar3d.ready(initViewer).then(() => {
+    map.setOptions({
+      widgetController: {
+        enableImagerySwitchTerrain: false // 默认加载地形
+      }
+    })
+    layer = new Creatar3d.GraphicLayer()
+    map.addLayer(layer)
+    getJSON('examples/data/梨树县边界.json', function(data) {
+      const positions = []
+      for (var i = 0, len = data.features[0].geometry.coordinates.length; i < len; i++) {
+        positions.push(data.features[0].geometry.coordinates[i].concat(3000))
+      }
+      var wall = new Creatar3d.Wall({
+        positions: positions
+      }).setStyle({
+        material: new Creatar3d.WallTrailMaterialProperty({
+          color: new Cesium.Color(0.0, 1.0, 0.0, 0.5),
+          image: 'examples/images/icon/circleScan.png',
+          repeat: new Cesium.Cartesian2(1, 5),
+          speed: 20.0
+        })
+      })
+      layer.addGraphic(wall)
+      layer.flyTo()
+    })
+    // 添加操作视图
+    addGuiController()
+  })
+
+  function addGuiController() {
+    let controls = {
+      speed: 20,
+      color: '#dddddd',
+      material: 'WallTrailMaterialProperty'
+    }
+    let gui = new dat.GUI()
+    // 下拉框形式选择文案
+    gui
+      .add(controls, 'material', { 追踪墙: 'WallTrailMaterialProperty', 图片墙: 'WallImageTrailMaterialProperty', 追踪线墙: 'WallLineTrailMaterialProperty' })
+      .name('材质')
+      .onChange(value => {
+        layer.getGraphics()[0].setStyle({
+          material: new Creatar3d[value]({
+            color: Cesium.Color.fromCssColorString(controls.color),
+            image: 'examples/images/icon/circleScan.png',
+            repeat: new Cesium.Cartesian2(1, 1),
+            speed: controls.speed
+          })
+        })
+      })
+    gui
+      .addColor(controls, 'color')
+      .name('颜色')
+      .onChange(value => {
+        layer.getGraphics()[0].style.material.color = Cesium.Color.fromCssColorString(value)
+      })
+    gui
+      .add(controls, 'speed', 5, 100)
+      .name('速度')
+      .onChange(value => {
+        layer.getGraphics()[0].style.material.speed = value
+      })
+  }
+</script>
+<style></style>

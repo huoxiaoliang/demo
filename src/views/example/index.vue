@@ -37,7 +37,7 @@
     <!-- 底部 -->
     <div class="sandcastle-footer">
       <div class="sandcastle-footer-type">
-        <span v-for="item in examplesType" :key="item" :class="{ typeActive: item === activeItem }" @click="footerType(item)">{{ item }}</span>
+        <span v-for="item in examplesType" :key="item.name" :class="{ typeActive: item === activeItem }" @click="footerType(item)">{{ item.label }}</span>
       </div>
       <ul ref="footer" class="sandcastle-footerUl">
         <li v-for="item in examplesData" v-show="item.show" :key="item.name" :class="{ nameActive: item.name.toLowerCase() === example }" @click="changeExample(item)">
@@ -60,7 +60,7 @@ export default {
   name: 'example',
   data() {
     return {
-      examplesType: ['All'],
+      examplesType: [{ name: 'All', label: '全部' }],
       examplesData: [],
       activeName: '',
       activeItem: '',
@@ -214,7 +214,7 @@ export default {
       axios.get('examples/index.json').then((res) => {
         const data = res.data.dev || []
         data.forEach((d) => {
-          this.examplesType.push(d.name)
+          this.examplesType.push(d)
           d.children &&
             d.children.forEach((c) => {
               this.examplesData.push({
@@ -230,13 +230,13 @@ export default {
     },
     footerType(item) {
       this.activeItem = item
-      if (item === 'All') {
+      if (item.name === 'All') {
         this.examplesData.forEach((e) => {
           e.show = true
         })
       } else {
         this.examplesData.forEach((e) => {
-          e.type === item ? (e.show = true) : (e.show = false)
+          e.type === item.name ? (e.show = true) : (e.show = false)
         })
       }
     },

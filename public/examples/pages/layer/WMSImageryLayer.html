@@ -1,11 +1,11 @@
 <div id="viewer-container"></div>
 <script>
   var layer = undefined
-  Creatar3d.ready(initViewer).then(() => {
-    layer = new Creatar3d.ImageLayer({
+  Creatar3d.ready(initViewer).then(async () => {
+    layer = await Creatar3d.ImageLayer.build({
       type: Creatar3d.ImageryType.WMS,
-      url: 'http://192.168.1.9:5351/geoserver/hndz-zhpg/wms',
-      layers: 'hndz-zhpg:hngr_test1',
+      url: 'http://192.168.1.195:5350/geoserver/wms',
+      layers: 'ws_yc_2d:工程地质评价图',
       parameters: {
         service: 'WMS',
         format: 'image/png',

@@ -125,6 +125,16 @@
           "pictureType": "gif"
         }
       ]
+    },
+    {
+      "name": "Material",
+      "label": "材质",
+      "children": [
+        {
+          "name": "wall",
+          "label": "墙"
+        }
+      ]
     }
   ]
 }

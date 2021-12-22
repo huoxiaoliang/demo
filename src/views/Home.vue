@@ -42,7 +42,7 @@ export default {
         }
       })
       //移除鼠标事件
-      map.mouseEvent.removeEvent()
+      // map.mouseEvent.removeEvent()
       window.map = map
       this.map = map
       this._resolve({ map })
