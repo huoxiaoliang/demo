@@ -56,11 +56,15 @@
     },
     {
       "name": "Layer",
-      "label": "数据图层",
+      "label": "图层",
       "children": [
         {
           "name": "czmlLayer",
           "label": "czml图层"
+        },
+        {
+          "name": "clusterLayer",
+          "label": "聚合图层"
         },
         {
           "name": "heatLayer",
@@ -110,8 +114,20 @@
       "label": "组件",
       "children": [
         {
+          "name": "widgetControl",
+          "label": "基础组件显隐控制"
+        },
+        {
+          "name": "loadingMask",
+          "label": "加载蒙层"
+        },
+        {
           "name": "KeyboardRoaming",
           "label": "行走模式"
+        },
+        {
+          "name": "imagerySwitch",
+          "label": "地理地图组件"
         }
       ]
     },
@@ -133,6 +149,16 @@
         {
           "name": "wall",
           "label": "墙"
+        }
+      ]
+    },
+    {
+      "name": "Terrain",
+      "label": "地形",
+      "children": [
+        {
+          "name": "terrainPlanClip",
+          "label": "地形开挖"
         }
       ]
     }

@@ -1,0 +1,29 @@
+<!--
+ * @Author: hxl
+ * @Date: 2022-03-28 16:23:22
+ * @LastEditTime: 2022-03-28 16:30:14
+ * @LastEditors: hxl
+ * @Description: 
+-->
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  Creatar3d.ready(initViewer).then(() => {
+    layer = new Creatar3d.ClusterLayer()
+    map.addLayer(layer)
+    let positions = generatePosition(10000)
+    positions.forEach((item) => {
+      let billboard = new Creatar3d.Billboard({
+        position: item,
+        style: {
+          image: 'examples/images/marker/mark2.png',
+          scale: 0.6,
+          pixelOffset: new Cesium.Cartesian2(0, -15)
+        }
+      })
+      layer.addGraphic(billboard)
+    })
+    map.flyTo(layer)
+  })
+</script>
+<style></style>

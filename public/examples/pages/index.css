@@ -30,12 +30,13 @@ body,
   padding: 10px;
   border-radius: 8px;
 }
-button {
+.group-btn > button {
   min-width: 50px;
   min-height: 30px;
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
+  padding: 5px;
 }
 .info-box {
   position: fixed;

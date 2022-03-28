@@ -22,19 +22,19 @@
     //   }
     // })
     layer = await Creatar3d.ImageLayer.build({
-      type: Creatar3d.ImageryType.WMS,
-      url: 'http://sdi.igge.cn:6080/arcgis/services/20wgeochemicalstasticsdata/MapServer/WMSServe', // 雄安地址
-      maximumLevel: 18,
-      // tilingScheme: new Cesium.WebMercatorTilingScheme(),
-      // rectangle: Cesium.Rectangle.fromDegrees(115.63486591582787, 38.693515218608646, 116.32532611471878, 39.17440734409456)
-      layers: 'Ag元素统计数据',
-      srs: 'EPSG:3857',
-      parameters: {
-        service: 'WMS',
-        format: 'image/png',
-        transparent: true
-      }
+      type: Creatar3d.ImageryType.ARCGIS,
+      url: 'http://cache1.arcgisonline.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer',
+      // maximumLevel: 18,
+      layers: 'China '
     })
+    // 点击事件
+    layer.on(
+      Creatar3d.LayerEventType.CLICK,
+      function (param) {
+        console.log(param)
+      },
+      this
+    )
     map.addLayer(layer)
     map.flyTo(layer)
   })

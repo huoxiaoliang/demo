@@ -1,5 +1,5 @@
 <div id="viewer-container">
-  <div class="draw">
+  <div class="group-btn">
     <button onclick="measure('point')">点</button>
     <button onclick="measure('distance')">距离</button>
     <button onclick="measure('height')">高度</button>
@@ -21,7 +21,7 @@
     measureFactory = new Creatar3d.MeasureFactory(map)
   })
   function measure(type) {
-    measureObj = measureFactory.measure(type, res => {
+    measureObj = measureFactory.measure(type, (res) => {
       // layer.addGraphic(overlay)
       //   plot.edit(overlay)
     })
@@ -30,22 +30,4 @@
     measureFactory.clear()
   }
 </script>
-<style>
-  .draw {
-    z-index: 2;
-    position: absolute;
-    top: 50px;
-    left: 50px;
-    background: #657b7b75;
-    padding: 10px;
-    border-radius: 8px;
-  }
-
-  button {
-    min-width: 50px;
-    min-height: 30px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-  }
-</style>
+<style></style>
