@@ -2,7 +2,7 @@
   "dev": [
     {
       "name": "Graphic",
-      "label": "图形",
+      "label": "矢量",
       "children": [
         {
           "name": "Circle",
@@ -50,6 +50,17 @@
         {
           "name": "RoamLine",
           "label": "漫游",
+          "pictureType": "gif"
+        }
+      ]
+    },
+    {
+      "name": "Combine",
+      "label": "批量矢量",
+      "children": [
+        {
+          "name": "odLine",
+          "label": "北京公交线",
           "pictureType": "gif"
         }
       ]

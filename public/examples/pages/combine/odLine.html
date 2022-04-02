@@ -1,0 +1,68 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+
+  Creatar3d.ready(initViewer).then(() => {
+    // 设置默认底图
+    map.imagerySwitch.switchId = map.imagerySwitch.layers[map.imagerySwitch.layers.length - 1].id
+    layer = new Creatar3d.PrimitiveLayer()
+    map.addLayer(layer)
+    getData()
+    layer.on(Creatar3d.LayerEventType.CLICK, (param) => {
+      console.log(param)
+    })
+  })
+  function getData() {
+    getJSON('examples/data/bjgj.json', function (data) {
+      const busLines = []
+      data.forEach(function (busLine, idx) {
+        let prevPt
+        const points = []
+        for (let i = 0; i < busLine.length; i += 2) {
+          let pt = [busLine[i], busLine[i + 1]]
+          if (i > 0) {
+            pt = [prevPt[0] + pt[0], prevPt[1] + pt[1]]
+          }
+          prevPt = pt
+
+          const longitude = pt[0] / 1e4
+          const latitude = pt[1] / 1e4
+          points.push([longitude, latitude, 100.0])
+        }
+
+        busLines.push({
+          positions: points
+        })
+      })
+      createLines(busLines)
+      layer.getGraphics()[0].flyTo()
+    })
+  }
+  function createLines(arr) {
+    const arrData = []
+    arr.forEach(function (item, index) {
+      arrData.push({
+        positions: item.positions,
+        style: {
+          width: 2.0
+        },
+        attr: { index: index }
+      })
+    })
+
+    // 多个线对象的合并渲染。
+    const primitive = new Creatar3d.PolylineCombine({
+      instances: arrData,
+      style: {
+        material: Cesium.Material.fromType('PolylineOd', {
+          bgColor: new Cesium.Color(1, 1, 0, 0.1),
+          color: new Cesium.Color(Math.random() * 0.5 + 0.5, Math.random() * 0.8 + 0.2, 0.0, 1.0),
+          speed: 2 + 1.0 * Math.random(),
+          startTime: Math.random()
+        })
+      }
+    })
+    layer.addGraphic(primitive)
+  }
+</script>
+<style></style>
