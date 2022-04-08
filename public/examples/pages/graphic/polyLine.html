@@ -115,6 +115,23 @@
         clampToGround: true
       })
     )
+    // 发光轨迹线
+    layer.addGraphic(
+      new Creatar3d.Polyline({
+        positions: '-75, 35; -100, 35',
+        style: {
+          width: 2,
+          // clampToGround: true,
+          material: new Creatar3d.PolylineOdMaterialProperty({
+            bgColor: new Cesium.Color(0.1, 0.7, 0.5, 0.4),
+            color: new Cesium.Color(Math.random() * 0.5 + 0.5, Math.random() * 0.8 + 0.2, 0.0, 1.0),
+            bidirectional: 2,
+            speed: 20 + 1.0 * Math.random(),
+            startTime: Math.random()
+          })
+        }
+      })
+    )
     map.flyTo(layer)
   })
 </script>

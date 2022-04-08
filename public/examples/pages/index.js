@@ -1,9 +1,9 @@
 /*
  * @Author: hxl
  * @Date: 2021-08-16 14:58:53
- * @LastEditTime: 2021-09-10 17:15:29
+ * @LastEditTime: 2022-04-06 17:38:52
  * @LastEditors: hxl
- * @Description: 
+ * @Description:
  */
 var map = undefined
 var layer = undefined
@@ -25,12 +25,11 @@ function initViewer() {
   })
 }
 
-
 function getJSON(url, callback) {
   const xhr = new XMLHttpRequest()
   xhr.responseType = 'json'
   xhr.open('get', url, true)
-  xhr.onload = function() {
+  xhr.onload = function () {
     if (xhr.status >= 200 && xhr.status < 300) {
       callback(xhr.response)
     } else {
@@ -42,9 +41,13 @@ function getJSON(url, callback) {
 function generatePosition(num) {
   const list = []
   for (let i = 0; i < num; i++) {
-    const lng = 117.38105869 + Math.random() * 0.1
-    const lat = 31.10115627 + Math.random() * 0.1
-    list.push(new Creatar3d.Position(lng, lat,50))
+    const lng = 117.38105869 + Math.random() * 0.05
+    const lat = 31.10115627 + Math.random() * 0.05
+    list.push(new Creatar3d.Position(lng, lat, 200))
   }
   return list
+}
+
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

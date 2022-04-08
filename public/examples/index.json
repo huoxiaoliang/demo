@@ -51,6 +51,11 @@
           "name": "RoamLine",
           "label": "漫游",
           "pictureType": "gif"
+        },
+        {
+          "name": "Tetrahedron",
+          "label": "四面体",
+          "pictureType": "gif"
         }
       ]
     },
