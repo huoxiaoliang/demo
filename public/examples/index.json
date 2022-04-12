@@ -155,6 +155,10 @@
           "name": "weather",
           "label": "天气",
           "pictureType": "gif"
+        },
+        {
+          "name": "pointLight",
+          "label": "点光源"
         }
       ]
     },

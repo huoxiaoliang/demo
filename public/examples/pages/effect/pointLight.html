@@ -1,3 +1,10 @@
+<!--
+ * @Author: hxl
+ * @Date: 2022-04-11 13:17:41
+ * @LastEditTime: 2022-04-11 14:23:44
+ * @LastEditors: hxl
+ * @Description: 
+-->
 <div id="viewer-container"></div>
 <script>
   var layer = undefined
@@ -42,6 +49,18 @@
         })
       }
       console.log(res)
+    })
+
+    tileset.readyPromise.then(() => {
+      const center = tileset.boundingSphere.center
+      const position = Creatar3d.Transform.transformCartesianToWGS84(center)
+      const l = new Creatar3d.PointLight({
+        position: Cesium.Cartesian3.fromDegrees(position.lng, position.lat, 100),
+        cutoffDistance: 50000000,
+        lightIntensity: 200,
+        decay: 0.0000001
+      })
+      map.addEffect(l)
     })
   })
 </script>
