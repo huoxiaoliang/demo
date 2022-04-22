@@ -1,0 +1,162 @@
+<!--
+ * @Author: hxl
+ * @Date: 2022-04-22 11:08:08
+ * @LastEditTime: 2022-04-22 11:38:30
+ * @LastEditors: hxl
+ * @Description: 
+-->
+<div id="viewer-container">
+  <div class="group-btn">
+    <button onclick="pause()">暂停</button>
+    <button onclick="proceed()">继续</button>
+    <button onclick="stop()">停止</button>
+    <button onclick="start()">开始</button>
+  </div>
+</div>
+<script>
+  var layer = undefined
+  var layer2 = undefined
+  var roam = null
+  const options = {
+    animation: true, //是否创建动画小器件，左下角仪表
+    timeline: true //是否显示时间线控件
+  }
+  Creatar3d.ready().then(() => {
+    initViewer(options)
+    layer = new Creatar3d.GraphicLayer()
+    map.addLayer(layer)
+    layer2 = new Creatar3d.PrimitiveLayer()
+    map.addLayer(layer2)
+    var flydata = {
+      name: '步行路线',
+      speed: 40,
+      positions: [
+        [117.220356, 31.833959, 43.67],
+        [117.220361, 31.835111, 44.36],
+        [117.213242, 31.835863, 42.31],
+        [117.211926, 31.835738, 42.14],
+        [117.183103, 31.833906, 47.17],
+        [117.183136, 31.833586, 47.39],
+        [117.183968, 31.833637, 47.05],
+        [117.184038, 31.833134, 47.39],
+        [117.174364, 31.833142, 47.26],
+        [117.164519, 31.853375, 47.04]
+      ],
+      model: {
+        show: true,
+        uri: 'examples/data/zhandouji.glb',
+        scale: 0.02,
+        minimumPixelSize: 10
+      },
+      path: {
+        leadTime: 0, //前方的路线不显示
+        width: 2,
+        material: Cesium.Color.RED
+      },
+      camera: {
+        type: 'gs', //dy: 第一人称模式 gs:跟随模式  sd: 上帝模式
+        followedX: -200,
+        followedZ: 500
+      }
+    }
+    roam = new Creatar3d.RoamLine(flydata)
+    layer.addGraphic(roam)
+    roam.on(Creatar3d.RoamingEventType.OVERPOINT, (param) => {
+      console.log('OVERPOINT', param)
+    })
+    roam.on(Creatar3d.RoamingEventType.END, (event) => {
+      console.log('漫游结束', event)
+    })
+    roam.start()
+    // 贴地漫游
+    // roam.clampToGround().then(() => {
+    //   roam.start()
+    // })
+
+    const particleSystem = new Creatar3d.ParticleSystem({
+      modelMatrix: (time) => {
+        return roam.modelMatrix
+      },
+      translation: new Cesium.Cartesian3(-50, 1, 5),
+      style: {
+        imageSize: new Cesium.Cartesian2(5, 5),
+        minimumImageSize: new Cesium.Cartesian2(25, 25),
+        image: 'examples/images/icon/smoke.png',
+        startColor: Cesium.Color.GREY.withAlpha(0.7), // 粒子出生时的颜色
+        endColor: Cesium.Color.WHITE.withAlpha(0.0), // 当粒子死亡时的颜色
+        startScale: 1.0, // 粒子出生时的比例，相对于原始大小
+        endScale: 5.0, // 粒子在死亡时的比例
+        minimumParticleLife: 1.2, // 设置粒子寿命的可能持续时间的最小界限（以秒为单位），粒子的实际寿命将随机生成
+        maximumParticleLife: 1.2, // 设置粒子寿命的可能持续时间的最大界限（以秒为单位），粒子的实际寿命将随机生成
+        minimumSpeed: 1.0, // 设置以米/秒为单位的最小界限，超过该最小界限，随机选择粒子的实际速度。
+        maximumSpeed: 4.0, // 设置以米/秒为单位的最大界限，超过该最大界限，随机选择粒子的实际速度。
+        emissionRate: 20.0, // 每秒要发射的粒子数。
+        lifetime: 16.0 // 粒子的生命周期为（以秒为单位）。
+      },
+
+      maxHeight: 1000 // 超出该高度后不显示粒子效果
+    })
+    layer2.addGraphic(particleSystem)
+
+    const viewModel = {
+      startColor: new Cesium.Color(1, 1, 1, 1), // 粒子出生时的颜色
+      endColor: new Cesium.Color(0.5, 0, 0, 0), // 当粒子死亡时的颜色
+      // sizeInMeters: true,
+
+      particleSize: 5, // 粒子图片的Size大小（单位：像素）
+      startScale: 3.0, // 粒子在出生时的比例（单位：相对于imageSize大小的倍数）
+      endScale: 1.5, // 粒子在死亡时的比例（单位：相对于imageSize大小的倍数）
+
+      minimumParticleLife: 1.5, // 粒子可能存在的最短寿命时间，实际寿命将随机生成（单位：秒）
+      maximumParticleLife: 1.8, // 粒子可能存在的最长寿命时间，实际寿命将随机生成（单位：秒）
+
+      minimumSpeed: 7.0, // 粒子初速度的最小界限，超过该最小界限，随机选择粒子的实际速度。（单位：米/秒） ？？？
+      maximumSpeed: 9.0, // 粒子初速度的最大界限，超过该最大界限，随机选择粒子的实际速度。（单位：米/秒）
+
+      emissionRate: 200, // 粒子发射器的发射速率 （单位：次/秒）
+
+      gravity: 0.0
+    }
+    const item = new Creatar3d.ParticleSystem({
+      position: [117.220356, 31.833959, 43.67],
+      gravity: viewModel.viewModel,
+      translation: new Cesium.Cartesian3(-4, 0, 0),
+      target: new Cesium.Cartesian3(-0.151, 0.294, 0.225), // 目标方向
+      style: {
+        image: 'examples/images/icon/fire4.png',
+
+        startColor: viewModel.startColor,
+        endColor: viewModel.endColor,
+
+        startScale: viewModel.startScale,
+        endScale: viewModel.endScale,
+
+        minimumParticleLife: viewModel.minimumParticleLife,
+        maximumParticleLife: viewModel.maximumParticleLife,
+
+        minimumSpeed: viewModel.minimumSpeed,
+        maximumSpeed: viewModel.maximumSpeed,
+
+        imageSize: new Cesium.Cartesian2(viewModel.particleSize, viewModel.particleSize),
+        minimumImageSize: new Cesium.Cartesian2(25, 25),
+        emissionRate: viewModel.emissionRate
+
+        // emitter: new Cesium.BoxEmitter(new Cesium.Cartesian3(1.0, 1.0, 1.0))
+      }
+    })
+    layer2.addGraphic(item)
+  })
+  function pause() {
+    roam.pause()
+  }
+  function proceed() {
+    roam.proceed()
+  }
+  function stop() {
+    roam.stop()
+  }
+  function start() {
+    roam.start()
+  }
+</script>
+<style></style>

@@ -1,5 +1,5 @@
 <div id="viewer-container">
-  <div class="info-box">
+  <div class="group-btn">
     <button onclick="pause()">暂停</button>
     <button onclick="proceed()">继续</button>
     <button onclick="stop()">停止</button>
@@ -9,26 +9,12 @@
 <script>
   var layer = undefined
   var roam = null
-  Creatar3d.ready(() => {
-    map = new Creatar3d.Viewer('viewer-container', {
-      animation: true, //是否创建动画小器件，左下角仪表
-      timeline: true //是否显示时间线控件
-    })
-    map.setOptions({
-      globe: {
-        depthTestAgainstTerrain: true
-      },
-      cameraController: {
-        enableCollisionDetection: false
-      },
-      widgetController: {
-        enableCompass2: true,
-        enableStateBar: true,
-        enableDistanceLegend: true
-        // enableImagerySwitchTerrain: true // 默认加载地形
-      }
-    })
-  }).then(() => {
+  const options = {
+    animation: true, //是否创建动画小器件，左下角仪表
+    timeline: true //是否显示时间线控件
+  }
+  Creatar3d.ready().then(() => {
+    initViewer(options)
     layer = new Creatar3d.GraphicLayer()
     map.addLayer(layer)
     var flydata = {
@@ -65,10 +51,10 @@
     }
     roam = new Creatar3d.RoamLine(flydata)
     layer.addGraphic(roam)
-    roam.on(Creatar3d.RoamingEventType.OVERPOINT, param => {
+    roam.on(Creatar3d.RoamingEventType.OVERPOINT, (param) => {
       console.log('OVERPOINT', param)
     })
-    roam.on(Creatar3d.RoamingEventType.END, event => {
+    roam.on(Creatar3d.RoamingEventType.END, (event) => {
       console.log('漫游结束', event)
     })
     roam.start()

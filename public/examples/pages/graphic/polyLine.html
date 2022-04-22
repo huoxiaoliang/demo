@@ -96,7 +96,7 @@
     layer.addGraphic(
       new Creatar3d.Polyline({ positions: '-75, 33; -100, 33' }).setStyle({
         width: 10,
-        material: new Creatar3d.PolylineFlowMaterialProperty({
+        material: new Creatar3d.PolylineFlowColorMaterialProperty({
           color: Creatar3d.Cesium.Color.RED,
           speed: 5
         }),
@@ -115,7 +115,7 @@
         clampToGround: true
       })
     )
-    // 发光轨迹线
+    // Od轨迹线
     layer.addGraphic(
       new Creatar3d.Polyline({
         positions: '-75, 35; -100, 35',

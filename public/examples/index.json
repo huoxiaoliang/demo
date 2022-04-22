@@ -163,6 +163,17 @@
       ]
     },
     {
+      "name": "ParticleSystem",
+      "label": "粒子系统",
+      "children": [
+        {
+          "name": "particleSystem",
+          "label": "粒子系统",
+          "pictureType": "gif"
+        }
+      ]
+    },
+    {
       "name": "Material",
       "label": "材质",
       "children": [

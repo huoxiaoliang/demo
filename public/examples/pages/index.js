@@ -1,7 +1,7 @@
 /*
  * @Author: hxl
  * @Date: 2021-08-16 14:58:53
- * @LastEditTime: 2022-04-12 14:35:46
+ * @LastEditTime: 2022-04-22 11:16:29
  * @LastEditors: hxl
  * @Description:
  */
@@ -12,6 +12,7 @@ const baseMap = [
     groupId: 10,
     id: 2000,
     name: '天地图影像',
+    show: true,
     iconUrl: 'sdk/images/icon/天地图.png',
     layer: [
       {
@@ -80,7 +81,7 @@ const baseMap = [
     id: 2004,
     name: 'mapbox',
     iconUrl: 'sdk/images/icon/mapbox.png',
-    show: true,
+
     layer: [
       {
         type: 'mapbox_style',
@@ -98,7 +99,7 @@ const baseMap = [
     id: 2005,
     name: '蓝色底图',
     iconUrl: 'sdk/images/icon/蓝色底图.png',
-    show: true,
+
     layer: [
       {
         type: 'xyz',
@@ -107,8 +108,8 @@ const baseMap = [
     ]
   }
 ]
-function initViewer() {
-  map = new Creatar3d.Viewer('viewer-container', { baseMap })
+function initViewer(options = {}) {
+  map = new Creatar3d.Viewer('viewer-container', { baseMap, ...options })
   map.setOptions({
     globe: {
       depthTestAgainstTerrain: true
