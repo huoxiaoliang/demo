@@ -4,7 +4,7 @@
   Creatar3d.ready(initViewer).then(async () => {
     layer = await Creatar3d.ImageLayer.build({
       type: Creatar3d.ImageryType.WMS,
-      url: 'http://192.168.1.195:5350/geoserver/wms',
+      url: 'http://192.168.1.198:5350/geoserver/wms',
       layers: 'ws_yc_2d:工程地质评价图',
       parameters: {
         service: 'WMS',

@@ -1,25 +1,25 @@
 {
   "dev": [
     {
-      "name": "Graphic",
+      "name": "graphic",
       "label": "矢量",
       "children": [
         {
-          "name": "Circle",
+          "name": "circle",
           "label": "圆",
           "pictureType": "gif"
         },
         {
-          "name": "PolyLine",
+          "name": "polyLine",
           "label": "线",
           "pictureType": "gif"
         },
         {
-          "name": "PolygonPrimitive",
+          "name": "polygonPrimitive",
           "label": "多边形"
         },
         {
-          "name": "ModelPrimitive",
+          "name": "modelPrimitive",
           "label": "glb/gltf"
         },
         {
@@ -27,40 +27,40 @@
           "label": "图片点+文字（Primitive方式）"
         },
         {
-          "name": "Drill",
+          "name": "drill",
           "label": "钻孔"
         },
         {
-          "name": "Section",
+          "name": "section",
           "label": "剖面"
         },
         {
-          "name": "Div",
+          "name": "div",
           "label": "DIV元素"
         },
         {
-          "name": "Text",
+          "name": "textMaterial",
           "label": "贴图文字"
         },
         {
-          "name": "Path",
+          "name": "path",
           "label": "动态路径",
           "pictureType": "gif"
         },
         {
-          "name": "RoamLine",
+          "name": "roamLine",
           "label": "漫游",
           "pictureType": "gif"
         },
         {
-          "name": "Tetrahedron",
+          "name": "tetrahedron",
           "label": "四面体",
           "pictureType": "gif"
         }
       ]
     },
     {
-      "name": "Combine",
+      "name": "combine",
       "label": "批量矢量",
       "children": [
         {
@@ -71,7 +71,7 @@
       ]
     },
     {
-      "name": "Layer",
+      "name": "layer",
       "label": "图层",
       "children": [
         {
@@ -95,6 +95,10 @@
           "label": "WMS服务图层"
         },
         {
+          "name": "wmtsLayer",
+          "label": "WMTS服务图层"
+        },
+        {
           "name": "arcgisImageryLayer",
           "label": "Arcgis服务图层"
         },
@@ -106,27 +110,27 @@
       ]
     },
     {
-      "name": "Draw",
+      "name": "draw",
       "label": "标绘",
       "children": [
         {
-          "name": "Draw",
+          "name": "draw",
           "label": "标绘"
         }
       ]
     },
     {
-      "name": "Measure",
+      "name": "measure",
       "label": "测量",
       "children": [
         {
-          "name": "Measure",
+          "name": "measure",
           "label": "测量"
         }
       ]
     },
     {
-      "name": "Widgets",
+      "name": "widgets",
       "label": "组件",
       "children": [
         {
@@ -148,7 +152,7 @@
       ]
     },
     {
-      "name": "Effect",
+      "name": "effect",
       "label": "特效",
       "children": [
         {
@@ -163,7 +167,7 @@
       ]
     },
     {
-      "name": "ParticleSystem",
+      "name": "particleSystem",
       "label": "粒子系统",
       "children": [
         {
@@ -174,7 +178,7 @@
       ]
     },
     {
-      "name": "Material",
+      "name": "material",
       "label": "材质",
       "children": [
         {
@@ -184,7 +188,7 @@
       ]
     },
     {
-      "name": "Terrain",
+      "name": "terrain",
       "label": "地形",
       "children": [
         {

@@ -10,12 +10,12 @@
                     {
                         "name": "底图",
                         "type": "tdt",
-                        "mapStyle": "img_w"
+                        "style": "img_w"
                     },
                     {
                         "name": "注记",
                         "type": "tdt",
-                        "mapStyle": "cia_w"
+                        "style": "cia_w"
                     }
                 ]
             },
@@ -28,12 +28,12 @@
                     {
                         "name": "底图",
                         "type": "tdt",
-                        "mapStyle": "vec_w"
+                        "style": "vec_w"
                     },
                     {
                         "name": "注记",
                         "type": "tdt",
-                        "mapStyle": "cva_w"
+                        "style": "cva_w"
                     }
                 ]
             },

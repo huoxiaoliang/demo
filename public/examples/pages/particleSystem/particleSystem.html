@@ -1,7 +1,7 @@
 <!--
  * @Author: hxl
  * @Date: 2022-04-22 11:08:08
- * @LastEditTime: 2022-04-22 11:38:30
+ * @LastEditTime: 2022-04-22 14:42:57
  * @LastEditors: hxl
  * @Description: 
 -->
@@ -16,13 +16,38 @@
 <script>
   var layer = undefined
   var layer2 = undefined
-  var roam = null
+  var roam = null,
+    particleSystem = null
+  const viewModel = {
+    startColor: '#ff0000', // 粒子出生时的颜色
+    endColor: '#ffffff', // 当粒子死亡时的颜色
+    // sizeInMeters: true,
+
+    imageSize: 5, // 粒子图片的Size大小（单位：像素）
+    startScale: 3.0, // 粒子在出生时的比例（单位：相对于imageSize大小的倍数）
+    endScale: 1.5, // 粒子在死亡时的比例（单位：相对于imageSize大小的倍数）
+
+    minimumParticleLife: 1.5, // 粒子可能存在的最短寿命时间，实际寿命将随机生成（单位：秒）
+    maximumParticleLife: 1.8, // 粒子可能存在的最长寿命时间，实际寿命将随机生成（单位：秒）
+
+    minimumSpeed: 7.0, // 粒子初速度的最小界限，超过该最小界限，随机选择粒子的实际速度。（单位：米/秒） ？？？
+    maximumSpeed: 9.0, // 粒子初速度的最大界限，超过该最大界限，随机选择粒子的实际速度。（单位：米/秒）
+
+    emissionRate: 200, // 粒子发射器的发射速率 （单位：次/秒）
+
+    gravity: 0.0, //重力因子
+    transX: -2,
+    transY: 0,
+    transZ: -2
+  }
   const options = {
     animation: true, //是否创建动画小器件，左下角仪表
     timeline: true //是否显示时间线控件
   }
   Creatar3d.ready().then(() => {
     initViewer(options)
+    map.stateBar.enable = false
+    map.distanceLegend.enable = false
     layer = new Creatar3d.GraphicLayer()
     map.addLayer(layer)
     layer2 = new Creatar3d.PrimitiveLayer()
@@ -73,7 +98,7 @@
     //   roam.start()
     // })
 
-    const particleSystem = new Creatar3d.ParticleSystem({
+    const particleSystem1 = new Creatar3d.ParticleSystem({
       modelMatrix: (time) => {
         return roam.modelMatrix
       },
@@ -96,37 +121,18 @@
 
       maxHeight: 1000 // 超出该高度后不显示粒子效果
     })
-    layer2.addGraphic(particleSystem)
+    layer2.addGraphic(particleSystem1)
 
-    const viewModel = {
-      startColor: new Cesium.Color(1, 1, 1, 1), // 粒子出生时的颜色
-      endColor: new Cesium.Color(0.5, 0, 0, 0), // 当粒子死亡时的颜色
-      // sizeInMeters: true,
-
-      particleSize: 5, // 粒子图片的Size大小（单位：像素）
-      startScale: 3.0, // 粒子在出生时的比例（单位：相对于imageSize大小的倍数）
-      endScale: 1.5, // 粒子在死亡时的比例（单位：相对于imageSize大小的倍数）
-
-      minimumParticleLife: 1.5, // 粒子可能存在的最短寿命时间，实际寿命将随机生成（单位：秒）
-      maximumParticleLife: 1.8, // 粒子可能存在的最长寿命时间，实际寿命将随机生成（单位：秒）
-
-      minimumSpeed: 7.0, // 粒子初速度的最小界限，超过该最小界限，随机选择粒子的实际速度。（单位：米/秒） ？？？
-      maximumSpeed: 9.0, // 粒子初速度的最大界限，超过该最大界限，随机选择粒子的实际速度。（单位：米/秒）
-
-      emissionRate: 200, // 粒子发射器的发射速率 （单位：次/秒）
-
-      gravity: 0.0
-    }
-    const item = new Creatar3d.ParticleSystem({
+    particleSystem = new Creatar3d.ParticleSystem({
       position: [117.220356, 31.833959, 43.67],
-      gravity: viewModel.viewModel,
-      translation: new Cesium.Cartesian3(-4, 0, 0),
+      gravity: viewModel.gravity,
+      translation: new Cesium.Cartesian3(viewModel.transX, viewModel.transY, viewModel.transZ),
       target: new Cesium.Cartesian3(-0.151, 0.294, 0.225), // 目标方向
       style: {
         image: 'examples/images/icon/fire4.png',
 
-        startColor: viewModel.startColor,
-        endColor: viewModel.endColor,
+        startColor: Cesium.Color.fromCssColorString(viewModel.startColor),
+        endColor: Cesium.Color.fromCssColorString(viewModel.endColor),
 
         startScale: viewModel.startScale,
         endScale: viewModel.endScale,
@@ -137,14 +143,15 @@
         minimumSpeed: viewModel.minimumSpeed,
         maximumSpeed: viewModel.maximumSpeed,
 
-        imageSize: new Cesium.Cartesian2(viewModel.particleSize, viewModel.particleSize),
+        imageSize: new Cesium.Cartesian2(viewModel.imageSize, viewModel.imageSize),
         minimumImageSize: new Cesium.Cartesian2(25, 25),
         emissionRate: viewModel.emissionRate
 
         // emitter: new Cesium.BoxEmitter(new Cesium.Cartesian3(1.0, 1.0, 1.0))
       }
     })
-    layer2.addGraphic(item)
+    layer2.addGraphic(particleSystem)
+    addGuiController()
   })
   function pause() {
     roam.pause()
@@ -157,6 +164,90 @@
   }
   function start() {
     roam.start()
+  }
+  function addGuiController() {
+    let gui = new dat.GUI()
+    gui
+      .addColor(viewModel, 'startColor')
+      .onChange((value) => {
+        particleSystem.delegate.startColor = Cesium.Color.fromCssColorString(value)
+      })
+      .name('开始颜色')
+    gui
+      .addColor(viewModel, 'endColor')
+      .onChange((value) => {
+        particleSystem.delegate.endColor = Cesium.Color.fromCssColorString(value)
+      })
+      .name('结束颜色')
+    gui
+      .add(viewModel, 'emissionRate', 1, 500)
+      .onChange((value) => {
+        particleSystem.delegate.emissionRate = value
+      })
+      .name('每秒粒子发射数量')
+    gui
+      .add(viewModel, 'imageSize', 2, 60)
+      .onChange((value) => {
+        particleSystem.delegate.imageSize = new Cesium.Cartesian2(value, value)
+        particleSystem.delegate.minimumImageSize = new Cesium.Cartesian2(value, value)
+      })
+      .name('粒子大小')
+    gui
+      .add(viewModel, 'startScale', 1, 60)
+      .step(0.2)
+      .onChange((value) => {
+        particleSystem.delegate.startScale = value
+      })
+      .name('开始比例')
+
+    gui
+      .add(viewModel, 'endScale', 1, 60)
+      .step(0.2)
+      .onChange((value) => {
+        particleSystem.delegate.endScale = value
+      })
+      .name('结束比例')
+    gui
+      .add(viewModel, 'minimumParticleLife', 1, 60)
+      .step(0.2)
+      .onChange((value) => {
+        particleSystem.delegate.minimumParticleLife = value
+      })
+      .name('最小寿命时长')
+
+    gui
+      .add(viewModel, 'maximumParticleLife', 1, 60)
+      .step(0.2)
+      .onChange((value) => {
+        particleSystem.delegate.maximumParticleLife = value
+      })
+      .name('最大寿命时长')
+
+    gui
+      .add(viewModel, 'gravity', -30, 30)
+      .step(1)
+      .onChange((value) => {
+        particleSystem.gravity = value
+      })
+      .name('重力因子')
+    gui
+      .add(viewModel, 'transX')
+      .onChange((value) => {
+        particleSystem.translation = new Cesium.Cartesian3(value, viewModel.transY, viewModel.transZ)
+      })
+      .name('偏移x')
+    gui
+      .add(viewModel, 'transY')
+      .onChange((value) => {
+        particleSystem.translation = new Cesium.Cartesian3(viewModel.transX, value, viewModel.transZ)
+      })
+      .name('偏移y')
+    gui
+      .add(viewModel, 'transZ')
+      .onChange((value) => {
+        particleSystem.translation = new Cesium.Cartesian3(viewModel.transX, viewModel.transY, value)
+      })
+      .name('偏移z')
   }
 </script>
 <style></style>

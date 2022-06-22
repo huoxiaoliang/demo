@@ -14,7 +14,7 @@ body,
 .dg.a {
   z-index: 2;
   position: absolute;
-  top: 50px;
+  top: 100px;
   left: 50px;
   background: #657b7b75;
   padding: 10px;

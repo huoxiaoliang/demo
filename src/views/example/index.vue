@@ -1,5 +1,6 @@
 <template>
   <div class="sandcastle-box">
+ 
     <div class="sandcastle-content">
       <!-- 编辑器 -->
       <div v-show="codeVisible" ref="sandcastlCodebox" class="sandcastl-codebox">
@@ -23,11 +24,15 @@
           <div v-show="cssEditorShow" ref="css-editor" class="css-editor"></div>
         </div>
       </div>
-      <div class="sandcastl-drag" draggable="true" @drag="sandcastlDrag">
+      <div v-show="codeVisible" class="sandcastl-drag" draggable="true" @drag="sandcastlDrag">
         <div></div>
       </div>
       <!-- 视图 -->
       <div class="sandcastl-global">
+        <div class="top-content">
+          <el-button size="mini" :class="codeVisible?'el-icon-s-fold':'el-icon-s-unfold'" @click="codeVisible=!codeVisible" v-html="codeVisible?'收起源代码':'打开源代码'"></el-button>
+          
+        </div>
         <div ref="example" class="example"></div>
         <div class="fullScreen" @click="fullMap">
           <el-button title="全屏" round size="mini" type="primary" icon="el-icon-full-screen"></el-button>
@@ -111,8 +116,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getExamplesData()
+  async  mounted() {
+    await this.getExamplesData()
     const that = this
     this.$refs.footer.addEventListener(
       'mousewheel',
@@ -123,6 +128,12 @@ export default {
       },
       false
     )
+    const name = this.$route.query.name
+    const type = this.$route.query.type
+    if (name) {
+      this.changeExample({ name, type })
+    }
+    console.log(this.$route)
   },
   methods: {
     createEditor() {
@@ -226,6 +237,7 @@ export default {
               })
             })
         })
+      
       })
     },
     footerType(item) {
@@ -241,6 +253,7 @@ export default {
       }
     },
     changeExample(item) {
+      this.$route.query[name] = item.name
       this.activeName = 'js-editor'
       this.type = item.type.toLowerCase()
       this.example = item.name.toLowerCase()
@@ -352,6 +365,19 @@ export default {
         position: absolute;
         bottom: 44px;
         left: 20px;
+      }
+      .top-content{
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    /* z-index: 2; */
+    background-color: #000000b3;
+    .el-button{
+      margin: 2px;
+      background-color: unset;
+      color: rgb(238, 238, 238);
+      border: none;
+    }
       }
     }
     .sandcastl-codebox {

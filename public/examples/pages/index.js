@@ -1,7 +1,7 @@
 /*
  * @Author: hxl
  * @Date: 2021-08-16 14:58:53
- * @LastEditTime: 2022-04-22 11:16:29
+ * @LastEditTime: 2022-04-27 16:00:58
  * @LastEditors: hxl
  * @Description:
  */
@@ -18,12 +18,12 @@ const baseMap = [
       {
         name: '底图',
         type: 'tdt',
-        mapStyle: 'img_w'
+        style: 'img_w'
       },
       {
         name: '注记',
         type: 'tdt',
-        mapStyle: 'cia_w'
+        style: 'cia_w'
       }
     ]
   },
@@ -36,12 +36,12 @@ const baseMap = [
       {
         name: '底图',
         type: 'tdt',
-        mapStyle: 'vec_w'
+        style: 'vec_w'
       },
       {
         name: '注记',
         type: 'tdt',
-        mapStyle: 'cva_w'
+        style: 'cva_w'
       }
     ]
   },

@@ -4,6 +4,7 @@
     <button onclick="proceed()">继续</button>
     <button onclick="stop()">停止</button>
     <button onclick="start()">开始</button>
+    <button onclick="clampStart()">贴地开始</button>
   </div>
 </div>
 <script>
@@ -57,11 +58,7 @@
     roam.on(Creatar3d.RoamingEventType.END, (event) => {
       console.log('漫游结束', event)
     })
-    roam.start()
-    // 贴地漫游
-    // roam.clampToGround().then(() => {
-    //   roam.start()
-    // })
+    // roam.start()
   })
   function pause() {
     roam.pause()
@@ -74,6 +71,12 @@
   }
   function start() {
     roam.start()
+  }
+  function clampStart() {
+    //  贴地漫游
+    roam.clampToGround({ splitNum: 10, offset: 10 }).then(() => {
+      roam.start()
+    })
   }
 </script>
 <style></style>
