@@ -2,15 +2,14 @@
 <script>
   var layer = undefined
 
-  Creatar3d.ready(initViewer).then(() => {
-    // 设置默认底图
-    map.imagerySwitch.switchId = map.imagerySwitch.layers[map.imagerySwitch.layers.length - 1].id
-    layer = new Creatar3d.PrimitiveLayer()
-    map.addLayer(layer)
-    getData()
-    layer.on(Creatar3d.LayerEventType.CLICK, (param) => {
-      console.log(param)
-    })
+  initViewer()
+  // 设置默认底图
+  map.imagerySwitch.switchId = map.imagerySwitch.layers[map.imagerySwitch.layers.length - 1].id
+  layer = new Creatar3d.PrimitiveLayer()
+  map.addLayer(layer)
+  getData()
+  layer.on(Creatar3d.LayerEventType.CLICK, (param) => {
+    console.log(param)
   })
   function getData() {
     getJSON('examples/data/bjgj.json', function (data) {

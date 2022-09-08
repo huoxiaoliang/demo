@@ -1,19 +1,19 @@
 <div id="viewer-container"></div>
 <script>
   var layer = undefined
-  Creatar3d.ready(initViewer).then(() => {
-    layer = new Creatar3d.TilesetLayer()
-    map.addLayer(layer)
-    const tileset = new Creatar3d.Tileset({
-      url: window.dataBase + '/建筑白膜/tileset.json',
-      style: {
-        highlight: { type: 'click', color: '#FFFF00' }
-      }
-    })
-    layer.addGraphic(tileset)
-    let fs = `
+  initViewer()
+  layer = new Creatar3d.TilesetLayer()
+  map.addLayer(layer)
+  const tileset = new Creatar3d.Tileset({
+    url: window.dataBase + '/建筑白膜/tileset.json',
+    style: {
+      highlight: { type: 'click', color: '#FFFF00' }
+    }
+  })
+  layer.addGraphic(tileset)
+  let fs = `
        varying vec3 v_positionEC;
-    
+
        void main(void){
            // 建筑基础色
            vec4 position = czm_inverseModelView * vec4(v_positionEC,1); // 位置
@@ -31,18 +31,17 @@
            gl_FragColor.rgb += gl_FragColor.rgb * (1.0 - diff);
        }
       `
-    tileset.setCustomShader(fs)
-    layer.flyTo()
-    tileset.on(Creatar3d.LayerEventType.CLICK, (res) => {
-      const attr = {}
-      if (res.feature && res.feature.getPropertyNames) {
-        const propertyNames = res.feature.getPropertyNames()
-        propertyNames.forEach((item) => {
-          attr[item] = res.feature.getProperty(item)
-        })
-      }
-      console.log(res)
-    })
+  tileset.setCustomShader(fs)
+  layer.flyTo()
+  tileset.on(Creatar3d.LayerEventType.CLICK, (res) => {
+    const attr = {}
+    if (res.feature && res.feature.getPropertyNames) {
+      const propertyNames = res.feature.getPropertyNames()
+      propertyNames.forEach((item) => {
+        attr[item] = res.feature.getProperty(item)
+      })
+    }
+    console.log(res)
   })
 </script>
 <style></style>

@@ -57,12 +57,9 @@ export default {
     initglobe(options) {
       if (this[`map${this.mapKey}`]) return
       // 创建三维地球场景
-      // Creatar3d.use(Creatar3dCore)
-      Creatar3d.ready(() => {
-        const map = new Creatar3d.Viewer(`globe-container${this.mapKey}`, options) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景
-        this[`map${this.mapKey}`] = map
-        this.$emit('onload', map)
-      })
+      const map = new Creatar3d.Viewer(`globe-container${this.mapKey}`, options) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景
+      this[`map${this.mapKey}`] = map
+      this.$emit('onload', map)
     }
   }
 }

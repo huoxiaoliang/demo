@@ -1,38 +1,37 @@
 <div id="viewer-container"></div>
 <script>
-  Creatar3d.ready(initViewer).then(() => {
-    map.setOptions({
-      widgetController: {
-        enableImagerySwitchTerrain: true // 默认加载地形
-      }
-    })
-
-    layer = new Creatar3d.PrimitiveLayer({
-      name: '全区工程地质钻孔'
-    })
-
-    map.addLayer(layer)
-    const p = new Creatar3d.PolygonPrimitive({
-      positions: [
-        [117.220356, 31.833959, 43.67],
-        [117.220361, 31.835111, 44.36],
-        [117.213242, 31.835863, 42.31],
-        [117.211926, 31.835738, 42.14],
-        [117.183103, 31.833906, 47.17],
-        [117.183136, 31.833586, 47.39],
-        [117.183968, 31.833637, 47.05],
-        [117.184038, 31.833134, 47.39],
-        [117.184364, 31.833142, 47.26],
-        [117.184519, 31.833375, 47.04],
-        [117.220356, 31.833959, 43.67]
-      ],
-      style: {
-        perPositionHeight: true,
-        color: Cesium.Color.RED
-      }
-    })
-    layer.addGraphic(p)
-    layer.flyTo()
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
   })
+
+  layer = new Creatar3d.PrimitiveLayer({
+    name: '全区工程地质钻孔'
+  })
+
+  map.addLayer(layer)
+  const p = new Creatar3d.PolygonPrimitive({
+    positions: [
+      [117.220356, 31.833959, 43.67],
+      [117.220361, 31.835111, 44.36],
+      [117.213242, 31.835863, 42.31],
+      [117.211926, 31.835738, 42.14],
+      [117.183103, 31.833906, 47.17],
+      [117.183136, 31.833586, 47.39],
+      [117.183968, 31.833637, 47.05],
+      [117.184038, 31.833134, 47.39],
+      [117.184364, 31.833142, 47.26],
+      [117.184519, 31.833375, 47.04],
+      [117.220356, 31.833959, 43.67]
+    ],
+    style: {
+      perPositionHeight: true,
+      color: Cesium.Color.RED
+    }
+  })
+  layer.addGraphic(p)
+  layer.flyTo()
 </script>
 <style></style>

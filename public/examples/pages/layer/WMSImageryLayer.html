@@ -1,7 +1,9 @@
 <div id="viewer-container"></div>
 <script>
   var layer = undefined
-  Creatar3d.ready(initViewer).then(async () => {
+  initViewer()
+  main()
+  async function main() {
     layer = await Creatar3d.ImageLayer.build({
       type: Creatar3d.ImageryType.WMS,
       url: 'http://192.168.1.198:5350/geoserver/wms',
@@ -20,11 +22,11 @@
       },
       this
     )
-    map.addLayer(this.layer)
+    map.addLayer(layer)
     // 异步飞向
-    this.layer.flyTo().then(() => {
+    layer.flyTo().then(() => {
       console.log(222)
     })
-  })
+  }
 </script>
 <style></style>

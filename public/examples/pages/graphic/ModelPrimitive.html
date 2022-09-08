@@ -1,24 +1,23 @@
 <div id="viewer-container"></div>
 <script>
-  Creatar3d.ready(initViewer).then(() => {
-    map.delegate.extend(Cesium.viewerCesiumInspectorMixin)
-    map.setOptions({
-      widgetController: {
-        // enableImagerySwitchTerrain: true // 默认加载地形
-      }
-    })
-
-    layer = new Creatar3d.PrimitiveLayer()
-
-    map.addLayer(layer)
-    const p = new Creatar3d.ModelPrimitive({
-      position: '120.16815942123796,33.40420253138008,0',
-      style: {
-        url: 'http://192.168.1.199:1518/cache/glbs/全区区域地质模型/3615.glb'
-      }
-    })
-    layer.addGraphic(p)
-    layer.flyTo()
+  initViewer()
+  map.delegate.extend(Cesium.viewerCesiumInspectorMixin)
+  map.setOptions({
+    widgetController: {
+      // enableImagerySwitchTerrain: true // 默认加载地形
+    }
   })
+
+  layer = new Creatar3d.PrimitiveLayer()
+
+  map.addLayer(layer)
+  const p = new Creatar3d.ModelPrimitive({
+    position: '120.16815942123796,33.40420253138008,0',
+    style: {
+      url: 'http://192.168.1.199:1518/cache/glbs/全区区域地质模型/3615.glb'
+    }
+  })
+  layer.addGraphic(p)
+  layer.flyTo()
 </script>
 <style></style>

@@ -2,52 +2,51 @@
 <script>
   var layer = undefined
   var radius = 800
-  Creatar3d.ready(initViewer).then(() => {
-    layer = new Creatar3d.GraphicLayer()
-    map.addLayer(layer)
+  initViewer()
+  layer = new Creatar3d.GraphicLayer()
+  map.addLayer(layer)
 
-    layer.addGraphic(
-      new Creatar3d.Wall({
-        positions: [
-          [121.479694, 29.791303, 8],
-          [121.479914, 29.791249, 8]
-        ]
-      }).setStyle({
-        material: new Creatar3d.TextMaterialProperty({
-          text: '超维创想',
-          font: 'normal small-caps normal 40px 楷体',
-          stroke: true,
-          fillColor: Cesium.Color.CHARTREUSE,
-          strokeColor: Cesium.Color.BLUE,
-          strokeWidth: 2,
-          backgroundColor: Cesium.Color.TRANSPARENT,
-          padding: 7,
-          opacity: 0.8
-        })
+  layer.addGraphic(
+    new Creatar3d.Wall({
+      positions: [
+        [121.479694, 29.791303, 8],
+        [121.479914, 29.791249, 8]
+      ]
+    }).setStyle({
+      material: new Creatar3d.TextMaterialProperty({
+        text: '超维创想',
+        font: 'normal small-caps normal 40px 楷体',
+        stroke: true,
+        fillColor: Cesium.Color.CHARTREUSE,
+        strokeColor: Cesium.Color.BLUE,
+        strokeWidth: 2,
+        backgroundColor: Cesium.Color.TRANSPARENT,
+        padding: 7,
+        opacity: 0.8
       })
-    )
-    layer.addGraphic(
-      new Creatar3d.Rectangle({
-        positions: [
-          [121.478694, 29.791303],
-          [121.479214, 29.791949]
-        ]
-      }).setStyle({
-        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-        material: new Creatar3d.TextMaterialProperty({
-          text: '我是贴地文字',
-          font: 'normal small-caps normal  20px 楷体',
-          stroke: true,
-          fillColor: Cesium.Color.CHARTREUSE,
-          strokeColor: Cesium.Color.RED,
-          strokeWidth: 2,
-          backgroundColor: Cesium.Color.TRANSPARENT,
-          padding: 10,
-          opacity: 0.8
-        })
+    })
+  )
+  layer.addGraphic(
+    new Creatar3d.Rectangle({
+      positions: [
+        [121.478694, 29.791303],
+        [121.479214, 29.791949]
+      ]
+    }).setStyle({
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      material: new Creatar3d.TextMaterialProperty({
+        text: '我是贴地文字',
+        font: 'normal small-caps normal  20px 楷体',
+        stroke: true,
+        fillColor: Cesium.Color.CHARTREUSE,
+        strokeColor: Cesium.Color.RED,
+        strokeWidth: 2,
+        backgroundColor: Cesium.Color.TRANSPARENT,
+        padding: 10,
+        opacity: 0.8
       })
-    )
-    map.flyTo(layer)
-  })
+    })
+  )
+  map.flyTo(layer)
 </script>
 <style></style>

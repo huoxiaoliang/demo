@@ -7,14 +7,14 @@
 </div>
 <script>
   let rain, fog, snow
-  Creatar3d.ready(initViewer).then(() => {
-    rain = new Creatar3d.RainEffect({ enable: false })
-    fog = new Creatar3d.FogEffect({ enable: false })
-    snow = new Creatar3d.SnowEffect({ enable: false })
-    map.addEffect(rain)
-    map.addEffect(fog)
-    map.addEffect(snow)
-  })
+  initViewer()
+  rain = new Creatar3d.RainEffect({ enable: false })
+  fog = new Creatar3d.FogEffect({ enable: false })
+  snow = new Creatar3d.SnowEffect({ enable: false })
+  map.addEffect(rain)
+  map.addEffect(fog)
+  map.addEffect(snow)
+
   function effect(params) {
     rain.enable = false
     fog.enable = false

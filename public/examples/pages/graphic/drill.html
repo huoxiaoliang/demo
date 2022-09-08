@@ -1,30 +1,29 @@
 <div id="viewer-container"></div>
 <script>
-  Creatar3d.ready(initViewer).then(() => {
-    layer = new Creatar3d.PrimitiveLayer()
-    map.addLayer(layer)
+  initViewer()
+  layer = new Creatar3d.PrimitiveLayer()
+  map.addLayer(layer)
 
-    const points = generatePosition(1000)
-    points.forEach(p => {
-      const drill = new Creatar3d.Drill({
-        radius: 20,
-        radialSegments: 64,
-        position: p,
-        layers: [
-          { maxz: 300, minz: 260, render: '#ff4c00' },
-          { maxz: 260, minz: 200, render: '#bb0500' },
-          { maxz: 200, minz: 100, render: '#bb05ff' },
-          { maxz: 100, minz: 50, render: '#ff0000' },
-          { maxz: 50, minz: 1, render: '#ffffff' }
-        ]
-      })
-      layer.addGraphic(drill)
+  const points = generatePosition(1000)
+  points.forEach((p) => {
+    const drill = new Creatar3d.Drill({
+      radius: 20,
+      radialSegments: 64,
+      position: p,
+      layers: [
+        { maxz: 300, minz: 260, render: '#ff4c00' },
+        { maxz: 260, minz: 200, render: '#bb0500' },
+        { maxz: 200, minz: 100, render: '#bb05ff' },
+        { maxz: 100, minz: 50, render: '#ff0000' },
+        { maxz: 50, minz: 1, render: '#ffffff' }
+      ]
     })
-
-    layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, res => {
-      console.log(res)
-    })
-    layer.flyTo()
+    layer.addGraphic(drill)
   })
+
+  layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, (res) => {
+    console.log(res)
+  })
+  layer.flyTo()
 </script>
 <style></style>

@@ -1,14 +1,13 @@
 <div id="viewer-container"></div>
 <script>
-  Creatar3d.ready(initViewer).then(() => {
-    map.setOptions({
-      widgetController: {
-        enableImagerySwitchTerrain: true // 默认加载地形
-      }
-    })
-    map.loadingMask.enable = true
-    addGuiController()
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
   })
+  map.loadingMask.enable = true
+  addGuiController()
 
   function addGuiController() {
     let controls = {

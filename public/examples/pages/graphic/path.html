@@ -6,86 +6,85 @@
     animation: true, //是否创建动画小器件，左下角仪表
     timeline: true //是否显示时间线控件
   }
-  Creatar3d.ready().then(() => {
-    initViewer(options)
-    map.setOptions({
-      globe: {
-        depthTestAgainstTerrain: true
-      },
-      cameraController: {
-        enableCollisionDetection: false
-      },
-      widgetController: {
-        enableCompass2: true,
-        enableStateBar: true,
-        enableDistanceLegend: true
-      }
-    })
-    layer = new Creatar3d.GraphicLayer()
-    map.addLayer(layer)
-    var property = new Cesium.SampledPositionProperty()
-    var tempTime
 
-    //起点
-    tempTime = map.clock.currentTime //飞行开始时间
-    property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.372852, 31.162736, 50))
-
-    //移动到的第1个目标点
-    tempTime = Cesium.JulianDate.addSeconds(tempTime, 120, new Cesium.JulianDate())
-    property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.47105869, 31.156011, 50))
-
-    //移动到的第2个目标点
-    tempTime = Cesium.JulianDate.addSeconds(tempTime, 120, new Cesium.JulianDate())
-    property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.47105869, 31.176336, 50))
-
-    tempTime = Cesium.JulianDate.addSeconds(tempTime, 600, new Cesium.JulianDate())
-    property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.372852, 31.176336, 50))
-
-    console.log(property)
-    const path = new Creatar3d.Path({
-      position: property,
-      style: {
-        leadTime: 0, //前方的路线不显示
-        width: 2,
-        material: Cesium.Color.RED
-      }
-    })
-    path.setModel('examples/data/xiaoqiche.gltf')
-    path.setBillboard({
-      image: 'examples/images/marker/mark3.png',
-      scale: 0.6,
-      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      pixelOffset: new Cesium.Cartesian2(0, -20), //偏移量
-      pixelOffsetScaleByDistance: new Cesium.NearFarScalar(0, 5.0, 2e4, 1)
-    })
-    layer.addGraphic(path)
-    var graphic = new Creatar3d.Path({
-      style: {
-        leadTime: 0, //前方的路线不显示
-        width: 3,
-        material: Cesium.Color.BLUE
-      }
-    })
-    graphic.setBillboard({
-      image: 'examples/images/marker/mark3.png',
-      scale: 0.6,
-      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      pixelOffset: new Cesium.Cartesian2(0, -20), //偏移量
-      pixelOffsetScaleByDistance: new Cesium.NearFarScalar(0, 5.0, 2e4, 1)
-    })
-    graphic.setModel('examples/data/zhandouji.glb', { scale: 0.5 })
-    layer.addGraphic(graphic)
-
-    graphic.addDynamicPosition(generatePosition(1)[0], 0)
-    graphic.addDynamicPosition(generatePosition(1)[0], 20)
-
-    //定时更新动态位置（setInterval为演示）
-    setInterval(() => {
-      graphic.addDynamicPosition(generatePosition(1)[0], 20)
-    }, 20000)
-    map.flyTo(layer)
+  initViewer(options)
+  map.setOptions({
+    globe: {
+      depthTestAgainstTerrain: true
+    },
+    cameraController: {
+      enableCollisionDetection: false
+    },
+    widgetController: {
+      enableCompass2: true,
+      enableStateBar: true,
+      enableDistanceLegend: true
+    }
   })
+  layer = new Creatar3d.GraphicLayer()
+  map.addLayer(layer)
+  var property = new Cesium.SampledPositionProperty()
+  var tempTime
+
+  //起点
+  tempTime = map.clock.currentTime //飞行开始时间
+  property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.372852, 31.162736, 50))
+
+  //移动到的第1个目标点
+  tempTime = Cesium.JulianDate.addSeconds(tempTime, 120, new Cesium.JulianDate())
+  property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.47105869, 31.156011, 50))
+
+  //移动到的第2个目标点
+  tempTime = Cesium.JulianDate.addSeconds(tempTime, 120, new Cesium.JulianDate())
+  property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.47105869, 31.176336, 50))
+
+  tempTime = Cesium.JulianDate.addSeconds(tempTime, 600, new Cesium.JulianDate())
+  property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.372852, 31.176336, 50))
+
+  console.log(property)
+  const path = new Creatar3d.Path({
+    position: property,
+    style: {
+      leadTime: 0, //前方的路线不显示
+      width: 2,
+      material: Cesium.Color.RED
+    }
+  })
+  path.setModel('examples/data/xiaoqiche.gltf')
+  path.setBillboard({
+    image: 'examples/images/marker/mark3.png',
+    scale: 0.6,
+    horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+    pixelOffset: new Cesium.Cartesian2(0, -20), //偏移量
+    pixelOffsetScaleByDistance: new Cesium.NearFarScalar(0, 5.0, 2e4, 1)
+  })
+  layer.addGraphic(path)
+  var graphic = new Creatar3d.Path({
+    style: {
+      leadTime: 0, //前方的路线不显示
+      width: 3,
+      material: Cesium.Color.BLUE
+    }
+  })
+  graphic.setBillboard({
+    image: 'examples/images/marker/mark3.png',
+    scale: 0.6,
+    horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+    pixelOffset: new Cesium.Cartesian2(0, -20), //偏移量
+    pixelOffsetScaleByDistance: new Cesium.NearFarScalar(0, 5.0, 2e4, 1)
+  })
+  graphic.setModel('examples/data/zhandouji.glb', { scale: 0.5 })
+  layer.addGraphic(graphic)
+
+  graphic.addDynamicPosition(generatePosition(1)[0], 0)
+  graphic.addDynamicPosition(generatePosition(1)[0], 20)
+
+  //定时更新动态位置（setInterval为演示）
+  setInterval(() => {
+    graphic.addDynamicPosition(generatePosition(1)[0], 20)
+  }, 20000)
+  map.flyTo(layer)
 </script>
 <style></style>

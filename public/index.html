@@ -7,7 +7,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <!-- <link rel="stylesheet" href="./sdk/Creatar3d.core.min.css">
    -->
-    <link href="http://192.168.1.158:8005/core/dist/Creatar3d.core.css" rel="stylesheet" />
+    <link href="http://192.168.1.158:8005/packages/creatar/dist/dev/Creatar3d.core.css" rel="stylesheet" />
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
 
@@ -17,9 +17,11 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <!-- <script src='./sdk/Creatar3d.base.min.js'></script>
-  <script src='./sdk/Creatar3d.core.min.js'></script> -->
-    <script src="http://192.168.1.158:8005/base/dist/Creatar3d.base.min.js"></script>
-    <script src="http://192.168.1.158:8005/core/dist/Creatar3d.core.js"></script>
+    <!-- <script src="./sdk/cesium/Cesium.js"></script>
+    <script src="./sdk/turf/turf.min.js"></script>
+    <script src="./sdk/Creatar3d.core.min.js"></script> -->
+    <script src="http://192.168.1.158:8005/ThirdParty/cesium/Cesium.js"></script>
+    <script src="http://192.168.1.158:8005/ThirdParty/turf/turf.min.js"></script>
+    <script src="http://192.168.1.158:8005/packages/creatar/dist/dev/Creatar3d.core.js"></script>
   </body>
 </html>

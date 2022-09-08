@@ -9,46 +9,45 @@
 <div id="viewer-container"></div>
 <script>
   var layer = undefined
-  Creatar3d.ready(initViewer).then(async () => {
-    layer = new Creatar3d.ImageLayer({
-      type: Creatar3d.ImageryType.WMTS,
-      url: 'http://219.142.81.86/igserver/ogc/kvp/TAS10B52000000/WMTSServer',
-      layer: 'TAS10B52000000',
-      style: 'default',
-      format: 'image/png',
-      tileMatrixSetID: 'EPSG:4326_TAS10B52000000_dpi96_GB',
-      tileMatrixLabels: [
-        'EPSG:4326_TAS10B52000000_dpi96_GB:0',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:1',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:2',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:3',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:4',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:5',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:6',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:7',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:8',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:9',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:10',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:11',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:12',
-        'EPSG:4326_TAS10B52000000_dpi96_GB:13'
-      ],
-      tilingScheme: new Cesium.GeographicTilingScheme(),
-      rectangle: Cesium.Rectangle.fromDegrees(73.0, 2.0, 136.5, 56.0)
-    })
-    // // 点击事件
-    // layer.on(
-    //   Creatar3d.LayerEventType.CLICK,
-    //   function (param) {
-    //     console.log(param)
-    //   },
-    //   this
-    // )
-    map.addLayer(this.layer)
-    // 异步飞向
-    this.layer.flyTo().then(() => {
-      console.log(222)
-    })
+  initViewer()
+  layer = new Creatar3d.ImageLayer({
+    type: Creatar3d.ImageryType.WMTS,
+    url: 'http://219.142.81.86/igserver/ogc/kvp/TAS10B52000000/WMTSServer',
+    layer: 'TAS10B52000000',
+    style: 'default',
+    format: 'image/png',
+    tileMatrixSetID: 'EPSG:4326_TAS10B52000000_dpi96_GB',
+    tileMatrixLabels: [
+      'EPSG:4326_TAS10B52000000_dpi96_GB:0',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:1',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:2',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:3',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:4',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:5',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:6',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:7',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:8',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:9',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:10',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:11',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:12',
+      'EPSG:4326_TAS10B52000000_dpi96_GB:13'
+    ],
+    tilingScheme: new Cesium.GeographicTilingScheme(),
+    rectangle: Cesium.Rectangle.fromDegrees(73.0, 2.0, 136.5, 56.0)
+  })
+  // // 点击事件
+  // layer.on(
+  //   Creatar3d.LayerEventType.CLICK,
+  //   function (param) {
+  //     console.log(param)
+  //   },
+  //   this
+  // )
+  map.addLayer(this.layer)
+  // 异步飞向
+  layer.flyTo().then(() => {
+    console.log(222)
   })
 </script>
 <style></style>

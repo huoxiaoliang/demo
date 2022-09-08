@@ -1,25 +1,24 @@
 <div id="viewer-container"></div>
 <script>
   var terrainPlanClipThing = null
-  Creatar3d.ready(initViewer).then(() => {
-    map.setOptions({
-      widgetController: {
-        enableImagerySwitchTerrain: true // 默认加载地形
-      }
-    })
-    map.graphicLayer.draw({
-      type: 'polygon',
-      callback: (graphic) => {
-        terrainPlanClipThing = new Creatar3d.TerrainPlanClip({
-          positions: graphic.positions
-        })
-        map.addThing(terrainPlanClipThing)
-        map.flyToPositions(terrainPlanClipThing.positions)
-      }
-    })
-
-    addGuiController()
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
   })
+  map.graphicLayer.draw({
+    type: 'polygon',
+    callback: (graphic) => {
+      terrainPlanClipThing = new Creatar3d.TerrainPlanClip({
+        positions: graphic.positions.concat([graphic.positions[0]])
+      })
+      map.addThing(terrainPlanClipThing)
+      map.flyToPositions(terrainPlanClipThing.positions)
+    }
+  })
+
+  addGuiController()
 
   function addGuiController() {
     let controls = {

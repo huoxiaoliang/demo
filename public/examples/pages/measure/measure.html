@@ -15,12 +15,12 @@
   var layer = undefined
   var measureFactory = undefined
   var measureObj = undefined
-  Creatar3d.ready(initViewer).then(() => {
-    map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
-    // layer = new Creatar3d.GraphicLayer()
-    // map.addLayer(layer)
-    measureFactory = new Creatar3d.MeasureFactory(map)
-  })
+  initViewer()
+  map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+  // layer = new Creatar3d.GraphicLayer()
+  // map.addLayer(layer)
+  measureFactory = new Creatar3d.MeasureFactory(map)
+
   function measure(type) {
     measureObj = measureFactory.measure(type, (res) => {
       // layer.addGraphic(overlay)

@@ -1,24 +1,24 @@
 <!--
  * @Author: hxl
  * @Date: 2022-04-11 13:17:41
- * @LastEditTime: 2022-04-11 14:23:44
+ * @LastEditTime: 2022-09-08 14:34:59
  * @LastEditors: hxl
  * @Description: 
 -->
 <div id="viewer-container"></div>
 <script>
   var layer = undefined
-  Creatar3d.ready(initViewer).then(() => {
-    layer = new Creatar3d.TilesetLayer()
-    map.addLayer(layer)
-    const tileset = new Creatar3d.Tileset({
-      url: window.dataBase + '/建筑白膜/tileset.json',
-      style: {
-        highlight: { type: 'click', color: '#FFFF00' }
-      }
-    })
-    layer.addGraphic(tileset)
-    let fs = `
+  initViewer()
+  layer = new Creatar3d.TilesetLayer()
+  map.addLayer(layer)
+  const tileset = new Creatar3d.Tileset({
+    url: window.dataBase + '/建筑白膜/tileset.json',
+    style: {
+      highlight: { type: 'click', color: '#FFFF00' }
+    }
+  })
+  layer.addGraphic(tileset)
+  let fs = `
        varying vec3 v_positionEC;
     
        void main(void){
@@ -38,30 +38,29 @@
            gl_FragColor.rgb += gl_FragColor.rgb * (1.0 - diff);
        }
       `
-    tileset.setCustomShader(fs)
-    layer.flyTo()
-    tileset.on(Creatar3d.LayerEventType.CLICK, (res) => {
-      const attr = {}
-      if (res.feature && res.feature.getPropertyNames) {
-        const propertyNames = res.feature.getPropertyNames()
-        propertyNames.forEach((item) => {
-          attr[item] = res.feature.getProperty(item)
-        })
-      }
-      console.log(res)
-    })
-
-    tileset.readyPromise.then(() => {
-      const center = tileset.boundingSphere.center
-      const position = Creatar3d.Transform.transformCartesianToWGS84(center)
-      const l = new Creatar3d.PointLight({
-        position: Cesium.Cartesian3.fromDegrees(position.lng, position.lat, 100),
-        cutoffDistance: 50000000,
-        lightIntensity: 200,
-        decay: 0.0000001
+  tileset.setCustomShader(fs)
+  layer.flyTo()
+  tileset.on(Creatar3d.LayerEventType.CLICK, (res) => {
+    const attr = {}
+    if (res.feature && res.feature.getPropertyNames) {
+      const propertyNames = res.feature.getPropertyNames()
+      propertyNames.forEach((item) => {
+        attr[item] = res.feature.getProperty(item)
       })
-      map.addEffect(l)
+    }
+    console.log(res)
+  })
+
+  tileset.readyPromise.then(() => {
+    const center = tileset.boundingSphere.center
+    const position = Creatar3d.Transform.transformCartesianToWGS84(center)
+    const l = new Creatar3d.PointLight({
+      position: Cesium.Cartesian3.fromDegrees(position.lng, position.lat, 100),
+      cutoffDistance: 50000000,
+      lightIntensity: 200,
+      decay: 0.0000001
     })
+    map.addEffect(l)
   })
 </script>
 <style></style>

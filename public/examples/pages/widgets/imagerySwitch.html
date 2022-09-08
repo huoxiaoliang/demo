@@ -6,13 +6,13 @@
 </div>
 <script>
   var layerOffline = null
-  Creatar3d.ready(initViewer).then(() => {
-    map.setOptions({
-      widgetController: {
-        enableImagerySwitchTerrain: true // 默认加载地形
-      }
-    })
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
   })
+
   function add() {
     const offlineLayer = new Creatar3d.ImageLayer({
       name: '离线影像',

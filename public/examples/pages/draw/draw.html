@@ -1,5 +1,5 @@
 <div id="viewer-container">
-  <div class="group-btn ">
+  <div class="group-btn">
     <button onclick="draw('point')">点</button>
     <button onclick="draw('billboard')">图标点</button>
     <button onclick="draw('polyline')">线</button>
@@ -17,14 +17,13 @@
 <script>
   var plot = undefined
 
-  Creatar3d.ready(initViewer).then(() => {
-    map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
-    plot = new Creatar3d.Plot(map)
-    plot.enableEdit = true
-  })
+  initViewer()
+  map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+  plot = new Creatar3d.Plot(map)
+  plot.enableEdit = true
 
   function draw(type) {
-    plot.draw(type, graphic => {
+    plot.draw(type, (graphic) => {
       console.log(graphic)
     })
   }

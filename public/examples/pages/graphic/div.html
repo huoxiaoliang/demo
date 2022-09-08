@@ -1,7 +1,7 @@
 <!--
  * @Author: hxl
  * @Date: 2021-09-03 12:02:22
- * @LastEditTime: 2021-09-04 11:58:08
+ * @LastEditTime: 2022-09-08 14:37:18
  * @LastEditors: hxl
  * @Description: 
 -->
@@ -9,29 +9,28 @@
 <script>
   var map = undefined
   var layer = undefined
-  Creatar3d.ready(initViewer).then(() => {
-    layer = new Creatar3d.HtmlLayer({ name: 'xxxLayer' })
-    map.addLayer(layer)
-    getJSON('examples/data/section.json', function(data) {
-      const div = new Creatar3d.DivIcon({
-        position: '115.76992505075367, 38.938849159929404',
-        content: `<div class="blackPanel  animation-spaceInDown">
+  initViewer()
+  layer = new Creatar3d.HtmlLayer({ name: 'xxxLayer' })
+  map.addLayer(layer)
+  getJSON('examples/data/section.json', function (data) {
+    const div = new Creatar3d.DivIcon({
+      position: '115.76992505075367, 38.938849159929404',
+      content: `<div class="blackPanel  animation-spaceInDown">
                     <div class="blackPanel-text">三维世界</div>
                 </div>`,
-        style: {
-          distanceDisplayCondition: { near: 0, far: 3000 }
-        }
-      })
-      layer.addGraphic(div)
-
-      layer.on(Creatar3d.LayerEventType.CLICK, res => {
-        console.log(res)
-      })
-      layer.flyTo()
+      style: {
+        distanceDisplayCondition: { near: 0, far: 3000 }
+      }
     })
+    layer.addGraphic(div)
 
-    // map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
+    layer.on(Creatar3d.LayerEventType.CLICK, (res) => {
+      console.log(res)
+    })
+    layer.flyTo()
   })
+
+  // map.flyToPosition([116.6, 29.5, 150000, 0, -45, 0])
 </script>
 <style>
   .blackPanel {
