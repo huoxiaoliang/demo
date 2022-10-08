@@ -67,6 +67,10 @@
           "name": "odLine",
           "label": "北京公交线",
           "pictureType": "gif"
+        },
+        {
+          "name": "polygon",
+          "label": "大数据面"
         }
       ]
     },

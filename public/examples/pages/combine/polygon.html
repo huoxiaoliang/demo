@@ -1,0 +1,59 @@
+<!--
+ * @Author: hxl
+ * @Date: 2022-10-08 16:16:40
+ * @LastEditTime: 2022-10-08 16:20:50
+ * @LastEditors: hxl
+ * @Description: 
+-->
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+
+  initViewer()
+  // 设置默认底图
+  map.imagerySwitch.switchId = map.imagerySwitch.layers[map.imagerySwitch.layers.length - 1].id
+  layer = new Creatar3d.PrimitiveLayer()
+  map.addLayer(layer)
+  const arrData = []
+  for (let j = 0; j < 500; ++j) {
+    const position = generatePosition(1)[0]
+    const positions = []
+    for (let i = 0; i < 12; i++) {
+      const pt = Creatar3d.PointUtil.calculatePositionByDirectionAndLen(position, i * 30, 20)
+      positions.push(pt)
+    }
+
+    arrData.push({
+      positions: positions,
+      style: {
+        // height: 0,
+        extrudedHeight: 100 * Math.random(),
+        arcType: Cesium.ArcType.GEODESIC,
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+        color: Cesium.Color.fromRandom({ alpha: 0.5 })
+      },
+      attr: {
+        name: '第' + j + '个'
+      }
+    })
+  }
+
+  const primitive = new Creatar3d.PolygonCombine({
+    instances: arrData,
+    appearance: new Cesium.PerInstanceColorAppearance({
+      translucent: true,
+      flat: false,
+      closed: false
+    }),
+    style: {
+      clampToGround: false,
+      asynchronous: false
+    }
+  })
+  layer.addGraphic(primitive)
+  primitive.flyTo()
+  layer.on(Creatar3d.LayerEventType.CLICK, (param) => {
+    console.log(param)
+  })
+</script>
+<style></style>
