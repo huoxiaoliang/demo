@@ -1,0 +1,36 @@
+<div id="viewer-container">
+  <div class="info-box">
+    <ul>
+      <li>键盘按键说明</li>
+      <li>W(↑)：前进</li>
+      <li>A(←)：左移</li>
+      <li>S(↓)：后退</li>
+      <li>D(→)：右移</li>
+      <li>SHIFT + W(↑)：抬高</li>
+      <li>SHIFT + S(↓)：降低</li>
+      <li>Q：向左旋转</li>
+      <li>E：向右旋转</li>
+    </ul>
+  </div>
+</div>
+<script>
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true, // 默认加载地形
+      enableKeyboardRoaming: true // 开启行走键盘控制模式
+    }
+  })
+  addGuiController()
+
+  function addGuiController() {
+    let controls = {
+      enable: true
+    }
+    let gui = new dat.GUI()
+    gui.add(controls, 'enable').onChange((value) => {
+      map.keyboardRoaming.enable = value
+    })
+  }
+</script>
+<style></style>

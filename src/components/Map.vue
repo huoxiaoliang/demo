@@ -5,12 +5,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import * as creatar from '../../Source/creatar.js'
-// import * as creatar from '../../Build/creatar.js'
-import '../../Source/creatar.css'
-// 为了方便使用,绑定到原型链，在其他vue文件，直接 this.globe 来使用
-Vue.prototype.creatar = creatar
 export default {
   name: 'globeViewer',
 
@@ -62,21 +56,9 @@ export default {
   methods: {
     initglobe(options) {
       if (this[`map${this.mapKey}`]) return
-
-      const mapOptions = {
-        ...options,
-        ...this.options
-      }
-
       // 创建三维地球场景
-      console.log(creatar)
-      var map = new creatar.Map(`globe-container${this.mapKey}`, mapOptions)
+      const map = new Creatar3d.Viewer(`globe-container${this.mapKey}`, options) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景
       this[`map${this.mapKey}`] = map
-
-      // 挂载到全局对象下，所有组件通过 this.map 访问
-      // Vue.prototype[`map${this.mapKey}`] = map
-
-      // 抛出事件
       this.$emit('onload', map)
     }
   }

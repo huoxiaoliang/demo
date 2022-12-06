@@ -5,13 +5,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "bulid:lib": "webpack --config lib.config.js"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "cesium": "^1.80.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "element-ui": "^2.15.2",
+    "monaco-editor": "^0.20.0",
+    "vue": "^2.6.11",
+    "vue-router": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -20,7 +22,11 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "mini-css-extract-plugin": "^1.6.0",
+    "monaco-editor-webpack-plugin": "^1.9.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.44.0",
     "webpack-cli": "^4.6.0",

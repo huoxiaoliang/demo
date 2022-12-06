@@ -1,0 +1,36 @@
+<div id="viewer-container"></div>
+<script>
+  var terrainPlanClipThing = null
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
+  })
+  map.graphicLayer.draw({
+    type: 'polygon',
+    callback: (graphic) => {
+      terrainPlanClipThing = new Creatar3d.TerrainPlanClip({
+        positions: graphic.positions.concat([graphic.positions[0]])
+      })
+      map.addThing(terrainPlanClipThing)
+      map.flyToPositions(terrainPlanClipThing.positions)
+    }
+  })
+
+  addGuiController()
+
+  function addGuiController() {
+    let controls = {
+      TerrainPlanClip: true
+    }
+    let gui = new dat.GUI()
+    gui
+      .add(controls, 'TerrainPlanClip')
+      .onChange((value) => {
+        terrainPlanClipThing && (terrainPlanClipThing.enable = value)
+      })
+      .name('显示开挖')
+  }
+</script>
+<style></style>

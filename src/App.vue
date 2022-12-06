@@ -1,32 +1,14 @@
 <template>
   <div id="app">
-    <Map :options="opt" @onload="onload" />
+    <router-view />
   </div>
 </template>
 
 <script>
-import Map from './components/Map.vue'
-
 export default {
   name: 'App',
-  data() {
-    return {
-      opt: {}
-    }
-  },
-  components: {
-    Map
-  },
-  created() {
-    this.opt = { imageryProvider: null, navigation: true, showlogo: { show: true } }
-  },
-  methods: {
-    onload(map) {
-      console.log('>>>>> 地图创建成功 >>>>', map)
-      // map.destroy()
-      // console.log('>>>>> 地图销废 >>>>', map)
-    }
-  }
+  methods: {},
+  destroy() {}
 }
 </script>
 
@@ -35,11 +17,13 @@ export default {
   margin: 0;
   padding: 0;
 }
+body {
+  overflow: hidden;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   width: 100vw;
   height: 100vh;

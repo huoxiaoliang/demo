@@ -1,0 +1,205 @@
+{
+  "dev": [
+    {
+      "name": "graphic",
+      "label": "矢量",
+      "children": [
+        {
+          "name": "circle",
+          "label": "圆",
+          "pictureType": "gif"
+        },
+        {
+          "name": "polyLine",
+          "label": "线",
+          "pictureType": "gif"
+        },
+        {
+          "name": "polygonPrimitive",
+          "label": "多边形"
+        },
+        {
+          "name": "modelPrimitive",
+          "label": "glb/gltf"
+        },
+        {
+          "name": "billboardPrimitive",
+          "label": "图片点+文字（Primitive方式）"
+        },
+        {
+          "name": "drill",
+          "label": "钻孔"
+        },
+        {
+          "name": "section",
+          "label": "剖面"
+        },
+        {
+          "name": "div",
+          "label": "DIV元素"
+        },
+        {
+          "name": "textMaterial",
+          "label": "贴图文字"
+        },
+        {
+          "name": "path",
+          "label": "动态路径",
+          "pictureType": "gif"
+        },
+        {
+          "name": "roamLine",
+          "label": "漫游",
+          "pictureType": "gif"
+        },
+        {
+          "name": "tetrahedron",
+          "label": "四面体",
+          "pictureType": "gif"
+        }
+      ]
+    },
+    {
+      "name": "combine",
+      "label": "批量矢量",
+      "children": [
+        {
+          "name": "odLine",
+          "label": "北京公交线",
+          "pictureType": "gif"
+        },
+        {
+          "name": "polygon",
+          "label": "大数据面"
+        }
+      ]
+    },
+    {
+      "name": "layer",
+      "label": "图层",
+      "children": [
+        {
+          "name": "czmlLayer",
+          "label": "czml图层"
+        },
+        {
+          "name": "clusterLayer",
+          "label": "聚合图层"
+        },
+        {
+          "name": "heatLayer",
+          "label": "热力图"
+        },
+        {
+          "name": "imageryLayer",
+          "label": "XYZ影像图层"
+        },
+        {
+          "name": "WMSImageryLayer",
+          "label": "WMS服务图层"
+        },
+        {
+          "name": "wmtsLayer",
+          "label": "WMTS服务图层"
+        },
+        {
+          "name": "arcgisImageryLayer",
+          "label": "Arcgis服务图层"
+        },
+        {
+          "name": "tilesetLayer",
+          "label": "3dtile图层",
+          "pictureType": "gif"
+        }
+      ]
+    },
+    {
+      "name": "draw",
+      "label": "标绘",
+      "children": [
+        {
+          "name": "draw",
+          "label": "标绘"
+        }
+      ]
+    },
+    {
+      "name": "measure",
+      "label": "测量",
+      "children": [
+        {
+          "name": "measure",
+          "label": "测量"
+        }
+      ]
+    },
+    {
+      "name": "widgets",
+      "label": "组件",
+      "children": [
+        {
+          "name": "widgetControl",
+          "label": "基础组件显隐控制"
+        },
+        {
+          "name": "loadingMask",
+          "label": "加载蒙层"
+        },
+        {
+          "name": "KeyboardRoaming",
+          "label": "行走模式"
+        },
+        {
+          "name": "imagerySwitch",
+          "label": "地理地图组件"
+        }
+      ]
+    },
+    {
+      "name": "effect",
+      "label": "特效",
+      "children": [
+        {
+          "name": "weather",
+          "label": "天气",
+          "pictureType": "gif"
+        },
+        {
+          "name": "pointLight",
+          "label": "点光源"
+        }
+      ]
+    },
+    {
+      "name": "particleSystem",
+      "label": "粒子系统",
+      "children": [
+        {
+          "name": "particleSystem",
+          "label": "粒子系统",
+          "pictureType": "gif"
+        }
+      ]
+    },
+    {
+      "name": "material",
+      "label": "材质",
+      "children": [
+        {
+          "name": "wall",
+          "label": "墙"
+        }
+      ]
+    },
+    {
+      "name": "terrain",
+      "label": "地形",
+      "children": [
+        {
+          "name": "terrainPlanClip",
+          "label": "地形开挖"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  initViewer()
+  main()
+  // map.setOptions({
+  //   showMoon: false,
+  //   skyBox: { show: false },
+  //   globe: {
+  //     depthTestAgainstTerrain: true, // 深度检测
+  //     baseColor: new Cesium.Color(0, 0, 0, 0), // 球表面背景色
+  //     translucency: {
+  //       enabled: true // globe is rendered as a translucent surface.
+  //     },
+  //     undergroundColor: new Cesium.Color(0, 0, 0, 0) // 当照相机在地下时，渲染全球的背面的颜色。
+  //   },
+  //   cameraController: {
+  //     enableCollisionDetection: false // 地下模式
+  //   },
+  //   widgetController: {
+  //     enableImagerySwitch: false,
+  //     enableImagerySwitchTerrain: false
+  //   }
+  // })
+  async function main() {
+    layer = await Creatar3d.ImageLayer.build({
+      type: Creatar3d.ImageryType.ARCGIS,
+      url: 'http://cache1.arcgisonline.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer',
+      // maximumLevel: 18,
+      layers: 'China '
+    })
+    // 点击事件
+    layer.on(
+      Creatar3d.LayerEventType.CLICK,
+      function (param) {
+        console.log(param)
+      },
+      this
+    )
+    map.addLayer(layer)
+    map.flyTo(layer)
+  }
+</script>
+<style></style>

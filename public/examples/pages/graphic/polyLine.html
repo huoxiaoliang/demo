@@ -1,0 +1,137 @@
+<div id="viewer-container"></div>
+<script>
+  var map = undefined
+  var layer = undefined
+  initViewer()
+  layer = new Creatar3d.GraphicLayer()
+  map.addLayer(layer)
+
+  // 基础线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75, 36; -125, 36' }).setStyle({
+      width: 2,
+      material: Creatar3d.Cesium.Color.RED,
+      clampToGround: true
+    })
+  )
+  //  发光线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75, 37; -125, 37' }).setStyle({
+      width: 2,
+      material: new Creatar3d.Cesium.PolylineGlowMaterialProperty({
+        glowPower: 0.2,
+        taperPower: 0.5,
+        color: Creatar3d.Cesium.Color.CORNFLOWERBLUE
+      }),
+      clampToGround: true
+    })
+  )
+  // outline
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75,39; -125,39' }).setStyle({
+      width: 8,
+      material: new Creatar3d.Cesium.PolylineOutlineMaterialProperty({
+        color: Creatar3d.Cesium.Color.ORANGE,
+        outlineWidth: 2,
+        outlineColor: Creatar3d.Cesium.Color.BLACK
+      }),
+      clampToGround: true
+    })
+  )
+  // 箭头线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75,43; -125,43' }).setStyle({
+      width: 2,
+      clampToGround: true,
+      material: new Creatar3d.Cesium.PolylineArrowMaterialProperty(Creatar3d.Cesium.Color.PURPLE)
+    })
+  )
+  // 虚线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75,45; -125,45' }).setStyle({
+      width: 2,
+      material: new Creatar3d.Cesium.PolylineDashMaterialProperty({
+        color: Creatar3d.Cesium.Color.CYAN
+      }),
+      clampToGround: true
+    })
+  )
+
+  // 颜色轨迹线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75,46,; -125,46' }).setStyle({
+      width: 2,
+      material: new Creatar3d.PolylineTrailMaterialProperty({
+        color: Creatar3d.Cesium.Color.RED
+      }),
+      clampToGround: true
+    })
+  )
+  // 图片轨迹线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75, 35; -100, 35;-100, 30;-75, 30' }).setStyle({
+      width: 10,
+      material: new Creatar3d.PolylineImageTrailMaterialProperty({
+        color: new Creatar3d.Cesium.Color(0, 1, 1),
+        speed: 20,
+        image: 'examples/images/icon/arrow.png',
+        repeat: { x: 40, y: 1 }
+      }),
+      clampToGround: true
+    })
+  )
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-35, 35; -60, 35;-60, 30;-35, 30' }).setStyle({
+      width: 10,
+      material: new Creatar3d.PolylineImageTrailMaterialProperty({
+        color: Creatar3d.Cesium.Color.BLUE,
+        speed: 20,
+        image: 'examples/images/icon/arrow_1.png',
+        repeat: { x: 40, y: 1 }
+      }),
+      clampToGround: true
+    })
+  )
+  // 流动线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75, 33; -100, 33' }).setStyle({
+      width: 10,
+      material: new Creatar3d.PolylineFlowColorMaterialProperty({
+        color: Creatar3d.Cesium.Color.RED,
+        speed: 5
+      }),
+      clampToGround: true
+    })
+  )
+
+  // 发光轨迹线
+  layer.addGraphic(
+    new Creatar3d.Polyline({ positions: '-75, 34; -100, 34' }).setStyle({
+      width: 10,
+      material: new Creatar3d.PolylineLightingTrailMaterialProperty({
+        color: Creatar3d.Cesium.Color.YELLOW,
+        speed: 5
+      }),
+      clampToGround: true
+    })
+  )
+  // Od轨迹线
+  layer.addGraphic(
+    new Creatar3d.Polyline({
+      positions: '-75, 35; -100, 35',
+      style: {
+        width: 2,
+        // clampToGround: true,
+        material: new Creatar3d.PolylineOdMaterialProperty({
+          bgColor: new Cesium.Color(0.1, 0.7, 0.5, 0.4),
+          color: new Cesium.Color(Math.random() * 0.5 + 0.5, Math.random() * 0.8 + 0.2, 0.0, 1.0),
+          bidirectional: 2,
+          speed: 20 + 1.0 * Math.random(),
+          startTime: Math.random()
+        })
+      }
+    })
+  )
+  map.flyTo(layer)
+</script>
+<style></style>

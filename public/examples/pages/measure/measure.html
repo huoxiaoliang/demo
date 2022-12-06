@@ -1,0 +1,34 @@
+<div id="viewer-container">
+  <div class="group-btn">
+    <button onclick="measure('point')">点</button>
+    <button onclick="measure('distance')">距离</button>
+    <button onclick="measure('height')">高度</button>
+    <button onclick="measure('groundDistance')">贴地距离</button>
+    <button onclick="measure('elevation')">三角测量</button>
+    <button onclick="measure('angle')">角度测量</button>
+    <button onclick="measure('area')">面积</button>
+    <button onclick="measure('volume')">体积</button>
+    <button onclick="remove()">清除</button>
+  </div>
+</div>
+<script>
+  var layer = undefined
+  var measureFactory = undefined
+  var measureObj = undefined
+  initViewer()
+  map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+  // layer = new Creatar3d.GraphicLayer()
+  // map.addLayer(layer)
+  measureFactory = new Creatar3d.MeasureFactory(map)
+
+  function measure(type) {
+    measureObj = measureFactory.measure(type, (res) => {
+      // layer.addGraphic(overlay)
+      //   plot.edit(overlay)
+    })
+  }
+  function remove() {
+    measureFactory.clear()
+  }
+</script>
+<style></style>

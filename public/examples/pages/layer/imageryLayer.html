@@ -1,0 +1,35 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  initViewer()
+  map.setOptions({
+    showMoon: false,
+    skyBox: { show: false },
+    globe: {
+      depthTestAgainstTerrain: true, // 深度检测
+      baseColor: new Cesium.Color(0, 0, 0, 0), // 球表面背景色
+      translucency: {
+        enabled: true // globe is rendered as a translucent surface.
+      },
+      undergroundColor: new Cesium.Color(0, 0, 0, 0) // 当照相机在地下时，渲染全球的背面的颜色。
+    },
+    cameraController: {
+      enableCollisionDetection: false // 地下模式
+    },
+    widgetController: {
+      enableImagerySwitch: false,
+      enableImagerySwitchTerrain: false
+    }
+  })
+  layer = new Creatar3d.ImageLayer({
+    type: Creatar3d.ImageryType.XYZ,
+    url: 'http://203.110.221.146:8031/TianDiTu/img_w/ChinaStatllite/G{z}/Y{y}/_{x}_{y}_{z}', // 雄安地址
+    maximumLevel: 18,
+    credit: 'xa-img_w',
+    tilingScheme: new Cesium.WebMercatorTilingScheme(),
+    rectangle: Cesium.Rectangle.fromDegrees(115.63486591582787, 38.693515218608646, 116.32532611471878, 39.17440734409456)
+  })
+  map.addLayer(layer)
+  map.flyTo(layer)
+</script>
+<style></style>

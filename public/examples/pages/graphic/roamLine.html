@@ -1,0 +1,82 @@
+<div id="viewer-container">
+  <div class="group-btn">
+    <button onclick="pause()">暂停</button>
+    <button onclick="proceed()">继续</button>
+    <button onclick="stop()">停止</button>
+    <button onclick="start()">开始</button>
+    <button onclick="clampStart()">贴地开始</button>
+  </div>
+</div>
+<script>
+  var layer = undefined
+  var roam = null
+  const options = {
+    animation: true, //是否创建动画小器件，左下角仪表
+    timeline: true //是否显示时间线控件
+  }
+
+  initViewer(options)
+  layer = new Creatar3d.GraphicLayer()
+  map.addLayer(layer)
+  var flydata = {
+    name: '步行路线',
+    speed: 40,
+    positions: [
+      [117.220356, 31.833959, 43.67],
+      [117.220361, 31.835111, 44.36],
+      [117.213242, 31.835863, 42.31],
+      [117.211926, 31.835738, 42.14],
+      [117.183103, 31.833906, 47.17],
+      [117.183136, 31.833586, 47.39],
+      [117.183968, 31.833637, 47.05],
+      [117.184038, 31.833134, 47.39],
+      [117.174364, 31.833142, 47.26],
+      [117.164519, 31.853375, 47.04]
+    ],
+    model: {
+      show: true,
+      uri: 'examples/data/zhandouji.glb',
+      scale: 0.02,
+      minimumPixelSize: 10
+    },
+    path: {
+      leadTime: 0, //前方的路线不显示
+      width: 2,
+      material: Cesium.Color.RED
+    },
+    camera: {
+      type: 'gs', //dy: 第一人称模式 gs:跟随模式  sd: 上帝模式
+      followedX: -200,
+      followedZ: 500
+    }
+  }
+  roam = new Creatar3d.RoamLine(flydata)
+  layer.addGraphic(roam)
+  roam.on(Creatar3d.RoamingEventType.OVERPOINT, (param) => {
+    console.log('OVERPOINT', param)
+  })
+  roam.on(Creatar3d.RoamingEventType.END, (event) => {
+    console.log('漫游结束', event)
+  })
+  // roam.start()
+
+  function pause() {
+    roam.pause()
+  }
+  function proceed() {
+    roam.proceed()
+  }
+  function stop() {
+    roam.stop()
+  }
+  function start() {
+    roam.start()
+  }
+  function clampStart() {
+    //  贴地漫游
+    roam.clampToGround({ splitNum: 10, offset: 10 }).then(() => {
+      roam.start()
+    })
+  }
+</script>
+<style></style>

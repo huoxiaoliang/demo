@@ -1,0 +1,28 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  initViewer()
+  getJSON('examples/data/drill.json', function (data) {
+    const points = []
+    data.features.forEach(function (feature) {
+      var lng = feature.geometry.coordinates[0]
+      var lat = feature.geometry.coordinates[1]
+      var value = feature.properties.value
+      points.push({ lng, lat, value })
+    })
+    layer = new Creatar3d.HeatLayer({
+      radius: {
+        1: 5,
+        0.65: 9,
+        0.4: 20,
+        0.2: 50,
+        0: 60
+      }
+    })
+    map.addLayer(layer)
+    layer.setPositions(points)
+
+    map.flyToPosition([116.09, 38.54, 30000, 0, -30])
+  })
+</script>
+<style></style>

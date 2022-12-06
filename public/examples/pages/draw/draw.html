@@ -1,0 +1,33 @@
+<div id="viewer-container">
+  <div class="group-btn">
+    <button onclick="draw('point')">点</button>
+    <button onclick="draw('billboard')">图标点</button>
+    <button onclick="draw('polyline')">线</button>
+    <button onclick="draw('polygon')">多边形</button>
+    <button onclick="draw('circle')">圆</button>
+    <button onclick="draw('rectangle')">矩形</button>
+    <button onclick="draw('attackArrow')">攻击箭头</button>
+    <button onclick="draw('doubleArrow')">双箭头</button>
+    <button onclick="draw('fineArrow')">直箭头</button>
+    <button onclick="draw('tailedAttackArrow')">燕尾箭头</button>
+    <button onclick="draw('gatheringPlace')">聚集地</button>
+    <button onclick="remove()">清除</button>
+  </div>
+</div>
+<script>
+  var plot = undefined
+
+  initViewer()
+  map.flyToPosition([106.4183, 39.0418, 3000, 0, -30])
+  plot = new Creatar3d.Plot(map)
+  plot.enableEdit = true
+
+  function draw(type) {
+    plot.draw(type, (graphic) => {
+      console.log(graphic)
+    })
+  }
+  function remove() {
+    plot.clear()
+  }
+</script>

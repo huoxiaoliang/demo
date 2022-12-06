@@ -1,0 +1,34 @@
+<div id="viewer-container">
+  <div class="group-btn">
+    <button onclick="add()">添加离线影像</button>
+    <button onclick="remove()">移除离线影像</button>
+  </div>
+</div>
+<script>
+  var layerOffline = null
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
+  })
+
+  function add() {
+    const offlineLayer = new Creatar3d.ImageLayer({
+      name: '离线影像',
+      type: Creatar3d.ImageryType.XYZ,
+      url: 'http://192.168.1.158:1000/world_TMS/{z}/{x}/{y}.png'
+    })
+
+    layerOffline = map.imagerySwitch.addLayer({
+      layer: [offlineLayer],
+      iconUrl: 'sdk/images/icon/天地图.png',
+      name: '离线影像',
+      show: true // 添加图层后设置为当前显示
+    })
+  }
+  function remove() {
+    layerOffline && map.imagerySwitch.removeLayer(layerOffline.id)
+  }
+</script>
+<style></style>

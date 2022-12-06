@@ -1,0 +1,52 @@
+<div id="viewer-container"></div>
+<script>
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
+  })
+  addGuiController()
+
+  function addGuiController() {
+    let controls = {
+      compassEnable: false,
+      compass2Enable: true,
+      imagerySwitchEnable: true,
+      distanceLegendEnable: true,
+      zoomControllerEnable: true
+    }
+    let gui = new dat.GUI()
+    gui
+      .add(controls, 'compassEnable')
+      .onChange((value) => {
+        map.compass.enable = value
+      })
+      .name('导航盘')
+    gui
+      .add(controls, 'compass2Enable')
+      .onChange((value) => {
+        map.compass2.enable = value
+      })
+      .name('导航盘2')
+    gui
+      .add(controls, 'imagerySwitchEnable')
+      .onChange((value) => {
+        map.imagerySwitch.enable = value
+      })
+      .name('默认地理底图')
+    gui
+      .add(controls, 'distanceLegendEnable')
+      .onChange((value) => {
+        map.distanceLegend.enable = value
+      })
+      .name('比例尺')
+    gui
+      .add(controls, 'zoomControllerEnable')
+      .onChange((value) => {
+        map.zoomController.enable = value
+      })
+      .name('缩放组件')
+  }
+</script>
+<style></style>
