@@ -187,7 +187,7 @@
       "children": [
         {
           "name": "wall",
-          "label": "墙"
+          "label": "动态墙"
         }
       ]
     },
@@ -198,6 +198,10 @@
         {
           "name": "terrainPlanClip",
           "label": "地形开挖"
+        },
+        {
+          "name": "terrainClip",
+          "label": "凹多边形地形开挖"
         }
       ]
     }
