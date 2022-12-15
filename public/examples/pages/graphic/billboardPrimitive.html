@@ -6,7 +6,7 @@
       enableImagerySwitchTerrain: true // 默认加载地形
     }
   })
-  layer = new Creatar3d.PrimitiveLayer()
+  layer = new Creatar3d.GraphicLayer()
   map.addLayer(layer)
   getJSON('examples/data/point.json', function (data) {
     for (var i = 0, len = data.length; i < len; i++) {
