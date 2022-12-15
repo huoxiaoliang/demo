@@ -1,13 +1,13 @@
 /*
  * @Author: hxl
  * @Date: 2021-08-16 14:58:53
- * @LastEditTime: 2022-04-27 16:00:58
+ * @LastEditTime: 2022-12-12 10:17:33
  * @LastEditors: hxl
  * @Description:
  */
 var map = undefined
 var layer = undefined
-const baseMap = [
+var baseMap = [
   {
     groupId: 10,
     id: 2000,
@@ -110,7 +110,10 @@ const baseMap = [
 ]
 function initViewer(options = {}) {
   map = new Creatar3d.Viewer('viewer-container', { baseMap, ...options })
+  Cesium.Ion.defaultAccessToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMTE0MmQ1Ni1hZWY3LTRjOWItYTExNi0wZTgxOGQ2MDFmMDIiLCJpZCI6MjQ3MDUsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODU2Mzc2Nzl9.HFkB6s3fXV8vqBN-ADu-nDf2Gu_Gy_PaYeM7CqXH3Eo";
   map.setOptions({
+    enableFxaa: true, // 抗锯齿
     globe: {
       depthTestAgainstTerrain: true
     },

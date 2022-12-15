@@ -1,0 +1,57 @@
+<!--
+ * @Author: hxl
+ * @Date: 2022-12-12 10:19:38
+ * @LastEditTime: 2022-12-12 11:11:45
+ * @LastEditors: hxl
+ * @Description: 凹多边形地形裁剪
+-->
+<div id="viewer-container"></div>
+<script>
+  initViewer()
+  map.setOptions({
+    widgetController: {
+      enableImagerySwitchTerrain: true // 默认加载地形
+    }
+  })
+  var terrainClipThing = new Creatar3d.TerrainClip()
+  map.addThing(terrainClipThing)
+
+  addGuiController()
+  function drawPolygon() {
+    map.graphicLayer.draw({
+      type: 'polygon',
+      callback: (graphic) => {
+        terrainClipThing.addArea(graphic.positions)
+        graphic.remove()
+      }
+    })
+  }
+
+  function addGuiController() {
+    let gui = new dat.GUI()
+    let controls = {
+      enable: true,
+      unionClippingRegions: false,
+      draw: drawPolygon,
+      clear: () => {
+        terrainClipThing.clear()
+      }
+    }
+    gui
+      .add(controls, 'enable')
+      .onChange((value) => {
+        terrainClipThing && (terrainClipThing.enable = value)
+      })
+      .name('是否可用')
+    gui
+      .add(controls, 'unionClippingRegions')
+      .onChange((value) => {
+        terrainClipThing && (terrainClipThing.unionClippingRegions = value)
+      })
+      .name('是否外切')
+    gui.add(controls, 'draw').name('绘制范围')
+
+    gui.add(controls, 'clear').name('清除')
+  }
+</script>
+<style></style>

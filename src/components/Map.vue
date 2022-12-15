@@ -45,7 +45,7 @@ export default {
       document.body.appendChild(this.$el)
     }
 
-    this.initglobe(this.options)
+    this.initGlobe(this.options)
   },
 
   destroy() {
@@ -54,7 +54,7 @@ export default {
   },
 
   methods: {
-    initglobe(options) {
+    initGlobe(options) {
       if (this[`map${this.mapKey}`]) return
       // 创建三维地球场景
       const map = new Creatar3d.Viewer(`globe-container${this.mapKey}`, options) // divId 为一个div节点的Id属性值，如果不传入，会无法初始化3D场景

@@ -6,7 +6,7 @@
       enableImagerySwitchTerrain: true // 默认加载地形
     }
   })
-  layer = new Creatar3d.PrimitiveLayer()
+  layer = new Creatar3d.GraphicLayer()
   map.addLayer(layer)
   getJSON('examples/data/point.json', function (data) {
     for (var i = 0, len = data.length; i < len; i++) {
@@ -28,26 +28,27 @@
         font: '15px 楷体',
         fillColor: Cesium.Color.AZURE,
         outline: true,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         outlineColor: Cesium.Color.BLACK,
         outlineWidth: 2,
         horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(15, 0), //偏移量
+        pixelOffset: new Cesium.Cartesian2(15, -20), //偏移量
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 90000)
       })
 
       layer.addGraphic(primitive)
       // 贴地处理
-      primitive.clampToGround()
+      // primitive.clampToGround()
     }
     layer.flyTo()
   })
 
-  layer.layerEvent.on(Creatar3d.LayerEventType.CLICK, (res) => {
+  layer.on(Creatar3d.LayerEventType.CLICK, (res) => {
     console.log(res)
     // 显示弹出信息框
     const item = res.graphic.attr
-    var inthtml =
+    var html =
       '<table style="width: auto;"><tr>' +
       '<th scope="col" colspan="4"  style="text-align:center;font-size:15px;">' +
       item.text +
@@ -66,7 +67,7 @@
       '</td></tr><tr>' +
       '<td colspan="4" style="text-align:right;"></td></tr></table>'
 
-    map.popup.showAt(res.graphic.earthPosition, inthtml)
+    map.popup.showAt(res.graphic.earthPosition, html)
   })
 </script>
 <style></style>
