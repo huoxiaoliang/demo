@@ -1,0 +1,16 @@
+<!--
+ * @Author: hxl
+ * @Date: 2022-12-23 16:31:52
+ * @LastEditTime: 2022-12-23 16:41:54
+ * @LastEditors: hxl
+ * @Description: 
+-->
+
+<div id="viewer-container"></div>
+<script>
+  initViewer()
+  layer = new Creatar3d.S3MLayer({ url: 'examples/data/CBD/cbd.scp' })
+  map.addLayer(layer)
+  layer.flyTo()
+</script>
+<style></style>

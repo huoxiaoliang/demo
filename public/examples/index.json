@@ -110,6 +110,10 @@
           "name": "tilesetLayer",
           "label": "3dtile图层",
           "pictureType": "gif"
+        },
+        {
+          "name": "s3mLayer",
+          "label": "s3m图层"
         }
       ]
     },

@@ -37,7 +37,7 @@ export default {
         },
         widgetController: {
           enableCompass2: true,
-          enableStateBar: true,
+          enableStateBar: true,          
           enableDistanceLegend: true
         }
       })
@@ -46,7 +46,9 @@ export default {
       window.map = map
       this.map = map
       this._resolve({ map })
- 
+      const layer = new Creatar3d.S3MLayer({ url: 'examples/data/CBD/cbd.scp' })
+      map.addLayer(layer)
+      layer.flyTo()
     }
   },
   destroy() {
