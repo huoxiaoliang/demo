@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,378 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./defaultValue-4607806f","./Matrix2-21f90abf","./ArcType-f5af12f9","./Transforms-c450597e","./Color-9a6f77d5","./ComponentDatatype-4028c72d","./RuntimeError-cef79f54","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./IndexDatatype-20e78e57","./PolylinePipeline-2aac2bf9","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./WebGLConstants-f100e3dd","./EllipsoidGeodesic-b1c7082b","./EllipsoidRhumbLine-bf1c0ab0","./IntersectionTests-ef65540c","./Plane-1c5eb32d"],(function(e,o,t,l,r,n,i,a,s,c,p,f,d,y,u,h,C,m){"use strict";function T(e,o,t,l,n,i,a){const s=p.PolylinePipeline.numberOfPoints(e,o,n);let c;const f=t.red,d=t.green,y=t.blue,u=t.alpha,h=l.red,C=l.green,m=l.blue,T=l.alpha;if(r.Color.equals(t,l)){for(c=0;c<s;c++)i[a++]=r.Color.floatToByte(f),i[a++]=r.Color.floatToByte(d),i[a++]=r.Color.floatToByte(y),i[a++]=r.Color.floatToByte(u);return a}const g=(h-f)/s,b=(C-d)/s,_=(m-y)/s,P=(T-u)/s;let B=a;for(c=0;c<s;c++)i[B++]=r.Color.floatToByte(f+c*g),i[B++]=r.Color.floatToByte(d+c*b),i[B++]=r.Color.floatToByte(y+c*_),i[B++]=r.Color.floatToByte(u+c*P);return B}function g(l){const i=(l=e.defaultValue(l,e.defaultValue.EMPTY_OBJECT)).positions,a=l.colors,s=e.defaultValue(l.colorsPerVertex,!1);this._positions=i,this._colors=a,this._colorsPerVertex=s,this._arcType=e.defaultValue(l.arcType,t.ArcType.GEODESIC),this._granularity=e.defaultValue(l.granularity,n.CesiumMath.RADIANS_PER_DEGREE),this._ellipsoid=e.defaultValue(l.ellipsoid,o.Ellipsoid.WGS84),this._workerName="createSimplePolylineGeometry";let c=1+i.length*o.Cartesian3.packedLength;c+=e.defined(a)?1+a.length*r.Color.packedLength:1,this.packedLength=c+o.Ellipsoid.packedLength+3}g.pack=function(t,l,n){let i;n=e.defaultValue(n,0);const a=t._positions;let s=a.length;for(l[n++]=s,i=0;i<s;++i,n+=o.Cartesian3.packedLength)o.Cartesian3.pack(a[i],l,n);const c=t._colors;for(s=e.defined(c)?c.length:0,l[n++]=s,i=0;i<s;++i,n+=r.Color.packedLength)r.Color.pack(c[i],l,n);return o.Ellipsoid.pack(t._ellipsoid,l,n),n+=o.Ellipsoid.packedLength,l[n++]=t._colorsPerVertex?1:0,l[n++]=t._arcType,l[n]=t._granularity,l},g.unpack=function(t,l,n){let i;l=e.defaultValue(l,0);let a=t[l++];const s=new Array(a);for(i=0;i<a;++i,l+=o.Cartesian3.packedLength)s[i]=o.Cartesian3.unpack(t,l);a=t[l++];const c=a>0?new Array(a):void 0;for(i=0;i<a;++i,l+=r.Color.packedLength)c[i]=r.Color.unpack(t,l);const p=o.Ellipsoid.unpack(t,l);l+=o.Ellipsoid.packedLength;const f=1===t[l++],d=t[l++],y=t[l];return e.defined(n)?(n._positions=s,n._colors=c,n._ellipsoid=p,n._colorsPerVertex=f,n._arcType=d,n._granularity=y,n):new g({positions:s,colors:c,ellipsoid:p,colorsPerVertex:f,arcType:d,granularity:y})};const b=new Array(2),_=new Array(2),P={positions:b,height:_,ellipsoid:void 0,minDistance:void 0,granularity:void 0};return g.createGeometry=function(i){const f=i._positions,d=i._colors,y=i._colorsPerVertex,u=i._arcType,h=i._granularity,C=i._ellipsoid,m=n.CesiumMath.chordLength(h,C.maximumRadius),g=e.defined(d)&&!y;let B;const A=f.length;let E,k,G,D,L=0;if(u===t.ArcType.GEODESIC||u===t.ArcType.RHUMB){let o,l,i;u===t.ArcType.GEODESIC?(o=n.CesiumMath.chordLength(h,C.maximumRadius),l=p.PolylinePipeline.numberOfPoints,i=p.PolylinePipeline.generateArc):(o=h,l=p.PolylinePipeline.numberOfPointsRhumbLine,i=p.PolylinePipeline.generateRhumbArc);const a=p.PolylinePipeline.extractHeights(f,C),s=P;if(u===t.ArcType.GEODESIC?s.minDistance=m:s.granularity=h,s.ellipsoid=C,g){let t=0;for(B=0;B<A-1;B++)t+=l(f[B],f[B+1],o)+1;E=new Float64Array(3*t),G=new Uint8Array(4*t),s.positions=b,s.height=_;let n=0;for(B=0;B<A-1;++B){b[0]=f[B],b[1]=f[B+1],_[0]=a[B],_[1]=a[B+1];const o=i(s);if(e.defined(d)){const e=o.length/3;D=d[B];for(let o=0;o<e;++o)G[n++]=r.Color.floatToByte(D.red),G[n++]=r.Color.floatToByte(D.green),G[n++]=r.Color.floatToByte(D.blue),G[n++]=r.Color.floatToByte(D.alpha)}E.set(o,L),L+=o.length}}else if(s.positions=f,s.height=a,E=new Float64Array(i(s)),e.defined(d)){for(G=new Uint8Array(E.length/3*4),B=0;B<A-1;++B){L=T(f[B],f[B+1],d[B],d[B+1],m,G,L)}const e=d[A-1];G[L++]=r.Color.floatToByte(e.red),G[L++]=r.Color.floatToByte(e.green),G[L++]=r.Color.floatToByte(e.blue),G[L++]=r.Color.floatToByte(e.alpha)}}else{k=g?2*A-2:A,E=new Float64Array(3*k),G=e.defined(d)?new Uint8Array(4*k):void 0;let t=0,l=0;for(B=0;B<A;++B){const n=f[B];if(g&&B>0&&(o.Cartesian3.pack(n,E,t),t+=3,D=d[B-1],G[l++]=r.Color.floatToByte(D.red),G[l++]=r.Color.floatToByte(D.green),G[l++]=r.Color.floatToByte(D.blue),G[l++]=r.Color.floatToByte(D.alpha)),g&&B===A-1)break;o.Cartesian3.pack(n,E,t),t+=3,e.defined(d)&&(D=d[B],G[l++]=r.Color.floatToByte(D.red),G[l++]=r.Color.floatToByte(D.green),G[l++]=r.Color.floatToByte(D.blue),G[l++]=r.Color.floatToByte(D.alpha))}}const w=new s.GeometryAttributes;w.position=new a.GeometryAttribute({componentDatatype:n.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:E}),e.defined(d)&&(w.color=new a.GeometryAttribute({componentDatatype:n.ComponentDatatype.UNSIGNED_BYTE,componentsPerAttribute:4,values:G,normalize:!0})),k=E.length/3;const V=2*(k-1),x=c.IndexDatatype.createTypedArray(k,V);let S=0;for(B=0;B<k-1;++B)x[S++]=B,x[S++]=B+1;return new a.Geometry({attributes:w,indices:x,primitiveType:a.PrimitiveType.LINES,boundingSphere:l.BoundingSphere.fromPoints(f)})},function(t,l){return e.defined(l)&&(t=g.unpack(t,l)),t._ellipsoid=o.Ellipsoid.clone(t._ellipsoid),g.createGeometry(t)}}));
+
+import {
+  Color_default
+} from "./chunk-AR5DNBJ4.js";
+import {
+  ArcType_default
+} from "./chunk-IX2JCCNM.js";
+import {
+  PolylinePipeline_default
+} from "./chunk-JCNXK6EL.js";
+import "./chunk-L2ZN645J.js";
+import "./chunk-OVLG3FRS.js";
+import "./chunk-VRGFV2UO.js";
+import "./chunk-XWXM2O2R.js";
+import {
+  IndexDatatype_default
+} from "./chunk-S6SKF6DT.js";
+import {
+  GeometryAttributes_default
+} from "./chunk-VK3EJHWI.js";
+import {
+  GeometryAttribute_default,
+  Geometry_default,
+  PrimitiveType_default
+} from "./chunk-JY5YEZFA.js";
+import {
+  BoundingSphere_default
+} from "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import {
+  ComponentDatatype_default
+} from "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default,
+  Ellipsoid_default
+} from "./chunk-72SANQJV.js";
+import {
+  Math_default
+} from "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import {
+  defaultValue_default
+} from "./chunk-5M3U6ZMA.js";
+import {
+  DeveloperError_default
+} from "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Core/SimplePolylineGeometry.js
+function interpolateColors(p0, p1, color0, color1, minDistance, array, offset) {
+  const numPoints = PolylinePipeline_default.numberOfPoints(p0, p1, minDistance);
+  let i;
+  const r0 = color0.red;
+  const g0 = color0.green;
+  const b0 = color0.blue;
+  const a0 = color0.alpha;
+  const r1 = color1.red;
+  const g1 = color1.green;
+  const b1 = color1.blue;
+  const a1 = color1.alpha;
+  if (Color_default.equals(color0, color1)) {
+    for (i = 0; i < numPoints; i++) {
+      array[offset++] = Color_default.floatToByte(r0);
+      array[offset++] = Color_default.floatToByte(g0);
+      array[offset++] = Color_default.floatToByte(b0);
+      array[offset++] = Color_default.floatToByte(a0);
+    }
+    return offset;
+  }
+  const redPerVertex = (r1 - r0) / numPoints;
+  const greenPerVertex = (g1 - g0) / numPoints;
+  const bluePerVertex = (b1 - b0) / numPoints;
+  const alphaPerVertex = (a1 - a0) / numPoints;
+  let index = offset;
+  for (i = 0; i < numPoints; i++) {
+    array[index++] = Color_default.floatToByte(r0 + i * redPerVertex);
+    array[index++] = Color_default.floatToByte(g0 + i * greenPerVertex);
+    array[index++] = Color_default.floatToByte(b0 + i * bluePerVertex);
+    array[index++] = Color_default.floatToByte(a0 + i * alphaPerVertex);
+  }
+  return index;
+}
+function SimplePolylineGeometry(options) {
+  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  const positions = options.positions;
+  const colors = options.colors;
+  const colorsPerVertex = defaultValue_default(options.colorsPerVertex, false);
+  if (!defined_default(positions) || positions.length < 2) {
+    throw new DeveloperError_default("At least two positions are required.");
+  }
+  if (defined_default(colors) && (colorsPerVertex && colors.length < positions.length || !colorsPerVertex && colors.length < positions.length - 1)) {
+    throw new DeveloperError_default("colors has an invalid length.");
+  }
+  this._positions = positions;
+  this._colors = colors;
+  this._colorsPerVertex = colorsPerVertex;
+  this._arcType = defaultValue_default(options.arcType, ArcType_default.GEODESIC);
+  this._granularity = defaultValue_default(
+    options.granularity,
+    Math_default.RADIANS_PER_DEGREE
+  );
+  this._ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84);
+  this._workerName = "createSimplePolylineGeometry";
+  let numComponents = 1 + positions.length * Cartesian3_default.packedLength;
+  numComponents += defined_default(colors) ? 1 + colors.length * Color_default.packedLength : 1;
+  this.packedLength = numComponents + Ellipsoid_default.packedLength + 3;
+}
+SimplePolylineGeometry.pack = function(value, array, startingIndex) {
+  if (!defined_default(value)) {
+    throw new DeveloperError_default("value is required");
+  }
+  if (!defined_default(array)) {
+    throw new DeveloperError_default("array is required");
+  }
+  startingIndex = defaultValue_default(startingIndex, 0);
+  let i;
+  const positions = value._positions;
+  let length = positions.length;
+  array[startingIndex++] = length;
+  for (i = 0; i < length; ++i, startingIndex += Cartesian3_default.packedLength) {
+    Cartesian3_default.pack(positions[i], array, startingIndex);
+  }
+  const colors = value._colors;
+  length = defined_default(colors) ? colors.length : 0;
+  array[startingIndex++] = length;
+  for (i = 0; i < length; ++i, startingIndex += Color_default.packedLength) {
+    Color_default.pack(colors[i], array, startingIndex);
+  }
+  Ellipsoid_default.pack(value._ellipsoid, array, startingIndex);
+  startingIndex += Ellipsoid_default.packedLength;
+  array[startingIndex++] = value._colorsPerVertex ? 1 : 0;
+  array[startingIndex++] = value._arcType;
+  array[startingIndex] = value._granularity;
+  return array;
+};
+SimplePolylineGeometry.unpack = function(array, startingIndex, result) {
+  if (!defined_default(array)) {
+    throw new DeveloperError_default("array is required");
+  }
+  startingIndex = defaultValue_default(startingIndex, 0);
+  let i;
+  let length = array[startingIndex++];
+  const positions = new Array(length);
+  for (i = 0; i < length; ++i, startingIndex += Cartesian3_default.packedLength) {
+    positions[i] = Cartesian3_default.unpack(array, startingIndex);
+  }
+  length = array[startingIndex++];
+  const colors = length > 0 ? new Array(length) : void 0;
+  for (i = 0; i < length; ++i, startingIndex += Color_default.packedLength) {
+    colors[i] = Color_default.unpack(array, startingIndex);
+  }
+  const ellipsoid = Ellipsoid_default.unpack(array, startingIndex);
+  startingIndex += Ellipsoid_default.packedLength;
+  const colorsPerVertex = array[startingIndex++] === 1;
+  const arcType = array[startingIndex++];
+  const granularity = array[startingIndex];
+  if (!defined_default(result)) {
+    return new SimplePolylineGeometry({
+      positions,
+      colors,
+      ellipsoid,
+      colorsPerVertex,
+      arcType,
+      granularity
+    });
+  }
+  result._positions = positions;
+  result._colors = colors;
+  result._ellipsoid = ellipsoid;
+  result._colorsPerVertex = colorsPerVertex;
+  result._arcType = arcType;
+  result._granularity = granularity;
+  return result;
+};
+var scratchArray1 = new Array(2);
+var scratchArray2 = new Array(2);
+var generateArcOptionsScratch = {
+  positions: scratchArray1,
+  height: scratchArray2,
+  ellipsoid: void 0,
+  minDistance: void 0,
+  granularity: void 0
+};
+SimplePolylineGeometry.createGeometry = function(simplePolylineGeometry) {
+  const positions = simplePolylineGeometry._positions;
+  const colors = simplePolylineGeometry._colors;
+  const colorsPerVertex = simplePolylineGeometry._colorsPerVertex;
+  const arcType = simplePolylineGeometry._arcType;
+  const granularity = simplePolylineGeometry._granularity;
+  const ellipsoid = simplePolylineGeometry._ellipsoid;
+  const minDistance = Math_default.chordLength(
+    granularity,
+    ellipsoid.maximumRadius
+  );
+  const perSegmentColors = defined_default(colors) && !colorsPerVertex;
+  let i;
+  const length = positions.length;
+  let positionValues;
+  let numberOfPositions;
+  let colorValues;
+  let color;
+  let offset = 0;
+  if (arcType === ArcType_default.GEODESIC || arcType === ArcType_default.RHUMB) {
+    let subdivisionSize;
+    let numberOfPointsFunction;
+    let generateArcFunction;
+    if (arcType === ArcType_default.GEODESIC) {
+      subdivisionSize = Math_default.chordLength(
+        granularity,
+        ellipsoid.maximumRadius
+      );
+      numberOfPointsFunction = PolylinePipeline_default.numberOfPoints;
+      generateArcFunction = PolylinePipeline_default.generateArc;
+    } else {
+      subdivisionSize = granularity;
+      numberOfPointsFunction = PolylinePipeline_default.numberOfPointsRhumbLine;
+      generateArcFunction = PolylinePipeline_default.generateRhumbArc;
+    }
+    const heights = PolylinePipeline_default.extractHeights(positions, ellipsoid);
+    const generateArcOptions = generateArcOptionsScratch;
+    if (arcType === ArcType_default.GEODESIC) {
+      generateArcOptions.minDistance = minDistance;
+    } else {
+      generateArcOptions.granularity = granularity;
+    }
+    generateArcOptions.ellipsoid = ellipsoid;
+    if (perSegmentColors) {
+      let positionCount = 0;
+      for (i = 0; i < length - 1; i++) {
+        positionCount += numberOfPointsFunction(
+          positions[i],
+          positions[i + 1],
+          subdivisionSize
+        ) + 1;
+      }
+      positionValues = new Float64Array(positionCount * 3);
+      colorValues = new Uint8Array(positionCount * 4);
+      generateArcOptions.positions = scratchArray1;
+      generateArcOptions.height = scratchArray2;
+      let ci = 0;
+      for (i = 0; i < length - 1; ++i) {
+        scratchArray1[0] = positions[i];
+        scratchArray1[1] = positions[i + 1];
+        scratchArray2[0] = heights[i];
+        scratchArray2[1] = heights[i + 1];
+        const pos = generateArcFunction(generateArcOptions);
+        if (defined_default(colors)) {
+          const segLen = pos.length / 3;
+          color = colors[i];
+          for (let k = 0; k < segLen; ++k) {
+            colorValues[ci++] = Color_default.floatToByte(color.red);
+            colorValues[ci++] = Color_default.floatToByte(color.green);
+            colorValues[ci++] = Color_default.floatToByte(color.blue);
+            colorValues[ci++] = Color_default.floatToByte(color.alpha);
+          }
+        }
+        positionValues.set(pos, offset);
+        offset += pos.length;
+      }
+    } else {
+      generateArcOptions.positions = positions;
+      generateArcOptions.height = heights;
+      positionValues = new Float64Array(
+        generateArcFunction(generateArcOptions)
+      );
+      if (defined_default(colors)) {
+        colorValues = new Uint8Array(positionValues.length / 3 * 4);
+        for (i = 0; i < length - 1; ++i) {
+          const p0 = positions[i];
+          const p1 = positions[i + 1];
+          const c0 = colors[i];
+          const c1 = colors[i + 1];
+          offset = interpolateColors(
+            p0,
+            p1,
+            c0,
+            c1,
+            minDistance,
+            colorValues,
+            offset
+          );
+        }
+        const lastColor = colors[length - 1];
+        colorValues[offset++] = Color_default.floatToByte(lastColor.red);
+        colorValues[offset++] = Color_default.floatToByte(lastColor.green);
+        colorValues[offset++] = Color_default.floatToByte(lastColor.blue);
+        colorValues[offset++] = Color_default.floatToByte(lastColor.alpha);
+      }
+    }
+  } else {
+    numberOfPositions = perSegmentColors ? length * 2 - 2 : length;
+    positionValues = new Float64Array(numberOfPositions * 3);
+    colorValues = defined_default(colors) ? new Uint8Array(numberOfPositions * 4) : void 0;
+    let positionIndex = 0;
+    let colorIndex = 0;
+    for (i = 0; i < length; ++i) {
+      const p = positions[i];
+      if (perSegmentColors && i > 0) {
+        Cartesian3_default.pack(p, positionValues, positionIndex);
+        positionIndex += 3;
+        color = colors[i - 1];
+        colorValues[colorIndex++] = Color_default.floatToByte(color.red);
+        colorValues[colorIndex++] = Color_default.floatToByte(color.green);
+        colorValues[colorIndex++] = Color_default.floatToByte(color.blue);
+        colorValues[colorIndex++] = Color_default.floatToByte(color.alpha);
+      }
+      if (perSegmentColors && i === length - 1) {
+        break;
+      }
+      Cartesian3_default.pack(p, positionValues, positionIndex);
+      positionIndex += 3;
+      if (defined_default(colors)) {
+        color = colors[i];
+        colorValues[colorIndex++] = Color_default.floatToByte(color.red);
+        colorValues[colorIndex++] = Color_default.floatToByte(color.green);
+        colorValues[colorIndex++] = Color_default.floatToByte(color.blue);
+        colorValues[colorIndex++] = Color_default.floatToByte(color.alpha);
+      }
+    }
+  }
+  const attributes = new GeometryAttributes_default();
+  attributes.position = new GeometryAttribute_default({
+    componentDatatype: ComponentDatatype_default.DOUBLE,
+    componentsPerAttribute: 3,
+    values: positionValues
+  });
+  if (defined_default(colors)) {
+    attributes.color = new GeometryAttribute_default({
+      componentDatatype: ComponentDatatype_default.UNSIGNED_BYTE,
+      componentsPerAttribute: 4,
+      values: colorValues,
+      normalize: true
+    });
+  }
+  numberOfPositions = positionValues.length / 3;
+  const numberOfIndices = (numberOfPositions - 1) * 2;
+  const indices = IndexDatatype_default.createTypedArray(
+    numberOfPositions,
+    numberOfIndices
+  );
+  let index = 0;
+  for (i = 0; i < numberOfPositions - 1; ++i) {
+    indices[index++] = i;
+    indices[index++] = i + 1;
+  }
+  return new Geometry_default({
+    attributes,
+    indices,
+    primitiveType: PrimitiveType_default.LINES,
+    boundingSphere: BoundingSphere_default.fromPoints(positions)
+  });
+};
+var SimplePolylineGeometry_default = SimplePolylineGeometry;
+
+// packages/engine/Source/Workers/createSimplePolylineGeometry.js
+function createSimplePolylineGeometry(simplePolylineGeometry, offset) {
+  if (defined_default(offset)) {
+    simplePolylineGeometry = SimplePolylineGeometry_default.unpack(
+      simplePolylineGeometry,
+      offset
+    );
+  }
+  simplePolylineGeometry._ellipsoid = Ellipsoid_default.clone(
+    simplePolylineGeometry._ellipsoid
+  );
+  return SimplePolylineGeometry_default.createGeometry(simplePolylineGeometry);
+}
+var createSimplePolylineGeometry_default = createSimplePolylineGeometry;
+export {
+  createSimplePolylineGeometry_default as default
+};

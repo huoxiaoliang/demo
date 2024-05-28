@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,42 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./Matrix2-21f90abf","./defaultValue-4607806f","./EllipseOutlineGeometry-0087959a","./RuntimeError-cef79f54","./ComponentDatatype-4028c72d","./WebGLConstants-f100e3dd","./Transforms-c450597e","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./EllipseGeometryLibrary-187266ea","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./GeometryOffsetAttribute-3e5f3e97","./IndexDatatype-20e78e57"],(function(e,t,r,i,n,o,a,l,c,s,f,u,m,d){"use strict";return function(i,n){return t.defined(n)&&(i=r.EllipseOutlineGeometry.unpack(i,n)),i._center=e.Cartesian3.clone(i._center),i._ellipsoid=e.Ellipsoid.clone(i._ellipsoid),r.EllipseOutlineGeometry.createGeometry(i)}}));
+
+import {
+  EllipseOutlineGeometry_default
+} from "./chunk-PTQQUQC3.js";
+import "./chunk-2HJWSU7B.js";
+import "./chunk-NKPBIX7F.js";
+import "./chunk-S6SKF6DT.js";
+import "./chunk-VK3EJHWI.js";
+import "./chunk-JY5YEZFA.js";
+import "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default,
+  Ellipsoid_default
+} from "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Workers/createEllipseOutlineGeometry.js
+function createEllipseOutlineGeometry(ellipseGeometry, offset) {
+  if (defined_default(offset)) {
+    ellipseGeometry = EllipseOutlineGeometry_default.unpack(ellipseGeometry, offset);
+  }
+  ellipseGeometry._center = Cartesian3_default.clone(ellipseGeometry._center);
+  ellipseGeometry._ellipsoid = Ellipsoid_default.clone(ellipseGeometry._ellipsoid);
+  return EllipseOutlineGeometry_default.createGeometry(ellipseGeometry);
+}
+var createEllipseOutlineGeometry_default = createEllipseOutlineGeometry;
+export {
+  createEllipseOutlineGeometry_default as default
+};

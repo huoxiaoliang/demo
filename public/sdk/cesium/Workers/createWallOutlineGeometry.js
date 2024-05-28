@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,316 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./defaultValue-4607806f","./Matrix2-21f90abf","./Transforms-c450597e","./ComponentDatatype-4028c72d","./RuntimeError-cef79f54","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./IndexDatatype-20e78e57","./WallGeometryLibrary-e223d3bd","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./WebGLConstants-f100e3dd","./arrayRemoveDuplicates-63c6b4d8","./PolylinePipeline-2aac2bf9","./EllipsoidGeodesic-b1c7082b","./EllipsoidRhumbLine-bf1c0ab0","./IntersectionTests-ef65540c","./Plane-1c5eb32d"],(function(e,i,t,n,o,a,s,r,l,m,d,u,c,p,f,h,g,y){"use strict";const _=new i.Cartesian3,E=new i.Cartesian3;function b(t){const o=(t=e.defaultValue(t,e.defaultValue.EMPTY_OBJECT)).positions,a=t.maximumHeights,s=t.minimumHeights,r=e.defaultValue(t.granularity,n.CesiumMath.RADIANS_PER_DEGREE),l=e.defaultValue(t.ellipsoid,i.Ellipsoid.WGS84);this._positions=o,this._minimumHeights=s,this._maximumHeights=a,this._granularity=r,this._ellipsoid=i.Ellipsoid.clone(l),this._workerName="createWallOutlineGeometry";let m=1+o.length*i.Cartesian3.packedLength+2;e.defined(s)&&(m+=s.length),e.defined(a)&&(m+=a.length),this.packedLength=m+i.Ellipsoid.packedLength+1}b.pack=function(t,n,o){let a;o=e.defaultValue(o,0);const s=t._positions;let r=s.length;for(n[o++]=r,a=0;a<r;++a,o+=i.Cartesian3.packedLength)i.Cartesian3.pack(s[a],n,o);const l=t._minimumHeights;if(r=e.defined(l)?l.length:0,n[o++]=r,e.defined(l))for(a=0;a<r;++a)n[o++]=l[a];const m=t._maximumHeights;if(r=e.defined(m)?m.length:0,n[o++]=r,e.defined(m))for(a=0;a<r;++a)n[o++]=m[a];return i.Ellipsoid.pack(t._ellipsoid,n,o),n[o+=i.Ellipsoid.packedLength]=t._granularity,n};const H=i.Ellipsoid.clone(i.Ellipsoid.UNIT_SPHERE),C={positions:void 0,minimumHeights:void 0,maximumHeights:void 0,ellipsoid:H,granularity:void 0};return b.unpack=function(t,n,o){let a;n=e.defaultValue(n,0);let s=t[n++];const r=new Array(s);for(a=0;a<s;++a,n+=i.Cartesian3.packedLength)r[a]=i.Cartesian3.unpack(t,n);let l,m;if(s=t[n++],s>0)for(l=new Array(s),a=0;a<s;++a)l[a]=t[n++];if(s=t[n++],s>0)for(m=new Array(s),a=0;a<s;++a)m[a]=t[n++];const d=i.Ellipsoid.unpack(t,n,H),u=t[n+=i.Ellipsoid.packedLength];return e.defined(o)?(o._positions=r,o._minimumHeights=l,o._maximumHeights=m,o._ellipsoid=i.Ellipsoid.clone(d,o._ellipsoid),o._granularity=u,o):(C.positions=r,C.minimumHeights=l,C.maximumHeights=m,C.granularity=u,new b(C))},b.fromConstantHeights=function(i){const t=(i=e.defaultValue(i,e.defaultValue.EMPTY_OBJECT)).positions;let n,o;const a=i.minimumHeight,s=i.maximumHeight,r=e.defined(a),l=e.defined(s);if(r||l){const e=t.length;n=r?new Array(e):void 0,o=l?new Array(e):void 0;for(let i=0;i<e;++i)r&&(n[i]=a),l&&(o[i]=s)}return new b({positions:t,maximumHeights:o,minimumHeights:n,ellipsoid:i.ellipsoid})},b.createGeometry=function(o){const m=o._positions,d=o._minimumHeights,u=o._maximumHeights,c=o._granularity,p=o._ellipsoid,f=l.WallGeometryLibrary.computePositions(p,m,u,d,c,!1);if(!e.defined(f))return;const h=f.bottomPositions,g=f.topPositions;let y=g.length,b=2*y;const H=new Float64Array(b);let C,A=0;for(y/=3,C=0;C<y;++C){const e=3*C,t=i.Cartesian3.fromArray(g,e,_),n=i.Cartesian3.fromArray(h,e,E);H[A++]=n.x,H[A++]=n.y,H[A++]=n.z,H[A++]=t.x,H[A++]=t.y,H[A++]=t.z}const k=new s.GeometryAttributes({position:new a.GeometryAttribute({componentDatatype:n.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:H})}),w=b/3;b=2*w-4+w;const x=r.IndexDatatype.createTypedArray(w,b);let G=0;for(C=0;C<w-2;C+=2){const e=C,t=C+2,o=i.Cartesian3.fromArray(H,3*e,_),a=i.Cartesian3.fromArray(H,3*t,E);if(i.Cartesian3.equalsEpsilon(o,a,n.CesiumMath.EPSILON10))continue;const s=C+1,r=C+3;x[G++]=s,x[G++]=e,x[G++]=s,x[G++]=r,x[G++]=e,x[G++]=t}return x[G++]=w-2,x[G++]=w-1,new a.Geometry({attributes:k,indices:x,primitiveType:a.PrimitiveType.LINES,boundingSphere:new t.BoundingSphere.fromVertices(H)})},function(t,n){return e.defined(n)&&(t=b.unpack(t,n)),t._ellipsoid=i.Ellipsoid.clone(t._ellipsoid),b.createGeometry(t)}}));
+
+import {
+  WallGeometryLibrary_default
+} from "./chunk-U2VCRRQW.js";
+import "./chunk-JCNXK6EL.js";
+import "./chunk-L2ZN645J.js";
+import "./chunk-RAEV7K66.js";
+import "./chunk-OVLG3FRS.js";
+import "./chunk-VRGFV2UO.js";
+import "./chunk-XWXM2O2R.js";
+import {
+  IndexDatatype_default
+} from "./chunk-S6SKF6DT.js";
+import {
+  GeometryAttributes_default
+} from "./chunk-VK3EJHWI.js";
+import {
+  GeometryAttribute_default,
+  Geometry_default,
+  PrimitiveType_default
+} from "./chunk-JY5YEZFA.js";
+import {
+  BoundingSphere_default
+} from "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import {
+  ComponentDatatype_default
+} from "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default,
+  Ellipsoid_default
+} from "./chunk-72SANQJV.js";
+import {
+  Math_default
+} from "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import {
+  defaultValue_default
+} from "./chunk-5M3U6ZMA.js";
+import {
+  DeveloperError_default
+} from "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Core/WallOutlineGeometry.js
+var scratchCartesian3Position1 = new Cartesian3_default();
+var scratchCartesian3Position2 = new Cartesian3_default();
+function WallOutlineGeometry(options) {
+  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  const wallPositions = options.positions;
+  const maximumHeights = options.maximumHeights;
+  const minimumHeights = options.minimumHeights;
+  if (!defined_default(wallPositions)) {
+    throw new DeveloperError_default("options.positions is required.");
+  }
+  if (defined_default(maximumHeights) && maximumHeights.length !== wallPositions.length) {
+    throw new DeveloperError_default(
+      "options.positions and options.maximumHeights must have the same length."
+    );
+  }
+  if (defined_default(minimumHeights) && minimumHeights.length !== wallPositions.length) {
+    throw new DeveloperError_default(
+      "options.positions and options.minimumHeights must have the same length."
+    );
+  }
+  const granularity = defaultValue_default(
+    options.granularity,
+    Math_default.RADIANS_PER_DEGREE
+  );
+  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84);
+  this._positions = wallPositions;
+  this._minimumHeights = minimumHeights;
+  this._maximumHeights = maximumHeights;
+  this._granularity = granularity;
+  this._ellipsoid = Ellipsoid_default.clone(ellipsoid);
+  this._workerName = "createWallOutlineGeometry";
+  let numComponents = 1 + wallPositions.length * Cartesian3_default.packedLength + 2;
+  if (defined_default(minimumHeights)) {
+    numComponents += minimumHeights.length;
+  }
+  if (defined_default(maximumHeights)) {
+    numComponents += maximumHeights.length;
+  }
+  this.packedLength = numComponents + Ellipsoid_default.packedLength + 1;
+}
+WallOutlineGeometry.pack = function(value, array, startingIndex) {
+  if (!defined_default(value)) {
+    throw new DeveloperError_default("value is required");
+  }
+  if (!defined_default(array)) {
+    throw new DeveloperError_default("array is required");
+  }
+  startingIndex = defaultValue_default(startingIndex, 0);
+  let i;
+  const positions = value._positions;
+  let length = positions.length;
+  array[startingIndex++] = length;
+  for (i = 0; i < length; ++i, startingIndex += Cartesian3_default.packedLength) {
+    Cartesian3_default.pack(positions[i], array, startingIndex);
+  }
+  const minimumHeights = value._minimumHeights;
+  length = defined_default(minimumHeights) ? minimumHeights.length : 0;
+  array[startingIndex++] = length;
+  if (defined_default(minimumHeights)) {
+    for (i = 0; i < length; ++i) {
+      array[startingIndex++] = minimumHeights[i];
+    }
+  }
+  const maximumHeights = value._maximumHeights;
+  length = defined_default(maximumHeights) ? maximumHeights.length : 0;
+  array[startingIndex++] = length;
+  if (defined_default(maximumHeights)) {
+    for (i = 0; i < length; ++i) {
+      array[startingIndex++] = maximumHeights[i];
+    }
+  }
+  Ellipsoid_default.pack(value._ellipsoid, array, startingIndex);
+  startingIndex += Ellipsoid_default.packedLength;
+  array[startingIndex] = value._granularity;
+  return array;
+};
+var scratchEllipsoid = Ellipsoid_default.clone(Ellipsoid_default.UNIT_SPHERE);
+var scratchOptions = {
+  positions: void 0,
+  minimumHeights: void 0,
+  maximumHeights: void 0,
+  ellipsoid: scratchEllipsoid,
+  granularity: void 0
+};
+WallOutlineGeometry.unpack = function(array, startingIndex, result) {
+  if (!defined_default(array)) {
+    throw new DeveloperError_default("array is required");
+  }
+  startingIndex = defaultValue_default(startingIndex, 0);
+  let i;
+  let length = array[startingIndex++];
+  const positions = new Array(length);
+  for (i = 0; i < length; ++i, startingIndex += Cartesian3_default.packedLength) {
+    positions[i] = Cartesian3_default.unpack(array, startingIndex);
+  }
+  length = array[startingIndex++];
+  let minimumHeights;
+  if (length > 0) {
+    minimumHeights = new Array(length);
+    for (i = 0; i < length; ++i) {
+      minimumHeights[i] = array[startingIndex++];
+    }
+  }
+  length = array[startingIndex++];
+  let maximumHeights;
+  if (length > 0) {
+    maximumHeights = new Array(length);
+    for (i = 0; i < length; ++i) {
+      maximumHeights[i] = array[startingIndex++];
+    }
+  }
+  const ellipsoid = Ellipsoid_default.unpack(array, startingIndex, scratchEllipsoid);
+  startingIndex += Ellipsoid_default.packedLength;
+  const granularity = array[startingIndex];
+  if (!defined_default(result)) {
+    scratchOptions.positions = positions;
+    scratchOptions.minimumHeights = minimumHeights;
+    scratchOptions.maximumHeights = maximumHeights;
+    scratchOptions.granularity = granularity;
+    return new WallOutlineGeometry(scratchOptions);
+  }
+  result._positions = positions;
+  result._minimumHeights = minimumHeights;
+  result._maximumHeights = maximumHeights;
+  result._ellipsoid = Ellipsoid_default.clone(ellipsoid, result._ellipsoid);
+  result._granularity = granularity;
+  return result;
+};
+WallOutlineGeometry.fromConstantHeights = function(options) {
+  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  const positions = options.positions;
+  if (!defined_default(positions)) {
+    throw new DeveloperError_default("options.positions is required.");
+  }
+  let minHeights;
+  let maxHeights;
+  const min = options.minimumHeight;
+  const max = options.maximumHeight;
+  const doMin = defined_default(min);
+  const doMax = defined_default(max);
+  if (doMin || doMax) {
+    const length = positions.length;
+    minHeights = doMin ? new Array(length) : void 0;
+    maxHeights = doMax ? new Array(length) : void 0;
+    for (let i = 0; i < length; ++i) {
+      if (doMin) {
+        minHeights[i] = min;
+      }
+      if (doMax) {
+        maxHeights[i] = max;
+      }
+    }
+  }
+  const newOptions = {
+    positions,
+    maximumHeights: maxHeights,
+    minimumHeights: minHeights,
+    ellipsoid: options.ellipsoid
+  };
+  return new WallOutlineGeometry(newOptions);
+};
+WallOutlineGeometry.createGeometry = function(wallGeometry) {
+  const wallPositions = wallGeometry._positions;
+  const minimumHeights = wallGeometry._minimumHeights;
+  const maximumHeights = wallGeometry._maximumHeights;
+  const granularity = wallGeometry._granularity;
+  const ellipsoid = wallGeometry._ellipsoid;
+  const pos = WallGeometryLibrary_default.computePositions(
+    ellipsoid,
+    wallPositions,
+    maximumHeights,
+    minimumHeights,
+    granularity,
+    false
+  );
+  if (!defined_default(pos)) {
+    return;
+  }
+  const bottomPositions = pos.bottomPositions;
+  const topPositions = pos.topPositions;
+  let length = topPositions.length;
+  let size = length * 2;
+  const positions = new Float64Array(size);
+  let positionIndex = 0;
+  length /= 3;
+  let i;
+  for (i = 0; i < length; ++i) {
+    const i3 = i * 3;
+    const topPosition = Cartesian3_default.fromArray(
+      topPositions,
+      i3,
+      scratchCartesian3Position1
+    );
+    const bottomPosition = Cartesian3_default.fromArray(
+      bottomPositions,
+      i3,
+      scratchCartesian3Position2
+    );
+    positions[positionIndex++] = bottomPosition.x;
+    positions[positionIndex++] = bottomPosition.y;
+    positions[positionIndex++] = bottomPosition.z;
+    positions[positionIndex++] = topPosition.x;
+    positions[positionIndex++] = topPosition.y;
+    positions[positionIndex++] = topPosition.z;
+  }
+  const attributes = new GeometryAttributes_default({
+    position: new GeometryAttribute_default({
+      componentDatatype: ComponentDatatype_default.DOUBLE,
+      componentsPerAttribute: 3,
+      values: positions
+    })
+  });
+  const numVertices = size / 3;
+  size = 2 * numVertices - 4 + numVertices;
+  const indices = IndexDatatype_default.createTypedArray(numVertices, size);
+  let edgeIndex = 0;
+  for (i = 0; i < numVertices - 2; i += 2) {
+    const LL = i;
+    const LR = i + 2;
+    const pl = Cartesian3_default.fromArray(
+      positions,
+      LL * 3,
+      scratchCartesian3Position1
+    );
+    const pr = Cartesian3_default.fromArray(
+      positions,
+      LR * 3,
+      scratchCartesian3Position2
+    );
+    if (Cartesian3_default.equalsEpsilon(pl, pr, Math_default.EPSILON10)) {
+      continue;
+    }
+    const UL = i + 1;
+    const UR = i + 3;
+    indices[edgeIndex++] = UL;
+    indices[edgeIndex++] = LL;
+    indices[edgeIndex++] = UL;
+    indices[edgeIndex++] = UR;
+    indices[edgeIndex++] = LL;
+    indices[edgeIndex++] = LR;
+  }
+  indices[edgeIndex++] = numVertices - 2;
+  indices[edgeIndex++] = numVertices - 1;
+  return new Geometry_default({
+    attributes,
+    indices,
+    primitiveType: PrimitiveType_default.LINES,
+    boundingSphere: new BoundingSphere_default.fromVertices(positions)
+  });
+};
+var WallOutlineGeometry_default = WallOutlineGeometry;
+
+// packages/engine/Source/Workers/createWallOutlineGeometry.js
+function createWallOutlineGeometry(wallGeometry, offset) {
+  if (defined_default(offset)) {
+    wallGeometry = WallOutlineGeometry_default.unpack(wallGeometry, offset);
+  }
+  wallGeometry._ellipsoid = Ellipsoid_default.clone(wallGeometry._ellipsoid);
+  return WallOutlineGeometry_default.createGeometry(wallGeometry);
+}
+var createWallOutlineGeometry_default = createWallOutlineGeometry;
+export {
+  createWallOutlineGeometry_default as default
+};

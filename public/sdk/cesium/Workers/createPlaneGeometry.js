@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,202 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./defaultValue-4607806f","./Transforms-c450597e","./Matrix2-21f90abf","./RuntimeError-cef79f54","./ComponentDatatype-4028c72d","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./VertexFormat-75e8069c","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./WebGLConstants-f100e3dd"],(function(e,t,n,r,a,o,i,m,c,u,p){"use strict";function s(t){t=e.defaultValue(t,e.defaultValue.EMPTY_OBJECT);const n=e.defaultValue(t.vertexFormat,m.VertexFormat.DEFAULT);this._vertexFormat=n,this._workerName="createPlaneGeometry"}s.packedLength=m.VertexFormat.packedLength,s.pack=function(t,n,r){return r=e.defaultValue(r,0),m.VertexFormat.pack(t._vertexFormat,n,r),n};const y=new m.VertexFormat,f={vertexFormat:y};s.unpack=function(t,n,r){n=e.defaultValue(n,0);const a=m.VertexFormat.unpack(t,n,y);return e.defined(r)?(r._vertexFormat=m.VertexFormat.clone(a,r._vertexFormat),r):new s(f)};const l=new n.Cartesian3(-.5,-.5,0),A=new n.Cartesian3(.5,.5,0);return s.createGeometry=function(e){const r=e._vertexFormat,m=new i.GeometryAttributes;let c,u;if(r.position){if(u=new Float64Array(12),u[0]=l.x,u[1]=l.y,u[2]=0,u[3]=A.x,u[4]=l.y,u[5]=0,u[6]=A.x,u[7]=A.y,u[8]=0,u[9]=l.x,u[10]=A.y,u[11]=0,m.position=new o.GeometryAttribute({componentDatatype:a.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:u}),r.normal){const e=new Float32Array(12);e[0]=0,e[1]=0,e[2]=1,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=1,e[9]=0,e[10]=0,e[11]=1,m.normal=new o.GeometryAttribute({componentDatatype:a.ComponentDatatype.FLOAT,componentsPerAttribute:3,values:e})}if(r.st){const e=new Float32Array(8);e[0]=0,e[1]=0,e[2]=1,e[3]=0,e[4]=1,e[5]=1,e[6]=0,e[7]=1,m.st=new o.GeometryAttribute({componentDatatype:a.ComponentDatatype.FLOAT,componentsPerAttribute:2,values:e})}if(r.tangent){const e=new Float32Array(12);e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e[6]=1,e[7]=0,e[8]=0,e[9]=1,e[10]=0,e[11]=0,m.tangent=new o.GeometryAttribute({componentDatatype:a.ComponentDatatype.FLOAT,componentsPerAttribute:3,values:e})}if(r.bitangent){const e=new Float32Array(12);e[0]=0,e[1]=1,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=1,e[8]=0,e[9]=0,e[10]=1,e[11]=0,m.bitangent=new o.GeometryAttribute({componentDatatype:a.ComponentDatatype.FLOAT,componentsPerAttribute:3,values:e})}c=new Uint16Array(6),c[0]=0,c[1]=1,c[2]=2,c[3]=0,c[4]=2,c[5]=3}return new o.Geometry({attributes:m,indices:c,primitiveType:o.PrimitiveType.TRIANGLES,boundingSphere:new t.BoundingSphere(n.Cartesian3.ZERO,Math.sqrt(2))})},function(t,n){return e.defined(n)&&(t=s.unpack(t,n)),s.createGeometry(t)}}));
+
+import {
+  VertexFormat_default
+} from "./chunk-46UD5ABS.js";
+import {
+  GeometryAttributes_default
+} from "./chunk-VK3EJHWI.js";
+import {
+  GeometryAttribute_default,
+  Geometry_default,
+  PrimitiveType_default
+} from "./chunk-JY5YEZFA.js";
+import {
+  BoundingSphere_default
+} from "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import {
+  ComponentDatatype_default
+} from "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default
+} from "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import {
+  defaultValue_default
+} from "./chunk-5M3U6ZMA.js";
+import {
+  Check_default
+} from "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Core/PlaneGeometry.js
+function PlaneGeometry(options) {
+  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  const vertexFormat = defaultValue_default(options.vertexFormat, VertexFormat_default.DEFAULT);
+  this._vertexFormat = vertexFormat;
+  this._workerName = "createPlaneGeometry";
+}
+PlaneGeometry.packedLength = VertexFormat_default.packedLength;
+PlaneGeometry.pack = function(value, array, startingIndex) {
+  Check_default.typeOf.object("value", value);
+  Check_default.defined("array", array);
+  startingIndex = defaultValue_default(startingIndex, 0);
+  VertexFormat_default.pack(value._vertexFormat, array, startingIndex);
+  return array;
+};
+var scratchVertexFormat = new VertexFormat_default();
+var scratchOptions = {
+  vertexFormat: scratchVertexFormat
+};
+PlaneGeometry.unpack = function(array, startingIndex, result) {
+  Check_default.defined("array", array);
+  startingIndex = defaultValue_default(startingIndex, 0);
+  const vertexFormat = VertexFormat_default.unpack(
+    array,
+    startingIndex,
+    scratchVertexFormat
+  );
+  if (!defined_default(result)) {
+    return new PlaneGeometry(scratchOptions);
+  }
+  result._vertexFormat = VertexFormat_default.clone(vertexFormat, result._vertexFormat);
+  return result;
+};
+var min = new Cartesian3_default(-0.5, -0.5, 0);
+var max = new Cartesian3_default(0.5, 0.5, 0);
+PlaneGeometry.createGeometry = function(planeGeometry) {
+  const vertexFormat = planeGeometry._vertexFormat;
+  const attributes = new GeometryAttributes_default();
+  let indices;
+  let positions;
+  if (vertexFormat.position) {
+    positions = new Float64Array(4 * 3);
+    positions[0] = min.x;
+    positions[1] = min.y;
+    positions[2] = 0;
+    positions[3] = max.x;
+    positions[4] = min.y;
+    positions[5] = 0;
+    positions[6] = max.x;
+    positions[7] = max.y;
+    positions[8] = 0;
+    positions[9] = min.x;
+    positions[10] = max.y;
+    positions[11] = 0;
+    attributes.position = new GeometryAttribute_default({
+      componentDatatype: ComponentDatatype_default.DOUBLE,
+      componentsPerAttribute: 3,
+      values: positions
+    });
+    if (vertexFormat.normal) {
+      const normals = new Float32Array(4 * 3);
+      normals[0] = 0;
+      normals[1] = 0;
+      normals[2] = 1;
+      normals[3] = 0;
+      normals[4] = 0;
+      normals[5] = 1;
+      normals[6] = 0;
+      normals[7] = 0;
+      normals[8] = 1;
+      normals[9] = 0;
+      normals[10] = 0;
+      normals[11] = 1;
+      attributes.normal = new GeometryAttribute_default({
+        componentDatatype: ComponentDatatype_default.FLOAT,
+        componentsPerAttribute: 3,
+        values: normals
+      });
+    }
+    if (vertexFormat.st) {
+      const texCoords = new Float32Array(4 * 2);
+      texCoords[0] = 0;
+      texCoords[1] = 0;
+      texCoords[2] = 1;
+      texCoords[3] = 0;
+      texCoords[4] = 1;
+      texCoords[5] = 1;
+      texCoords[6] = 0;
+      texCoords[7] = 1;
+      attributes.st = new GeometryAttribute_default({
+        componentDatatype: ComponentDatatype_default.FLOAT,
+        componentsPerAttribute: 2,
+        values: texCoords
+      });
+    }
+    if (vertexFormat.tangent) {
+      const tangents = new Float32Array(4 * 3);
+      tangents[0] = 1;
+      tangents[1] = 0;
+      tangents[2] = 0;
+      tangents[3] = 1;
+      tangents[4] = 0;
+      tangents[5] = 0;
+      tangents[6] = 1;
+      tangents[7] = 0;
+      tangents[8] = 0;
+      tangents[9] = 1;
+      tangents[10] = 0;
+      tangents[11] = 0;
+      attributes.tangent = new GeometryAttribute_default({
+        componentDatatype: ComponentDatatype_default.FLOAT,
+        componentsPerAttribute: 3,
+        values: tangents
+      });
+    }
+    if (vertexFormat.bitangent) {
+      const bitangents = new Float32Array(4 * 3);
+      bitangents[0] = 0;
+      bitangents[1] = 1;
+      bitangents[2] = 0;
+      bitangents[3] = 0;
+      bitangents[4] = 1;
+      bitangents[5] = 0;
+      bitangents[6] = 0;
+      bitangents[7] = 1;
+      bitangents[8] = 0;
+      bitangents[9] = 0;
+      bitangents[10] = 1;
+      bitangents[11] = 0;
+      attributes.bitangent = new GeometryAttribute_default({
+        componentDatatype: ComponentDatatype_default.FLOAT,
+        componentsPerAttribute: 3,
+        values: bitangents
+      });
+    }
+    indices = new Uint16Array(2 * 3);
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 0;
+    indices[4] = 2;
+    indices[5] = 3;
+  }
+  return new Geometry_default({
+    attributes,
+    indices,
+    primitiveType: PrimitiveType_default.TRIANGLES,
+    boundingSphere: new BoundingSphere_default(Cartesian3_default.ZERO, Math.sqrt(2))
+  });
+};
+var PlaneGeometry_default = PlaneGeometry;
+
+// packages/engine/Source/Workers/createPlaneGeometry.js
+function createPlaneGeometry(planeGeometry, offset) {
+  if (defined_default(offset)) {
+    planeGeometry = PlaneGeometry_default.unpack(planeGeometry, offset);
+  }
+  return PlaneGeometry_default.createGeometry(planeGeometry);
+}
+var createPlaneGeometry_default = createPlaneGeometry;
+export {
+  createPlaneGeometry_default as default
+};

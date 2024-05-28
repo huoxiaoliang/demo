@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>示例</title>
-    <link href="sdk/Creatar3d.core.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="sdk/Creatar3d.css" />
     <script src="examples/thirdPart/dat.gui.js"></script>
-    <script src="sdk/Creatar3d.base.min.js"></script>
-    <script src="sdk/Creatar3d.core.min.js"></script>
+
+    <script src="sdk/Creatar3d.js"></script>
     <script src="examples/pages/index.js"></script>
 
     <link href="examples/pages/index.css" rel="stylesheet" />
     <script>
+      window.Cesium = Creatar3d.Cesium
       window.dataBase = 'http://192.168.1.158:1000'
     </script>
     <cssTemp />

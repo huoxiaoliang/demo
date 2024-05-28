@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,91 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./AttributeCompression-b8c8fcdc","./Matrix2-21f90abf","./ComponentDatatype-4028c72d","./createTaskProcessorWorker","./RuntimeError-cef79f54","./defaultValue-4607806f","./WebGLConstants-f100e3dd"],(function(e,t,a,r,n,o,i){"use strict";const s=32767,c=new t.Cartographic,u=new t.Cartesian3,f=new t.Rectangle,p=new t.Ellipsoid,l={min:void 0,max:void 0};return r((function(r,n){const o=new Uint16Array(r.positions);!function(e){e=new Float64Array(e);let a=0;l.min=e[a++],l.max=e[a++],t.Rectangle.unpack(e,a,f),a+=t.Rectangle.packedLength,t.Ellipsoid.unpack(e,a,p)}(r.packedBuffer);const i=f,d=p,m=l.min,h=l.max,C=o.length/3,g=o.subarray(0,C),b=o.subarray(C,2*C),w=o.subarray(2*C,3*C);e.AttributeCompression.zigZagDeltaDecode(g,b,w);const k=new Float64Array(o.length);for(let e=0;e<C;++e){const r=g[e],n=b[e],o=w[e],f=a.CesiumMath.lerp(i.west,i.east,r/s),p=a.CesiumMath.lerp(i.south,i.north,n/s),l=a.CesiumMath.lerp(m,h,o/s),C=t.Cartographic.fromRadians(f,p,l,c),y=d.cartographicToCartesian(C,u);t.Cartesian3.pack(y,k,3*e)}return n.push(k.buffer),{positions:k.buffer}}))}));
+
+import {
+  createTaskProcessorWorker_default
+} from "./chunk-ODW7WYM4.js";
+import {
+  AttributeCompression_default
+} from "./chunk-R5X4OQT4.js";
+import {
+  Rectangle_default
+} from "./chunk-QZAD5O7I.js";
+import "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default,
+  Cartographic_default,
+  Ellipsoid_default
+} from "./chunk-72SANQJV.js";
+import {
+  Math_default
+} from "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import "./chunk-S4MAZ3SS.js";
+import "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Workers/createVectorTilePoints.js
+var maxShort = 32767;
+var scratchBVCartographic = new Cartographic_default();
+var scratchEncodedPosition = new Cartesian3_default();
+var scratchRectangle = new Rectangle_default();
+var scratchEllipsoid = new Ellipsoid_default();
+var scratchMinMaxHeights = {
+  min: void 0,
+  max: void 0
+};
+function unpackBuffer(packedBuffer) {
+  packedBuffer = new Float64Array(packedBuffer);
+  let offset = 0;
+  scratchMinMaxHeights.min = packedBuffer[offset++];
+  scratchMinMaxHeights.max = packedBuffer[offset++];
+  Rectangle_default.unpack(packedBuffer, offset, scratchRectangle);
+  offset += Rectangle_default.packedLength;
+  Ellipsoid_default.unpack(packedBuffer, offset, scratchEllipsoid);
+}
+function createVectorTilePoints(parameters, transferableObjects) {
+  const positions = new Uint16Array(parameters.positions);
+  unpackBuffer(parameters.packedBuffer);
+  const rectangle = scratchRectangle;
+  const ellipsoid = scratchEllipsoid;
+  const minimumHeight = scratchMinMaxHeights.min;
+  const maximumHeight = scratchMinMaxHeights.max;
+  const positionsLength = positions.length / 3;
+  const uBuffer = positions.subarray(0, positionsLength);
+  const vBuffer = positions.subarray(positionsLength, 2 * positionsLength);
+  const heightBuffer = positions.subarray(
+    2 * positionsLength,
+    3 * positionsLength
+  );
+  AttributeCompression_default.zigZagDeltaDecode(uBuffer, vBuffer, heightBuffer);
+  const decoded = new Float64Array(positions.length);
+  for (let i = 0; i < positionsLength; ++i) {
+    const u = uBuffer[i];
+    const v = vBuffer[i];
+    const h = heightBuffer[i];
+    const lon = Math_default.lerp(rectangle.west, rectangle.east, u / maxShort);
+    const lat = Math_default.lerp(rectangle.south, rectangle.north, v / maxShort);
+    const alt = Math_default.lerp(minimumHeight, maximumHeight, h / maxShort);
+    const cartographic = Cartographic_default.fromRadians(
+      lon,
+      lat,
+      alt,
+      scratchBVCartographic
+    );
+    const decodedPosition = ellipsoid.cartographicToCartesian(
+      cartographic,
+      scratchEncodedPosition
+    );
+    Cartesian3_default.pack(decodedPosition, decoded, i * 3);
+  }
+  transferableObjects.push(decoded.buffer);
+  return {
+    positions: decoded.buffer
+  };
+}
+var createVectorTilePoints_default = createTaskProcessorWorker_default(createVectorTilePoints);
+export {
+  createVectorTilePoints_default as default
+};

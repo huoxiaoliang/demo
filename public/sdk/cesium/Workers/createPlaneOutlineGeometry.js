@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,102 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./defaultValue-4607806f","./Transforms-c450597e","./Matrix2-21f90abf","./RuntimeError-cef79f54","./ComponentDatatype-4028c72d","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./WebGLConstants-f100e3dd"],(function(e,t,n,r,a,i,o,c,u,s){"use strict";function m(){this._workerName="createPlaneOutlineGeometry"}m.packedLength=0,m.pack=function(e,t){return t},m.unpack=function(t,n,r){return e.defined(r)?r:new m};const y=new n.Cartesian3(-.5,-.5,0),f=new n.Cartesian3(.5,.5,0);return m.createGeometry=function(){const e=new o.GeometryAttributes,r=new Uint16Array(8),c=new Float64Array(12);return c[0]=y.x,c[1]=y.y,c[2]=y.z,c[3]=f.x,c[4]=y.y,c[5]=y.z,c[6]=f.x,c[7]=f.y,c[8]=y.z,c[9]=y.x,c[10]=f.y,c[11]=y.z,e.position=new i.GeometryAttribute({componentDatatype:a.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:c}),r[0]=0,r[1]=1,r[2]=1,r[3]=2,r[4]=2,r[5]=3,r[6]=3,r[7]=0,new i.Geometry({attributes:e,indices:r,primitiveType:i.PrimitiveType.LINES,boundingSphere:new t.BoundingSphere(n.Cartesian3.ZERO,Math.sqrt(2))})},function(t,n){return e.defined(n)&&(t=m.unpack(t,n)),m.createGeometry(t)}}));
+
+import {
+  GeometryAttributes_default
+} from "./chunk-VK3EJHWI.js";
+import {
+  GeometryAttribute_default,
+  Geometry_default,
+  PrimitiveType_default
+} from "./chunk-JY5YEZFA.js";
+import {
+  BoundingSphere_default
+} from "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import {
+  ComponentDatatype_default
+} from "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default
+} from "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import {
+  Check_default
+} from "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Core/PlaneOutlineGeometry.js
+function PlaneOutlineGeometry() {
+  this._workerName = "createPlaneOutlineGeometry";
+}
+PlaneOutlineGeometry.packedLength = 0;
+PlaneOutlineGeometry.pack = function(value, array) {
+  Check_default.defined("value", value);
+  Check_default.defined("array", array);
+  return array;
+};
+PlaneOutlineGeometry.unpack = function(array, startingIndex, result) {
+  Check_default.defined("array", array);
+  if (!defined_default(result)) {
+    return new PlaneOutlineGeometry();
+  }
+  return result;
+};
+var min = new Cartesian3_default(-0.5, -0.5, 0);
+var max = new Cartesian3_default(0.5, 0.5, 0);
+PlaneOutlineGeometry.createGeometry = function() {
+  const attributes = new GeometryAttributes_default();
+  const indices = new Uint16Array(4 * 2);
+  const positions = new Float64Array(4 * 3);
+  positions[0] = min.x;
+  positions[1] = min.y;
+  positions[2] = min.z;
+  positions[3] = max.x;
+  positions[4] = min.y;
+  positions[5] = min.z;
+  positions[6] = max.x;
+  positions[7] = max.y;
+  positions[8] = min.z;
+  positions[9] = min.x;
+  positions[10] = max.y;
+  positions[11] = min.z;
+  attributes.position = new GeometryAttribute_default({
+    componentDatatype: ComponentDatatype_default.DOUBLE,
+    componentsPerAttribute: 3,
+    values: positions
+  });
+  indices[0] = 0;
+  indices[1] = 1;
+  indices[2] = 1;
+  indices[3] = 2;
+  indices[4] = 2;
+  indices[5] = 3;
+  indices[6] = 3;
+  indices[7] = 0;
+  return new Geometry_default({
+    attributes,
+    indices,
+    primitiveType: PrimitiveType_default.LINES,
+    boundingSphere: new BoundingSphere_default(Cartesian3_default.ZERO, Math.sqrt(2))
+  });
+};
+var PlaneOutlineGeometry_default = PlaneOutlineGeometry;
+
+// packages/engine/Source/Workers/createPlaneOutlineGeometry.js
+function createPlaneOutlineGeometry(planeGeometry, offset) {
+  if (defined_default(offset)) {
+    planeGeometry = PlaneOutlineGeometry_default.unpack(planeGeometry, offset);
+  }
+  return PlaneOutlineGeometry_default.createGeometry(planeGeometry);
+}
+var createPlaneOutlineGeometry_default = createPlaneOutlineGeometry;
+export {
+  createPlaneOutlineGeometry_default as default
+};

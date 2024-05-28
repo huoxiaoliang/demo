@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,363 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./AttributeCompression-b8c8fcdc","./Matrix2-21f90abf","./Color-9a6f77d5","./defaultValue-4607806f","./IndexDatatype-20e78e57","./ComponentDatatype-4028c72d","./OrientedBoundingBox-5c06247e","./createTaskProcessorWorker","./RuntimeError-cef79f54","./Transforms-c450597e","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./WebGLConstants-f100e3dd","./EllipsoidTangentPlane-69b6e1fd","./AxisAlignedBoundingBox-cd3761c7","./IntersectionTests-ef65540c","./Plane-1c5eb32d"],(function(e,t,n,a,r,o,s,i,c,f,d,l,u,h,g,p,b){"use strict";const m=new t.Cartesian3,y=new t.Ellipsoid,C=new t.Rectangle,I={min:void 0,max:void 0,indexBytesPerElement:void 0};function x(e,t,a){const r=t.length,o=2+r*s.OrientedBoundingBox.packedLength+1+function(e){const t=e.length;let a=0;for(let r=0;r<t;++r)a+=n.Color.packedLength+3+e[r].batchIds.length;return a}(a),i=new Float64Array(o);let c=0;i[c++]=e,i[c++]=r;for(let e=0;e<r;++e)s.OrientedBoundingBox.pack(t[e],i,c),c+=s.OrientedBoundingBox.packedLength;const f=a.length;i[c++]=f;for(let e=0;e<f;++e){const t=a[e];n.Color.pack(t.color,i,c),c+=n.Color.packedLength,i[c++]=t.offset,i[c++]=t.count;const r=t.batchIds,o=r.length;i[c++]=o;for(let e=0;e<o;++e)i[c++]=r[e]}return i}const w=new t.Cartesian3,A=new t.Cartesian3,E=new t.Cartesian3,N=new t.Cartesian3,T=new t.Cartesian3,B=new t.Cartographic,k=new t.Rectangle;return i((function(i,c){let f;!function(e){const n=new Float64Array(e);let a=0;I.indexBytesPerElement=n[a++],I.min=n[a++],I.max=n[a++],t.Cartesian3.unpack(n,a,m),a+=t.Cartesian3.packedLength,t.Ellipsoid.unpack(n,a,y),a+=t.Ellipsoid.packedLength,t.Rectangle.unpack(n,a,C)}(i.packedBuffer),f=2===I.indexBytesPerElement?new Uint16Array(i.indices):new Uint32Array(i.indices);const d=new Uint16Array(i.positions),l=new Uint32Array(i.counts),u=new Uint32Array(i.indexCounts),h=new Uint32Array(i.batchIds),g=new Uint32Array(i.batchTableColors),p=new Array(l.length),b=m,L=y;let O=C;const U=I.min,P=I.max;let F,S,D,R=i.minimumHeights,_=i.maximumHeights;a.defined(R)&&a.defined(_)&&(R=new Float32Array(R),_=new Float32Array(_));const M=d.length/2,G=d.subarray(0,M),V=d.subarray(M,2*M);e.AttributeCompression.zigZagDeltaDecode(G,V);const Y=new Float64Array(3*M);for(F=0;F<M;++F){const e=G[F],n=V[F],a=o.CesiumMath.lerp(O.west,O.east,e/32767),r=o.CesiumMath.lerp(O.south,O.north,n/32767),s=t.Cartographic.fromRadians(a,r,0,B),i=L.cartographicToCartesian(s,w);t.Cartesian3.pack(i,Y,3*F)}const H=l.length,v=new Array(H),W=new Array(H);let j=0,z=0;for(F=0;F<H;++F)v[F]=j,W[F]=z,j+=l[F],z+=u[F];const Z=new Float32Array(3*M*2),q=new Uint16Array(2*M),J=new Uint32Array(W.length),K=new Uint32Array(u.length);let Q=[];const X={};for(F=0;F<H;++F)D=g[F],a.defined(X[D])?(X[D].positionLength+=l[F],X[D].indexLength+=u[F],X[D].batchIds.push(F)):X[D]={positionLength:l[F],indexLength:u[F],offset:0,indexOffset:0,batchIds:[F]};let $,ee=0,te=0;for(D in X)if(X.hasOwnProperty(D)){$=X[D],$.offset=ee,$.indexOffset=te;const e=2*$.positionLength,t=2*$.indexLength+6*$.positionLength;ee+=e,te+=t,$.indexLength=t}const ne=[];for(D in X)X.hasOwnProperty(D)&&($=X[D],ne.push({color:n.Color.fromRgba(parseInt(D)),offset:$.indexOffset,count:$.indexLength,batchIds:$.batchIds}));for(F=0;F<H;++F){D=g[F],$=X[D];const e=$.offset;let n=3*e,r=e;const o=v[F],i=l[F],c=h[F];let d=U,m=P;a.defined(R)&&a.defined(_)&&(d=R[F],m=_[F]);let y=Number.POSITIVE_INFINITY,C=Number.NEGATIVE_INFINITY,I=Number.POSITIVE_INFINITY,x=Number.NEGATIVE_INFINITY;for(S=0;S<i;++S){const e=t.Cartesian3.unpack(Y,3*o+3*S,w);L.scaleToGeodeticSurface(e,e);const a=L.cartesianToCartographic(e,B),s=a.latitude,i=a.longitude;y=Math.min(s,y),C=Math.max(s,C),I=Math.min(i,I),x=Math.max(i,x);const f=L.geodeticSurfaceNormal(e,A);let l=t.Cartesian3.multiplyByScalar(f,d,E);const u=t.Cartesian3.add(e,l,N);l=t.Cartesian3.multiplyByScalar(f,m,l);const h=t.Cartesian3.add(e,l,T);t.Cartesian3.subtract(h,b,h),t.Cartesian3.subtract(u,b,u),t.Cartesian3.pack(h,Z,n),t.Cartesian3.pack(u,Z,n+3),q[r]=c,q[r+1]=c,n+=6,r+=2}O=k,O.west=I,O.east=x,O.south=y,O.north=C,p[F]=s.OrientedBoundingBox.fromRectangle(O,U,P,L);let M=$.indexOffset;const G=W[F],V=u[F];for(J[F]=M,S=0;S<V;S+=3){const t=f[G+S]-o,n=f[G+S+1]-o,a=f[G+S+2]-o;Q[M++]=2*t+e,Q[M++]=2*n+e,Q[M++]=2*a+e,Q[M++]=2*a+1+e,Q[M++]=2*n+1+e,Q[M++]=2*t+1+e}for(S=0;S<i;++S){const t=S,n=(S+1)%i;Q[M++]=2*t+1+e,Q[M++]=2*n+e,Q[M++]=2*t+e,Q[M++]=2*t+1+e,Q[M++]=2*n+1+e,Q[M++]=2*n+e}$.offset+=2*i,$.indexOffset=M,K[F]=M-J[F]}Q=r.IndexDatatype.createTypedArray(Z.length/3,Q);const ae=ne.length;for(let e=0;e<ae;++e){const t=ne[e].batchIds;let n=0;const a=t.length;for(let e=0;e<a;++e)n+=K[t[e]];ne[e].count=n}const re=x(2===Q.BYTES_PER_ELEMENT?r.IndexDatatype.UNSIGNED_SHORT:r.IndexDatatype.UNSIGNED_INT,p,ne);return c.push(Z.buffer,Q.buffer,J.buffer,K.buffer,q.buffer,re.buffer),{positions:Z.buffer,indices:Q.buffer,indexOffsets:J.buffer,indexCounts:K.buffer,batchIds:q.buffer,packedBuffer:re.buffer}}))}));
+
+import {
+  Color_default
+} from "./chunk-AR5DNBJ4.js";
+import {
+  createTaskProcessorWorker_default
+} from "./chunk-ODW7WYM4.js";
+import {
+  OrientedBoundingBox_default
+} from "./chunk-FP6GYBFX.js";
+import {
+  AttributeCompression_default
+} from "./chunk-R5X4OQT4.js";
+import "./chunk-PNBGBETF.js";
+import "./chunk-AIPU2VSX.js";
+import "./chunk-VRGFV2UO.js";
+import "./chunk-XWXM2O2R.js";
+import {
+  IndexDatatype_default
+} from "./chunk-S6SKF6DT.js";
+import "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import {
+  Rectangle_default
+} from "./chunk-QZAD5O7I.js";
+import "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default,
+  Cartographic_default,
+  Ellipsoid_default
+} from "./chunk-72SANQJV.js";
+import {
+  Math_default
+} from "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Workers/createVectorTilePolygons.js
+var scratchCenter = new Cartesian3_default();
+var scratchEllipsoid = new Ellipsoid_default();
+var scratchRectangle = new Rectangle_default();
+var scratchScalars = {
+  min: void 0,
+  max: void 0,
+  indexBytesPerElement: void 0
+};
+function unpackBuffer(buffer) {
+  const packedBuffer = new Float64Array(buffer);
+  let offset = 0;
+  scratchScalars.indexBytesPerElement = packedBuffer[offset++];
+  scratchScalars.min = packedBuffer[offset++];
+  scratchScalars.max = packedBuffer[offset++];
+  Cartesian3_default.unpack(packedBuffer, offset, scratchCenter);
+  offset += Cartesian3_default.packedLength;
+  Ellipsoid_default.unpack(packedBuffer, offset, scratchEllipsoid);
+  offset += Ellipsoid_default.packedLength;
+  Rectangle_default.unpack(packedBuffer, offset, scratchRectangle);
+}
+function packedBatchedIndicesLength(batchedIndices) {
+  const length = batchedIndices.length;
+  let count = 0;
+  for (let i = 0; i < length; ++i) {
+    count += Color_default.packedLength + 3 + batchedIndices[i].batchIds.length;
+  }
+  return count;
+}
+function packBuffer(indexDatatype, boundingVolumes, batchedIndices) {
+  const numBVs = boundingVolumes.length;
+  const length = 1 + 1 + numBVs * OrientedBoundingBox_default.packedLength + 1 + packedBatchedIndicesLength(batchedIndices);
+  const packedBuffer = new Float64Array(length);
+  let offset = 0;
+  packedBuffer[offset++] = indexDatatype;
+  packedBuffer[offset++] = numBVs;
+  for (let i = 0; i < numBVs; ++i) {
+    OrientedBoundingBox_default.pack(boundingVolumes[i], packedBuffer, offset);
+    offset += OrientedBoundingBox_default.packedLength;
+  }
+  const indicesLength = batchedIndices.length;
+  packedBuffer[offset++] = indicesLength;
+  for (let j = 0; j < indicesLength; ++j) {
+    const batchedIndex = batchedIndices[j];
+    Color_default.pack(batchedIndex.color, packedBuffer, offset);
+    offset += Color_default.packedLength;
+    packedBuffer[offset++] = batchedIndex.offset;
+    packedBuffer[offset++] = batchedIndex.count;
+    const batchIds = batchedIndex.batchIds;
+    const batchIdsLength = batchIds.length;
+    packedBuffer[offset++] = batchIdsLength;
+    for (let k = 0; k < batchIdsLength; ++k) {
+      packedBuffer[offset++] = batchIds[k];
+    }
+  }
+  return packedBuffer;
+}
+var maxShort = 32767;
+var scratchEncodedPosition = new Cartesian3_default();
+var scratchNormal = new Cartesian3_default();
+var scratchScaledNormal = new Cartesian3_default();
+var scratchMinHeightPosition = new Cartesian3_default();
+var scratchMaxHeightPosition = new Cartesian3_default();
+var scratchBVCartographic = new Cartographic_default();
+var scratchBVRectangle = new Rectangle_default();
+function createVectorTilePolygons(parameters, transferableObjects) {
+  unpackBuffer(parameters.packedBuffer);
+  let indices;
+  const indexBytesPerElement = scratchScalars.indexBytesPerElement;
+  if (indexBytesPerElement === 2) {
+    indices = new Uint16Array(parameters.indices);
+  } else {
+    indices = new Uint32Array(parameters.indices);
+  }
+  const positions = new Uint16Array(parameters.positions);
+  const counts = new Uint32Array(parameters.counts);
+  const indexCounts = new Uint32Array(parameters.indexCounts);
+  const batchIds = new Uint32Array(parameters.batchIds);
+  const batchTableColors = new Uint32Array(parameters.batchTableColors);
+  const boundingVolumes = new Array(counts.length);
+  const center = scratchCenter;
+  const ellipsoid = scratchEllipsoid;
+  let rectangle = scratchRectangle;
+  const minHeight = scratchScalars.min;
+  const maxHeight = scratchScalars.max;
+  let minimumHeights = parameters.minimumHeights;
+  let maximumHeights = parameters.maximumHeights;
+  if (defined_default(minimumHeights) && defined_default(maximumHeights)) {
+    minimumHeights = new Float32Array(minimumHeights);
+    maximumHeights = new Float32Array(maximumHeights);
+  }
+  let i;
+  let j;
+  let rgba;
+  const positionsLength = positions.length / 2;
+  const uBuffer = positions.subarray(0, positionsLength);
+  const vBuffer = positions.subarray(positionsLength, 2 * positionsLength);
+  AttributeCompression_default.zigZagDeltaDecode(uBuffer, vBuffer);
+  const decodedPositions = new Float64Array(positionsLength * 3);
+  for (i = 0; i < positionsLength; ++i) {
+    const u = uBuffer[i];
+    const v = vBuffer[i];
+    const x = Math_default.lerp(rectangle.west, rectangle.east, u / maxShort);
+    const y = Math_default.lerp(rectangle.south, rectangle.north, v / maxShort);
+    const cart = Cartographic_default.fromRadians(x, y, 0, scratchBVCartographic);
+    const decodedPosition = ellipsoid.cartographicToCartesian(
+      cart,
+      scratchEncodedPosition
+    );
+    Cartesian3_default.pack(decodedPosition, decodedPositions, i * 3);
+  }
+  const countsLength = counts.length;
+  const offsets = new Array(countsLength);
+  const indexOffsets = new Array(countsLength);
+  let currentOffset = 0;
+  let currentIndexOffset = 0;
+  for (i = 0; i < countsLength; ++i) {
+    offsets[i] = currentOffset;
+    indexOffsets[i] = currentIndexOffset;
+    currentOffset += counts[i];
+    currentIndexOffset += indexCounts[i];
+  }
+  const batchedPositions = new Float32Array(positionsLength * 3 * 2);
+  const batchedIds = new Uint16Array(positionsLength * 2);
+  const batchedIndexOffsets = new Uint32Array(indexOffsets.length);
+  const batchedIndexCounts = new Uint32Array(indexCounts.length);
+  let batchedIndices = [];
+  const colorToBuffers = {};
+  for (i = 0; i < countsLength; ++i) {
+    rgba = batchTableColors[i];
+    if (!defined_default(colorToBuffers[rgba])) {
+      colorToBuffers[rgba] = {
+        positionLength: counts[i],
+        indexLength: indexCounts[i],
+        offset: 0,
+        indexOffset: 0,
+        batchIds: [i]
+      };
+    } else {
+      colorToBuffers[rgba].positionLength += counts[i];
+      colorToBuffers[rgba].indexLength += indexCounts[i];
+      colorToBuffers[rgba].batchIds.push(i);
+    }
+  }
+  let buffer;
+  let byColorPositionOffset = 0;
+  let byColorIndexOffset = 0;
+  for (rgba in colorToBuffers) {
+    if (colorToBuffers.hasOwnProperty(rgba)) {
+      buffer = colorToBuffers[rgba];
+      buffer.offset = byColorPositionOffset;
+      buffer.indexOffset = byColorIndexOffset;
+      const positionLength = buffer.positionLength * 2;
+      const indexLength = buffer.indexLength * 2 + buffer.positionLength * 6;
+      byColorPositionOffset += positionLength;
+      byColorIndexOffset += indexLength;
+      buffer.indexLength = indexLength;
+    }
+  }
+  const batchedDrawCalls = [];
+  for (rgba in colorToBuffers) {
+    if (colorToBuffers.hasOwnProperty(rgba)) {
+      buffer = colorToBuffers[rgba];
+      batchedDrawCalls.push({
+        color: Color_default.fromRgba(parseInt(rgba)),
+        offset: buffer.indexOffset,
+        count: buffer.indexLength,
+        batchIds: buffer.batchIds
+      });
+    }
+  }
+  for (i = 0; i < countsLength; ++i) {
+    rgba = batchTableColors[i];
+    buffer = colorToBuffers[rgba];
+    const positionOffset = buffer.offset;
+    let positionIndex = positionOffset * 3;
+    let batchIdIndex = positionOffset;
+    const polygonOffset = offsets[i];
+    const polygonCount = counts[i];
+    const batchId = batchIds[i];
+    let polygonMinimumHeight = minHeight;
+    let polygonMaximumHeight = maxHeight;
+    if (defined_default(minimumHeights) && defined_default(maximumHeights)) {
+      polygonMinimumHeight = minimumHeights[i];
+      polygonMaximumHeight = maximumHeights[i];
+    }
+    let minLat = Number.POSITIVE_INFINITY;
+    let maxLat = Number.NEGATIVE_INFINITY;
+    let minLon = Number.POSITIVE_INFINITY;
+    let maxLon = Number.NEGATIVE_INFINITY;
+    for (j = 0; j < polygonCount; ++j) {
+      const position = Cartesian3_default.unpack(
+        decodedPositions,
+        polygonOffset * 3 + j * 3,
+        scratchEncodedPosition
+      );
+      ellipsoid.scaleToGeodeticSurface(position, position);
+      const carto = ellipsoid.cartesianToCartographic(
+        position,
+        scratchBVCartographic
+      );
+      const lat = carto.latitude;
+      const lon = carto.longitude;
+      minLat = Math.min(lat, minLat);
+      maxLat = Math.max(lat, maxLat);
+      minLon = Math.min(lon, minLon);
+      maxLon = Math.max(lon, maxLon);
+      const normal = ellipsoid.geodeticSurfaceNormal(position, scratchNormal);
+      let scaledNormal = Cartesian3_default.multiplyByScalar(
+        normal,
+        polygonMinimumHeight,
+        scratchScaledNormal
+      );
+      const minHeightPosition = Cartesian3_default.add(
+        position,
+        scaledNormal,
+        scratchMinHeightPosition
+      );
+      scaledNormal = Cartesian3_default.multiplyByScalar(
+        normal,
+        polygonMaximumHeight,
+        scaledNormal
+      );
+      const maxHeightPosition = Cartesian3_default.add(
+        position,
+        scaledNormal,
+        scratchMaxHeightPosition
+      );
+      Cartesian3_default.subtract(maxHeightPosition, center, maxHeightPosition);
+      Cartesian3_default.subtract(minHeightPosition, center, minHeightPosition);
+      Cartesian3_default.pack(maxHeightPosition, batchedPositions, positionIndex);
+      Cartesian3_default.pack(minHeightPosition, batchedPositions, positionIndex + 3);
+      batchedIds[batchIdIndex] = batchId;
+      batchedIds[batchIdIndex + 1] = batchId;
+      positionIndex += 6;
+      batchIdIndex += 2;
+    }
+    rectangle = scratchBVRectangle;
+    rectangle.west = minLon;
+    rectangle.east = maxLon;
+    rectangle.south = minLat;
+    rectangle.north = maxLat;
+    boundingVolumes[i] = OrientedBoundingBox_default.fromRectangle(
+      rectangle,
+      minHeight,
+      maxHeight,
+      ellipsoid
+    );
+    let indicesIndex = buffer.indexOffset;
+    const indexOffset = indexOffsets[i];
+    const indexCount = indexCounts[i];
+    batchedIndexOffsets[i] = indicesIndex;
+    for (j = 0; j < indexCount; j += 3) {
+      const i0 = indices[indexOffset + j] - polygonOffset;
+      const i1 = indices[indexOffset + j + 1] - polygonOffset;
+      const i2 = indices[indexOffset + j + 2] - polygonOffset;
+      batchedIndices[indicesIndex++] = i0 * 2 + positionOffset;
+      batchedIndices[indicesIndex++] = i1 * 2 + positionOffset;
+      batchedIndices[indicesIndex++] = i2 * 2 + positionOffset;
+      batchedIndices[indicesIndex++] = i2 * 2 + 1 + positionOffset;
+      batchedIndices[indicesIndex++] = i1 * 2 + 1 + positionOffset;
+      batchedIndices[indicesIndex++] = i0 * 2 + 1 + positionOffset;
+    }
+    for (j = 0; j < polygonCount; ++j) {
+      const v0 = j;
+      const v1 = (j + 1) % polygonCount;
+      batchedIndices[indicesIndex++] = v0 * 2 + 1 + positionOffset;
+      batchedIndices[indicesIndex++] = v1 * 2 + positionOffset;
+      batchedIndices[indicesIndex++] = v0 * 2 + positionOffset;
+      batchedIndices[indicesIndex++] = v0 * 2 + 1 + positionOffset;
+      batchedIndices[indicesIndex++] = v1 * 2 + 1 + positionOffset;
+      batchedIndices[indicesIndex++] = v1 * 2 + positionOffset;
+    }
+    buffer.offset += polygonCount * 2;
+    buffer.indexOffset = indicesIndex;
+    batchedIndexCounts[i] = indicesIndex - batchedIndexOffsets[i];
+  }
+  batchedIndices = IndexDatatype_default.createTypedArray(
+    batchedPositions.length / 3,
+    batchedIndices
+  );
+  const batchedIndicesLength = batchedDrawCalls.length;
+  for (let m = 0; m < batchedIndicesLength; ++m) {
+    const tempIds = batchedDrawCalls[m].batchIds;
+    let count = 0;
+    const tempIdsLength = tempIds.length;
+    for (let n = 0; n < tempIdsLength; ++n) {
+      count += batchedIndexCounts[tempIds[n]];
+    }
+    batchedDrawCalls[m].count = count;
+  }
+  const indexDatatype = batchedIndices.BYTES_PER_ELEMENT === 2 ? IndexDatatype_default.UNSIGNED_SHORT : IndexDatatype_default.UNSIGNED_INT;
+  const packedBuffer = packBuffer(
+    indexDatatype,
+    boundingVolumes,
+    batchedDrawCalls
+  );
+  transferableObjects.push(
+    batchedPositions.buffer,
+    batchedIndices.buffer,
+    batchedIndexOffsets.buffer,
+    batchedIndexCounts.buffer,
+    batchedIds.buffer,
+    packedBuffer.buffer
+  );
+  return {
+    positions: batchedPositions.buffer,
+    indices: batchedIndices.buffer,
+    indexOffsets: batchedIndexOffsets.buffer,
+    indexCounts: batchedIndexCounts.buffer,
+    batchIds: batchedIds.buffer,
+    packedBuffer: packedBuffer.buffer
+  };
+}
+var createVectorTilePolygons_default = createTaskProcessorWorker_default(createVectorTilePolygons);
+export {
+  createVectorTilePolygons_default as default
+};

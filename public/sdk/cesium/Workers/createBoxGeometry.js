@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,36 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./BoxGeometry-e95264c7","./defaultValue-4607806f","./Transforms-c450597e","./Matrix2-21f90abf","./RuntimeError-cef79f54","./ComponentDatatype-4028c72d","./WebGLConstants-f100e3dd","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./GeometryOffsetAttribute-3e5f3e97","./VertexFormat-75e8069c"],(function(e,t,r,o,c,n,a,f,m,u,i,s,d){"use strict";return function(r,o){return t.defined(o)&&(r=e.BoxGeometry.unpack(r,o)),e.BoxGeometry.createGeometry(r)}}));
+
+import {
+  BoxGeometry_default
+} from "./chunk-GV56Q4LU.js";
+import "./chunk-NKPBIX7F.js";
+import "./chunk-46UD5ABS.js";
+import "./chunk-VK3EJHWI.js";
+import "./chunk-JY5YEZFA.js";
+import "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import "./chunk-GEJTYLCO.js";
+import "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Workers/createBoxGeometry.js
+function createBoxGeometry(boxGeometry, offset) {
+  if (defined_default(offset)) {
+    boxGeometry = BoxGeometry_default.unpack(boxGeometry, offset);
+  }
+  return BoxGeometry_default.createGeometry(boxGeometry);
+}
+var createBoxGeometry_default = createBoxGeometry;
+export {
+  createBoxGeometry_default as default
+};

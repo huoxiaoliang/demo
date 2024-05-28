@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,96 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./defaultValue-4607806f","./Matrix2-21f90abf","./RuntimeError-cef79f54","./EllipsoidGeometry-b2dd57d2","./VertexFormat-75e8069c","./ComponentDatatype-4028c72d","./WebGLConstants-f100e3dd","./Transforms-c450597e","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./GeometryOffsetAttribute-3e5f3e97","./IndexDatatype-20e78e57"],(function(e,t,i,r,o,a,n,s,c,d,l,m,u,p){"use strict";function f(i){const o=e.defaultValue(i.radius,1),a={radii:new t.Cartesian3(o,o,o),stackPartitions:i.stackPartitions,slicePartitions:i.slicePartitions,vertexFormat:i.vertexFormat};this._ellipsoidGeometry=new r.EllipsoidGeometry(a),this._workerName="createSphereGeometry"}f.packedLength=r.EllipsoidGeometry.packedLength,f.pack=function(e,t,i){return r.EllipsoidGeometry.pack(e._ellipsoidGeometry,t,i)};const y=new r.EllipsoidGeometry,G={radius:void 0,radii:new t.Cartesian3,vertexFormat:new o.VertexFormat,stackPartitions:void 0,slicePartitions:void 0};return f.unpack=function(i,a,n){const s=r.EllipsoidGeometry.unpack(i,a,y);return G.vertexFormat=o.VertexFormat.clone(s._vertexFormat,G.vertexFormat),G.stackPartitions=s._stackPartitions,G.slicePartitions=s._slicePartitions,e.defined(n)?(t.Cartesian3.clone(s._radii,G.radii),n._ellipsoidGeometry=new r.EllipsoidGeometry(G),n):(G.radius=s._radii.x,new f(G))},f.createGeometry=function(e){return r.EllipsoidGeometry.createGeometry(e._ellipsoidGeometry)},function(t,i){return e.defined(i)&&(t=f.unpack(t,i)),f.createGeometry(t)}}));
+
+import {
+  EllipsoidGeometry_default
+} from "./chunk-UDO6BFSF.js";
+import "./chunk-NKPBIX7F.js";
+import {
+  VertexFormat_default
+} from "./chunk-46UD5ABS.js";
+import "./chunk-S6SKF6DT.js";
+import "./chunk-VK3EJHWI.js";
+import "./chunk-JY5YEZFA.js";
+import "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default
+} from "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import {
+  defaultValue_default
+} from "./chunk-5M3U6ZMA.js";
+import {
+  Check_default
+} from "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Core/SphereGeometry.js
+function SphereGeometry(options) {
+  const radius = defaultValue_default(options.radius, 1);
+  const radii = new Cartesian3_default(radius, radius, radius);
+  const ellipsoidOptions = {
+    radii,
+    stackPartitions: options.stackPartitions,
+    slicePartitions: options.slicePartitions,
+    vertexFormat: options.vertexFormat
+  };
+  this._ellipsoidGeometry = new EllipsoidGeometry_default(ellipsoidOptions);
+  this._workerName = "createSphereGeometry";
+}
+SphereGeometry.packedLength = EllipsoidGeometry_default.packedLength;
+SphereGeometry.pack = function(value, array, startingIndex) {
+  Check_default.typeOf.object("value", value);
+  return EllipsoidGeometry_default.pack(value._ellipsoidGeometry, array, startingIndex);
+};
+var scratchEllipsoidGeometry = new EllipsoidGeometry_default();
+var scratchOptions = {
+  radius: void 0,
+  radii: new Cartesian3_default(),
+  vertexFormat: new VertexFormat_default(),
+  stackPartitions: void 0,
+  slicePartitions: void 0
+};
+SphereGeometry.unpack = function(array, startingIndex, result) {
+  const ellipsoidGeometry = EllipsoidGeometry_default.unpack(
+    array,
+    startingIndex,
+    scratchEllipsoidGeometry
+  );
+  scratchOptions.vertexFormat = VertexFormat_default.clone(
+    ellipsoidGeometry._vertexFormat,
+    scratchOptions.vertexFormat
+  );
+  scratchOptions.stackPartitions = ellipsoidGeometry._stackPartitions;
+  scratchOptions.slicePartitions = ellipsoidGeometry._slicePartitions;
+  if (!defined_default(result)) {
+    scratchOptions.radius = ellipsoidGeometry._radii.x;
+    return new SphereGeometry(scratchOptions);
+  }
+  Cartesian3_default.clone(ellipsoidGeometry._radii, scratchOptions.radii);
+  result._ellipsoidGeometry = new EllipsoidGeometry_default(scratchOptions);
+  return result;
+};
+SphereGeometry.createGeometry = function(sphereGeometry) {
+  return EllipsoidGeometry_default.createGeometry(sphereGeometry._ellipsoidGeometry);
+};
+var SphereGeometry_default = SphereGeometry;
+
+// packages/engine/Source/Workers/createSphereGeometry.js
+function createSphereGeometry(sphereGeometry, offset) {
+  if (defined_default(offset)) {
+    sphereGeometry = SphereGeometry_default.unpack(sphereGeometry, offset);
+  }
+  return SphereGeometry_default.createGeometry(sphereGeometry);
+}
+var createSphereGeometry_default = createSphereGeometry;
+export {
+  createSphereGeometry_default as default
+};

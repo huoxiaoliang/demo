@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,46 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./PrimitivePipeline-2fb60b88","./createTaskProcessorWorker","./Transforms-c450597e","./Matrix2-21f90abf","./RuntimeError-cef79f54","./defaultValue-4607806f","./ComponentDatatype-4028c72d","./WebGLConstants-f100e3dd","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./GeometryPipeline-b9f29df3","./AttributeCompression-b8c8fcdc","./EncodedCartesian3-f98850c6","./IndexDatatype-20e78e57","./IntersectionTests-ef65540c","./Plane-1c5eb32d","./WebMercatorProjection-351a8dfc"],(function(e,t,i,r,n,c,o,a,s,m,f,b,d,u,P,p,l,y,G){"use strict";return t((function(t,i){const r=e.PrimitivePipeline.unpackCombineGeometryParameters(t),n=e.PrimitivePipeline.combineGeometry(r);return e.PrimitivePipeline.packCombineGeometryResults(n,i)}))}));
+
+import {
+  PrimitivePipeline_default
+} from "./chunk-UAEW6HKG.js";
+import {
+  createTaskProcessorWorker_default
+} from "./chunk-ODW7WYM4.js";
+import "./chunk-DTAIXKTO.js";
+import "./chunk-LZGHD6NY.js";
+import "./chunk-R5X4OQT4.js";
+import "./chunk-WBQCVXR3.js";
+import "./chunk-VRGFV2UO.js";
+import "./chunk-XWXM2O2R.js";
+import "./chunk-S6SKF6DT.js";
+import "./chunk-VK3EJHWI.js";
+import "./chunk-JY5YEZFA.js";
+import "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import "./chunk-GEJTYLCO.js";
+import "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import "./chunk-S4MAZ3SS.js";
+import "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Workers/combineGeometry.js
+function combineGeometry(packedParameters, transferableObjects) {
+  const parameters = PrimitivePipeline_default.unpackCombineGeometryParameters(
+    packedParameters
+  );
+  const results = PrimitivePipeline_default.combineGeometry(parameters);
+  return PrimitivePipeline_default.packCombineGeometryResults(
+    results,
+    transferableObjects
+  );
+}
+var combineGeometry_default = createTaskProcessorWorker_default(combineGeometry);
+export {
+  combineGeometry_default as default
+};

@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,213 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./defaultValue-4607806f","./Transforms-c450597e","./Matrix2-21f90abf","./RuntimeError-cef79f54","./ComponentDatatype-4028c72d","./FrustumGeometry-d0e37f0a","./GeometryAttribute-3c090c07","./GeometryAttributes-acac33d2","./_commonjsHelpers-a32ac251","./combine-fc59ba59","./WebGLConstants-f100e3dd","./Plane-1c5eb32d","./VertexFormat-75e8069c"],(function(e,t,r,n,a,u,i,o,c,s,p,m,f){"use strict";function d(n){const a=n.frustum,i=n.orientation,o=n.origin,c=e.defaultValue(n._drawNearPlane,!0);let s,p;a instanceof u.PerspectiveFrustum?(s=0,p=u.PerspectiveFrustum.packedLength):a instanceof u.OrthographicFrustum&&(s=1,p=u.OrthographicFrustum.packedLength),this._frustumType=s,this._frustum=a.clone(),this._origin=r.Cartesian3.clone(o),this._orientation=t.Quaternion.clone(i),this._drawNearPlane=c,this._workerName="createFrustumOutlineGeometry",this.packedLength=2+p+r.Cartesian3.packedLength+t.Quaternion.packedLength}d.pack=function(n,a,i){i=e.defaultValue(i,0);const o=n._frustumType,c=n._frustum;return a[i++]=o,0===o?(u.PerspectiveFrustum.pack(c,a,i),i+=u.PerspectiveFrustum.packedLength):(u.OrthographicFrustum.pack(c,a,i),i+=u.OrthographicFrustum.packedLength),r.Cartesian3.pack(n._origin,a,i),i+=r.Cartesian3.packedLength,t.Quaternion.pack(n._orientation,a,i),a[i+=t.Quaternion.packedLength]=n._drawNearPlane?1:0,a};const h=new u.PerspectiveFrustum,l=new u.OrthographicFrustum,g=new t.Quaternion,_=new r.Cartesian3;return d.unpack=function(n,a,i){a=e.defaultValue(a,0);const o=n[a++];let c;0===o?(c=u.PerspectiveFrustum.unpack(n,a,h),a+=u.PerspectiveFrustum.packedLength):(c=u.OrthographicFrustum.unpack(n,a,l),a+=u.OrthographicFrustum.packedLength);const s=r.Cartesian3.unpack(n,a,_);a+=r.Cartesian3.packedLength;const p=t.Quaternion.unpack(n,a,g),m=1===n[a+=t.Quaternion.packedLength];if(!e.defined(i))return new d({frustum:c,origin:s,orientation:p,_drawNearPlane:m});const f=o===i._frustumType?i._frustum:void 0;return i._frustum=c.clone(f),i._frustumType=o,i._origin=r.Cartesian3.clone(s,i._origin),i._orientation=t.Quaternion.clone(p,i._orientation),i._drawNearPlane=m,i},d.createGeometry=function(e){const r=e._frustumType,n=e._frustum,c=e._origin,s=e._orientation,p=e._drawNearPlane,m=new Float64Array(24);u.FrustumGeometry._computeNearFarPlanes(c,s,r,n,m);const f=new o.GeometryAttributes({position:new i.GeometryAttribute({componentDatatype:a.ComponentDatatype.DOUBLE,componentsPerAttribute:3,values:m})});let d,h;const l=p?2:1,g=new Uint16Array(8*(l+1));let _=p?0:1;for(;_<2;++_)d=p?8*_:0,h=4*_,g[d]=h,g[d+1]=h+1,g[d+2]=h+1,g[d+3]=h+2,g[d+4]=h+2,g[d+5]=h+3,g[d+6]=h+3,g[d+7]=h;for(_=0;_<2;++_)d=8*(l+_),h=4*_,g[d]=h,g[d+1]=h+4,g[d+2]=h+1,g[d+3]=h+5,g[d+4]=h+2,g[d+5]=h+6,g[d+6]=h+3,g[d+7]=h+7;return new i.Geometry({attributes:f,indices:g,primitiveType:i.PrimitiveType.LINES,boundingSphere:t.BoundingSphere.fromVertices(m)})},function(t,r){return e.defined(r)&&(t=d.unpack(t,r)),d.createGeometry(t)}}));
+
+import {
+  FrustumGeometry_default,
+  OrthographicFrustum_default,
+  PerspectiveFrustum_default
+} from "./chunk-5HDYHG3F.js";
+import "./chunk-46UD5ABS.js";
+import "./chunk-XWXM2O2R.js";
+import {
+  GeometryAttributes_default
+} from "./chunk-VK3EJHWI.js";
+import {
+  GeometryAttribute_default,
+  Geometry_default,
+  PrimitiveType_default
+} from "./chunk-JY5YEZFA.js";
+import {
+  BoundingSphere_default,
+  Quaternion_default
+} from "./chunk-F6SE42BK.js";
+import "./chunk-WZU2YLWG.js";
+import "./chunk-QZAD5O7I.js";
+import {
+  ComponentDatatype_default
+} from "./chunk-GEJTYLCO.js";
+import {
+  Cartesian3_default
+} from "./chunk-72SANQJV.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import "./chunk-JXDC723O.js";
+import {
+  defaultValue_default
+} from "./chunk-5M3U6ZMA.js";
+import {
+  Check_default
+} from "./chunk-S4MAZ3SS.js";
+import {
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Core/FrustumOutlineGeometry.js
+var PERSPECTIVE = 0;
+var ORTHOGRAPHIC = 1;
+function FrustumOutlineGeometry(options) {
+  Check_default.typeOf.object("options", options);
+  Check_default.typeOf.object("options.frustum", options.frustum);
+  Check_default.typeOf.object("options.origin", options.origin);
+  Check_default.typeOf.object("options.orientation", options.orientation);
+  const frustum = options.frustum;
+  const orientation = options.orientation;
+  const origin = options.origin;
+  const drawNearPlane = defaultValue_default(options._drawNearPlane, true);
+  let frustumType;
+  let frustumPackedLength;
+  if (frustum instanceof PerspectiveFrustum_default) {
+    frustumType = PERSPECTIVE;
+    frustumPackedLength = PerspectiveFrustum_default.packedLength;
+  } else if (frustum instanceof OrthographicFrustum_default) {
+    frustumType = ORTHOGRAPHIC;
+    frustumPackedLength = OrthographicFrustum_default.packedLength;
+  }
+  this._frustumType = frustumType;
+  this._frustum = frustum.clone();
+  this._origin = Cartesian3_default.clone(origin);
+  this._orientation = Quaternion_default.clone(orientation);
+  this._drawNearPlane = drawNearPlane;
+  this._workerName = "createFrustumOutlineGeometry";
+  this.packedLength = 2 + frustumPackedLength + Cartesian3_default.packedLength + Quaternion_default.packedLength;
+}
+FrustumOutlineGeometry.pack = function(value, array, startingIndex) {
+  Check_default.typeOf.object("value", value);
+  Check_default.defined("array", array);
+  startingIndex = defaultValue_default(startingIndex, 0);
+  const frustumType = value._frustumType;
+  const frustum = value._frustum;
+  array[startingIndex++] = frustumType;
+  if (frustumType === PERSPECTIVE) {
+    PerspectiveFrustum_default.pack(frustum, array, startingIndex);
+    startingIndex += PerspectiveFrustum_default.packedLength;
+  } else {
+    OrthographicFrustum_default.pack(frustum, array, startingIndex);
+    startingIndex += OrthographicFrustum_default.packedLength;
+  }
+  Cartesian3_default.pack(value._origin, array, startingIndex);
+  startingIndex += Cartesian3_default.packedLength;
+  Quaternion_default.pack(value._orientation, array, startingIndex);
+  startingIndex += Quaternion_default.packedLength;
+  array[startingIndex] = value._drawNearPlane ? 1 : 0;
+  return array;
+};
+var scratchPackPerspective = new PerspectiveFrustum_default();
+var scratchPackOrthographic = new OrthographicFrustum_default();
+var scratchPackQuaternion = new Quaternion_default();
+var scratchPackorigin = new Cartesian3_default();
+FrustumOutlineGeometry.unpack = function(array, startingIndex, result) {
+  Check_default.defined("array", array);
+  startingIndex = defaultValue_default(startingIndex, 0);
+  const frustumType = array[startingIndex++];
+  let frustum;
+  if (frustumType === PERSPECTIVE) {
+    frustum = PerspectiveFrustum_default.unpack(
+      array,
+      startingIndex,
+      scratchPackPerspective
+    );
+    startingIndex += PerspectiveFrustum_default.packedLength;
+  } else {
+    frustum = OrthographicFrustum_default.unpack(
+      array,
+      startingIndex,
+      scratchPackOrthographic
+    );
+    startingIndex += OrthographicFrustum_default.packedLength;
+  }
+  const origin = Cartesian3_default.unpack(array, startingIndex, scratchPackorigin);
+  startingIndex += Cartesian3_default.packedLength;
+  const orientation = Quaternion_default.unpack(
+    array,
+    startingIndex,
+    scratchPackQuaternion
+  );
+  startingIndex += Quaternion_default.packedLength;
+  const drawNearPlane = array[startingIndex] === 1;
+  if (!defined_default(result)) {
+    return new FrustumOutlineGeometry({
+      frustum,
+      origin,
+      orientation,
+      _drawNearPlane: drawNearPlane
+    });
+  }
+  const frustumResult = frustumType === result._frustumType ? result._frustum : void 0;
+  result._frustum = frustum.clone(frustumResult);
+  result._frustumType = frustumType;
+  result._origin = Cartesian3_default.clone(origin, result._origin);
+  result._orientation = Quaternion_default.clone(orientation, result._orientation);
+  result._drawNearPlane = drawNearPlane;
+  return result;
+};
+FrustumOutlineGeometry.createGeometry = function(frustumGeometry) {
+  const frustumType = frustumGeometry._frustumType;
+  const frustum = frustumGeometry._frustum;
+  const origin = frustumGeometry._origin;
+  const orientation = frustumGeometry._orientation;
+  const drawNearPlane = frustumGeometry._drawNearPlane;
+  const positions = new Float64Array(3 * 4 * 2);
+  FrustumGeometry_default._computeNearFarPlanes(
+    origin,
+    orientation,
+    frustumType,
+    frustum,
+    positions
+  );
+  const attributes = new GeometryAttributes_default({
+    position: new GeometryAttribute_default({
+      componentDatatype: ComponentDatatype_default.DOUBLE,
+      componentsPerAttribute: 3,
+      values: positions
+    })
+  });
+  let offset;
+  let index;
+  const numberOfPlanes = drawNearPlane ? 2 : 1;
+  const indices = new Uint16Array(8 * (numberOfPlanes + 1));
+  let i = drawNearPlane ? 0 : 1;
+  for (; i < 2; ++i) {
+    offset = drawNearPlane ? i * 8 : 0;
+    index = i * 4;
+    indices[offset] = index;
+    indices[offset + 1] = index + 1;
+    indices[offset + 2] = index + 1;
+    indices[offset + 3] = index + 2;
+    indices[offset + 4] = index + 2;
+    indices[offset + 5] = index + 3;
+    indices[offset + 6] = index + 3;
+    indices[offset + 7] = index;
+  }
+  for (i = 0; i < 2; ++i) {
+    offset = (numberOfPlanes + i) * 8;
+    index = i * 4;
+    indices[offset] = index;
+    indices[offset + 1] = index + 4;
+    indices[offset + 2] = index + 1;
+    indices[offset + 3] = index + 5;
+    indices[offset + 4] = index + 2;
+    indices[offset + 5] = index + 6;
+    indices[offset + 6] = index + 3;
+    indices[offset + 7] = index + 7;
+  }
+  return new Geometry_default({
+    attributes,
+    indices,
+    primitiveType: PrimitiveType_default.LINES,
+    boundingSphere: BoundingSphere_default.fromVertices(positions)
+  });
+};
+var FrustumOutlineGeometry_default = FrustumOutlineGeometry;
+
+// packages/engine/Source/Workers/createFrustumOutlineGeometry.js
+function createFrustumOutlineGeometry(frustumGeometry, offset) {
+  if (defined_default(offset)) {
+    frustumGeometry = FrustumOutlineGeometry_default.unpack(frustumGeometry, offset);
+  }
+  return FrustumOutlineGeometry_default.createGeometry(frustumGeometry);
+}
+var createFrustumOutlineGeometry_default = createFrustumOutlineGeometry;
+export {
+  createFrustumOutlineGeometry_default as default
+};

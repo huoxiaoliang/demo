@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.96
+ * Version 1.114
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -22,4 +22,348 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
-define(["./ComponentDatatype-4028c72d","./defaultValue-4607806f","./IndexDatatype-20e78e57","./RuntimeError-cef79f54","./createTaskProcessorWorker","./WebGLConstants-f100e3dd"],(function(t,e,r,n,o,a){"use strict";let i;function s(t,e){const n=t.num_points(),o=t.num_faces(),a=new i.DracoInt32Array,s=3*o,u=r.IndexDatatype.createTypedArray(n,s);let c=0;for(let r=0;r<o;++r)e.GetFaceFromMesh(t,r,a),u[c+0]=a.GetValue(0),u[c+1]=a.GetValue(1),u[c+2]=a.GetValue(2),c+=3;return i.destroy(a),{typedArray:u,numberOfIndices:s}}function u(r,n,o){const a=r.num_points(),s=o.num_components();let u,c=new i.AttributeQuantizationTransform;if(c.InitFromAttribute(o)){const t=new Array(s);for(let e=0;e<s;++e)t[e]=c.min_value(e);u={quantizationBits:c.quantization_bits(),minValues:t,range:c.range(),octEncoded:!1}}i.destroy(c),c=new i.AttributeOctahedronTransform,c.InitFromAttribute(o)&&(u={quantizationBits:c.quantization_bits(),octEncoded:!0}),i.destroy(c);const d=a*s;let f;f=e.defined(u)?function(t,e,r,n,o){let a,s;n.quantizationBits<=8?(s=new i.DracoUInt8Array,a=new Uint8Array(o),e.GetAttributeUInt8ForAllPoints(t,r,s)):(s=new i.DracoUInt16Array,a=new Uint16Array(o),e.GetAttributeUInt16ForAllPoints(t,r,s));for(let t=0;t<o;++t)a[t]=s.GetValue(t);return i.destroy(s),a}(r,n,o,u,d):function(t,e,r,n){let o,a;switch(r.data_type()){case 1:case 11:a=new i.DracoInt8Array,o=new Int8Array(n),e.GetAttributeInt8ForAllPoints(t,r,a);break;case 2:a=new i.DracoUInt8Array,o=new Uint8Array(n),e.GetAttributeUInt8ForAllPoints(t,r,a);break;case 3:a=new i.DracoInt16Array,o=new Int16Array(n),e.GetAttributeInt16ForAllPoints(t,r,a);break;case 4:a=new i.DracoUInt16Array,o=new Uint16Array(n),e.GetAttributeUInt16ForAllPoints(t,r,a);break;case 5:case 7:a=new i.DracoInt32Array,o=new Int32Array(n),e.GetAttributeInt32ForAllPoints(t,r,a);break;case 6:case 8:a=new i.DracoUInt32Array,o=new Uint32Array(n),e.GetAttributeUInt32ForAllPoints(t,r,a);break;case 9:case 10:a=new i.DracoFloat32Array,o=new Float32Array(n),e.GetAttributeFloatForAllPoints(t,r,a)}for(let t=0;t<n;++t)o[t]=a.GetValue(t);return i.destroy(a),o}(r,n,o,d);const y=t.ComponentDatatype.fromTypedArray(f);return{array:f,data:{componentsPerAttribute:s,componentDatatype:y,byteOffset:o.byte_offset(),byteStride:t.ComponentDatatype.getSizeInBytes(y)*s,normalized:o.normalized(),quantization:u}}}function c(t){return e.defined(t.bufferView)?function(t){const e=new i.Decoder,r=["POSITION","NORMAL","COLOR","TEX_COORD"];if(t.dequantizeInShader)for(let t=0;t<r.length;++t)e.SkipAttributeTransform(i[r[t]]);const o=t.bufferView,a=new i.DecoderBuffer;if(a.Init(t.array,o.byteLength),e.GetEncodedGeometryType(a)!==i.TRIANGULAR_MESH)throw new n.RuntimeError("Unsupported draco mesh geometry type.");const c=new i.Mesh,d=e.DecodeBufferToMesh(a,c);if(!d.ok()||0===c.ptr)throw new n.RuntimeError(`Error decoding draco mesh geometry: ${d.error_msg()}`);i.destroy(a);const f={},y=t.compressedAttributes;for(const t in y)if(y.hasOwnProperty(t)){const r=y[t],n=e.GetAttributeByUniqueId(c,r);f[t]=u(c,e,n)}const A={indexArray:s(c,e),attributeData:f};return i.destroy(c),i.destroy(e),A}(t):function(t){const e=new i.Decoder;t.dequantizeInShader&&(e.SkipAttributeTransform(i.POSITION),e.SkipAttributeTransform(i.NORMAL));const r=new i.DecoderBuffer;if(r.Init(t.buffer,t.buffer.length),e.GetEncodedGeometryType(r)!==i.POINT_CLOUD)throw new n.RuntimeError("Draco geometry type must be POINT_CLOUD.");const o=new i.PointCloud,a=e.DecodeBufferToPointCloud(r,o);if(!a.ok()||0===o.ptr)throw new n.RuntimeError(`Error decoding draco point cloud: ${a.error_msg()}`);i.destroy(r);const s={},c=t.properties;for(const t in c)if(c.hasOwnProperty(t)){let r;if("POSITION"===t||"NORMAL"===t){const n=e.GetAttributeId(o,i[t]);r=e.GetAttribute(o,n)}else{const n=c[t];r=e.GetAttributeByUniqueId(o,n)}s[t]=u(o,e,r)}return i.destroy(o),i.destroy(e),s}(t)}function d(t){i=t,self.onmessage=o(c),self.postMessage(!0)}return function(t){const r=t.data.webAssemblyConfig;if(e.defined(r))return require([r.modulePath],(function(t){e.defined(r.wasmBinaryFile)?(e.defined(t)||(t=self.DracoDecoderModule),t(r).then((function(t){d(t)}))):d(t())}))}}));
+
+import {
+  require_draco_decoder_nodejs
+} from "./chunk-ZUA2UUNV.js";
+import {
+  createTaskProcessorWorker_default
+} from "./chunk-ODW7WYM4.js";
+import {
+  IndexDatatype_default
+} from "./chunk-S6SKF6DT.js";
+import {
+  ComponentDatatype_default
+} from "./chunk-GEJTYLCO.js";
+import "./chunk-RV7ZYPFT.js";
+import "./chunk-6HZQPRUS.js";
+import {
+  RuntimeError_default
+} from "./chunk-JXDC723O.js";
+import "./chunk-5M3U6ZMA.js";
+import "./chunk-S4MAZ3SS.js";
+import {
+  __toESM,
+  defined_default
+} from "./chunk-UGK3FCDY.js";
+
+// packages/engine/Source/Workers/decodeDraco.js
+var import_draco_decoder_nodejs = __toESM(require_draco_decoder_nodejs(), 1);
+var draco;
+function decodeIndexArray(dracoGeometry, dracoDecoder) {
+  const numPoints = dracoGeometry.num_points();
+  const numFaces = dracoGeometry.num_faces();
+  const faceIndices = new draco.DracoInt32Array();
+  const numIndices = numFaces * 3;
+  const indexArray = IndexDatatype_default.createTypedArray(numPoints, numIndices);
+  let offset = 0;
+  for (let i = 0; i < numFaces; ++i) {
+    dracoDecoder.GetFaceFromMesh(dracoGeometry, i, faceIndices);
+    indexArray[offset + 0] = faceIndices.GetValue(0);
+    indexArray[offset + 1] = faceIndices.GetValue(1);
+    indexArray[offset + 2] = faceIndices.GetValue(2);
+    offset += 3;
+  }
+  draco.destroy(faceIndices);
+  return {
+    typedArray: indexArray,
+    numberOfIndices: numIndices
+  };
+}
+function decodeQuantizedDracoTypedArray(dracoGeometry, dracoDecoder, dracoAttribute, quantization, vertexArrayLength) {
+  let vertexArray;
+  let attributeData;
+  if (quantization.quantizationBits <= 8) {
+    attributeData = new draco.DracoUInt8Array();
+    vertexArray = new Uint8Array(vertexArrayLength);
+    dracoDecoder.GetAttributeUInt8ForAllPoints(
+      dracoGeometry,
+      dracoAttribute,
+      attributeData
+    );
+  } else if (quantization.quantizationBits <= 16) {
+    attributeData = new draco.DracoUInt16Array();
+    vertexArray = new Uint16Array(vertexArrayLength);
+    dracoDecoder.GetAttributeUInt16ForAllPoints(
+      dracoGeometry,
+      dracoAttribute,
+      attributeData
+    );
+  } else {
+    attributeData = new draco.DracoFloat32Array();
+    vertexArray = new Float32Array(vertexArrayLength);
+    dracoDecoder.GetAttributeFloatForAllPoints(
+      dracoGeometry,
+      dracoAttribute,
+      attributeData
+    );
+  }
+  for (let i = 0; i < vertexArrayLength; ++i) {
+    vertexArray[i] = attributeData.GetValue(i);
+  }
+  draco.destroy(attributeData);
+  return vertexArray;
+}
+function decodeDracoTypedArray(dracoGeometry, dracoDecoder, dracoAttribute, vertexArrayLength) {
+  let vertexArray;
+  let attributeData;
+  switch (dracoAttribute.data_type()) {
+    case 1:
+    case 11:
+      attributeData = new draco.DracoInt8Array();
+      vertexArray = new Int8Array(vertexArrayLength);
+      dracoDecoder.GetAttributeInt8ForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+    case 2:
+      attributeData = new draco.DracoUInt8Array();
+      vertexArray = new Uint8Array(vertexArrayLength);
+      dracoDecoder.GetAttributeUInt8ForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+    case 3:
+      attributeData = new draco.DracoInt16Array();
+      vertexArray = new Int16Array(vertexArrayLength);
+      dracoDecoder.GetAttributeInt16ForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+    case 4:
+      attributeData = new draco.DracoUInt16Array();
+      vertexArray = new Uint16Array(vertexArrayLength);
+      dracoDecoder.GetAttributeUInt16ForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+    case 5:
+    case 7:
+      attributeData = new draco.DracoInt32Array();
+      vertexArray = new Int32Array(vertexArrayLength);
+      dracoDecoder.GetAttributeInt32ForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+    case 6:
+    case 8:
+      attributeData = new draco.DracoUInt32Array();
+      vertexArray = new Uint32Array(vertexArrayLength);
+      dracoDecoder.GetAttributeUInt32ForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+    case 9:
+    case 10:
+      attributeData = new draco.DracoFloat32Array();
+      vertexArray = new Float32Array(vertexArrayLength);
+      dracoDecoder.GetAttributeFloatForAllPoints(
+        dracoGeometry,
+        dracoAttribute,
+        attributeData
+      );
+      break;
+  }
+  for (let i = 0; i < vertexArrayLength; ++i) {
+    vertexArray[i] = attributeData.GetValue(i);
+  }
+  draco.destroy(attributeData);
+  return vertexArray;
+}
+function decodeAttribute(dracoGeometry, dracoDecoder, dracoAttribute) {
+  const numPoints = dracoGeometry.num_points();
+  const numComponents = dracoAttribute.num_components();
+  let quantization;
+  let transform = new draco.AttributeQuantizationTransform();
+  if (transform.InitFromAttribute(dracoAttribute)) {
+    const minValues = new Array(numComponents);
+    for (let i = 0; i < numComponents; ++i) {
+      minValues[i] = transform.min_value(i);
+    }
+    quantization = {
+      quantizationBits: transform.quantization_bits(),
+      minValues,
+      range: transform.range(),
+      octEncoded: false
+    };
+  }
+  draco.destroy(transform);
+  transform = new draco.AttributeOctahedronTransform();
+  if (transform.InitFromAttribute(dracoAttribute)) {
+    quantization = {
+      quantizationBits: transform.quantization_bits(),
+      octEncoded: true
+    };
+  }
+  draco.destroy(transform);
+  const vertexArrayLength = numPoints * numComponents;
+  let vertexArray;
+  if (defined_default(quantization)) {
+    vertexArray = decodeQuantizedDracoTypedArray(
+      dracoGeometry,
+      dracoDecoder,
+      dracoAttribute,
+      quantization,
+      vertexArrayLength
+    );
+  } else {
+    vertexArray = decodeDracoTypedArray(
+      dracoGeometry,
+      dracoDecoder,
+      dracoAttribute,
+      vertexArrayLength
+    );
+  }
+  const componentDatatype = ComponentDatatype_default.fromTypedArray(vertexArray);
+  return {
+    array: vertexArray,
+    data: {
+      componentsPerAttribute: numComponents,
+      componentDatatype,
+      byteOffset: dracoAttribute.byte_offset(),
+      byteStride: ComponentDatatype_default.getSizeInBytes(componentDatatype) * numComponents,
+      normalized: dracoAttribute.normalized(),
+      quantization
+    }
+  };
+}
+function decodePointCloud(parameters) {
+  const dracoDecoder = new draco.Decoder();
+  if (parameters.dequantizeInShader) {
+    dracoDecoder.SkipAttributeTransform(draco.POSITION);
+    dracoDecoder.SkipAttributeTransform(draco.NORMAL);
+  }
+  const buffer = new draco.DecoderBuffer();
+  buffer.Init(parameters.buffer, parameters.buffer.length);
+  const geometryType = dracoDecoder.GetEncodedGeometryType(buffer);
+  if (geometryType !== draco.POINT_CLOUD) {
+    throw new RuntimeError_default("Draco geometry type must be POINT_CLOUD.");
+  }
+  const dracoPointCloud = new draco.PointCloud();
+  const decodingStatus = dracoDecoder.DecodeBufferToPointCloud(
+    buffer,
+    dracoPointCloud
+  );
+  if (!decodingStatus.ok() || dracoPointCloud.ptr === 0) {
+    throw new RuntimeError_default(
+      `Error decoding draco point cloud: ${decodingStatus.error_msg()}`
+    );
+  }
+  draco.destroy(buffer);
+  const result = {};
+  const properties = parameters.properties;
+  for (const propertyName in properties) {
+    if (properties.hasOwnProperty(propertyName)) {
+      let dracoAttribute;
+      if (propertyName === "POSITION" || propertyName === "NORMAL") {
+        const dracoAttributeId = dracoDecoder.GetAttributeId(
+          dracoPointCloud,
+          draco[propertyName]
+        );
+        dracoAttribute = dracoDecoder.GetAttribute(
+          dracoPointCloud,
+          dracoAttributeId
+        );
+      } else {
+        const attributeId = properties[propertyName];
+        dracoAttribute = dracoDecoder.GetAttributeByUniqueId(
+          dracoPointCloud,
+          attributeId
+        );
+      }
+      result[propertyName] = decodeAttribute(
+        dracoPointCloud,
+        dracoDecoder,
+        dracoAttribute
+      );
+    }
+  }
+  draco.destroy(dracoPointCloud);
+  draco.destroy(dracoDecoder);
+  return result;
+}
+function decodePrimitive(parameters) {
+  const dracoDecoder = new draco.Decoder();
+  const attributesToSkip = ["POSITION", "NORMAL", "COLOR", "TEX_COORD"];
+  if (parameters.dequantizeInShader) {
+    for (let i = 0; i < attributesToSkip.length; ++i) {
+      dracoDecoder.SkipAttributeTransform(draco[attributesToSkip[i]]);
+    }
+  }
+  const bufferView = parameters.bufferView;
+  const buffer = new draco.DecoderBuffer();
+  buffer.Init(parameters.array, bufferView.byteLength);
+  const geometryType = dracoDecoder.GetEncodedGeometryType(buffer);
+  if (geometryType !== draco.TRIANGULAR_MESH) {
+    throw new RuntimeError_default("Unsupported draco mesh geometry type.");
+  }
+  const dracoGeometry = new draco.Mesh();
+  const decodingStatus = dracoDecoder.DecodeBufferToMesh(buffer, dracoGeometry);
+  if (!decodingStatus.ok() || dracoGeometry.ptr === 0) {
+    throw new RuntimeError_default(
+      `Error decoding draco mesh geometry: ${decodingStatus.error_msg()}`
+    );
+  }
+  draco.destroy(buffer);
+  const attributeData = {};
+  const compressedAttributes = parameters.compressedAttributes;
+  for (const attributeName in compressedAttributes) {
+    if (compressedAttributes.hasOwnProperty(attributeName)) {
+      const compressedAttribute = compressedAttributes[attributeName];
+      const dracoAttribute = dracoDecoder.GetAttributeByUniqueId(
+        dracoGeometry,
+        compressedAttribute
+      );
+      attributeData[attributeName] = decodeAttribute(
+        dracoGeometry,
+        dracoDecoder,
+        dracoAttribute
+      );
+    }
+  }
+  const result = {
+    indexArray: decodeIndexArray(dracoGeometry, dracoDecoder),
+    attributeData
+  };
+  draco.destroy(dracoGeometry);
+  draco.destroy(dracoDecoder);
+  return result;
+}
+async function decode(parameters, transferableObjects) {
+  if (defined_default(parameters.bufferView)) {
+    return decodePrimitive(parameters);
+  }
+  return decodePointCloud(parameters);
+}
+async function initWorker(parameters, transferableObjects) {
+  const wasmConfig = parameters.webAssemblyConfig;
+  if (defined_default(wasmConfig) && defined_default(wasmConfig.wasmBinaryFile)) {
+    draco = await (0, import_draco_decoder_nodejs.default)(wasmConfig);
+  } else {
+    draco = await (0, import_draco_decoder_nodejs.default)();
+  }
+  return true;
+}
+async function decodeDraco(parameters, transferableObjects) {
+  const wasmConfig = parameters.webAssemblyConfig;
+  if (defined_default(wasmConfig)) {
+    return initWorker(parameters, transferableObjects);
+  }
+  return decode(parameters, transferableObjects);
+}
+var decodeDraco_default = createTaskProcessorWorker_default(decodeDraco);
+export {
+  decodeDraco_default as default
+};

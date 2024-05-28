@@ -31,7 +31,7 @@ var baseMap = [
     groupId: 10,
     id: 2001,
     name: '天地图电子',
-    iconUrl: 'sdk/images/icon/天地图电子.png',
+    iconUrl: 'sdk/images/icon/电子.png',
     layer: [
       {
         name: '底图',
@@ -111,7 +111,7 @@ var baseMap = [
 function initViewer(options = {}) {
   map = new Creatar3d.Viewer('viewer-container', { baseMap, ...options })
   Cesium.Ion.defaultAccessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMTE0MmQ1Ni1hZWY3LTRjOWItYTExNi0wZTgxOGQ2MDFmMDIiLCJpZCI6MjQ3MDUsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODU2Mzc2Nzl9.HFkB6s3fXV8vqBN-ADu-nDf2Gu_Gy_PaYeM7CqXH3Eo";
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMTE0MmQ1Ni1hZWY3LTRjOWItYTExNi0wZTgxOGQ2MDFmMDIiLCJpZCI6MjQ3MDUsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODU2Mzc2Nzl9.HFkB6s3fXV8vqBN-ADu-nDf2Gu_Gy_PaYeM7CqXH3Eo'
   map.setOptions({
     enableFxaa: true, // 抗锯齿
     globe: {
@@ -123,6 +123,7 @@ function initViewer(options = {}) {
     widgetController: {
       enableCompass2: true,
       enableStateBar: true,
+      enableImagerySwitchTerrain: true,
       enableDistanceLegend: true
     }
   })
