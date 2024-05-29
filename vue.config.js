@@ -1,13 +1,14 @@
 const path = require('path')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 module.exports = {
+  publicPath: '/example',
   assetsDir: './static',
   productionSourceMap: false,
   /* 默认情况下，生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存，你可以通过将这个选项设为 false 来关闭文件名哈希。(false的时候就是让原来的文件名不改变) */
   filenameHashing: false,
   /* 代码保存时进行eslint检测 */
   lintOnSave: false, // 是否开启eslint
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     const plugins = []
     return {
       module: {
@@ -63,7 +64,7 @@ module.exports = {
       plugins: plugins
     }
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.plugin('monaco-editor').use(MonacoWebpackPlugin)
   }
 }
