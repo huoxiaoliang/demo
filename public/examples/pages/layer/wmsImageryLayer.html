@@ -1,0 +1,32 @@
+<div id="viewer-container"></div>
+<script>
+  var layer = undefined
+  initViewer()
+  main()
+  async function main() {
+    layer = await Creatar3d.ImageLayer.build({
+      type: Creatar3d.ImageryType.WMS,
+      url: 'http://192.168.1.198:5350/geoserver/wms',
+      layers: 'ws_yc_2d:工程地质评价图',
+      parameters: {
+        service: 'WMS',
+        format: 'image/png',
+        transparent: true
+      }
+    })
+    // 点击事件
+    layer.on(
+      Creatar3d.LayerEventType.CLICK,
+      function (param) {
+        console.log(param)
+      },
+      this
+    )
+    map.addLayer(layer)
+    // 异步飞向
+    layer.flyTo().then(() => {
+      console.log(222)
+    })
+  }
+</script>
+<style></style>

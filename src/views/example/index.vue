@@ -1,6 +1,5 @@
 <template>
   <div class="sandcastle-box">
- 
     <div class="sandcastle-content">
       <!-- 编辑器 -->
       <div v-show="codeVisible" ref="sandcastlCodebox" class="sandcastl-codebox">
@@ -30,8 +29,7 @@
       <!-- 视图 -->
       <div class="sandcastl-global">
         <div class="top-content">
-          <el-button size="mini" :class="codeVisible?'el-icon-s-fold':'el-icon-s-unfold'" @click="codeVisible=!codeVisible" v-html="codeVisible?'收起源代码':'打开源代码'"></el-button>
-          
+          <el-button size="mini" :class="codeVisible ? 'el-icon-s-fold' : 'el-icon-s-unfold'" @click="codeVisible = !codeVisible" v-html="codeVisible ? '收起源代码' : '打开源代码'"></el-button>
         </div>
         <div ref="example" class="example"></div>
         <div class="fullScreen" @click="fullMap">
@@ -45,7 +43,7 @@
         <span v-for="item in examplesType" :key="item.name" :class="{ typeActive: item === activeItem }" @click="footerType(item)">{{ item.label }}</span>
       </div>
       <ul ref="footer" class="sandcastle-footerUl">
-        <li v-for="item in examplesData" v-show="item.show" :key="item.name" :class="{ nameActive: item.name.toLowerCase() === example }" @click="changeExample(item)">
+        <li v-for="item in examplesData" v-show="item.show" :key="item.name" :class="{ nameActive: item.name === example }" @click="changeExample(item)">
           <p>
             <span>{{ item.label }}</span>
           </p>
@@ -116,12 +114,12 @@ export default {
       }
     }
   },
-  async  mounted() {
+  async mounted() {
     await this.getExamplesData()
     const that = this
     this.$refs.footer.addEventListener(
       'mousewheel',
-      function(e) {
+      function (e) {
         if (e.wheelDelta) {
           that.$refs.footer.scrollLeft -= (e.wheelDelta * 70) / 120
         }
@@ -237,7 +235,6 @@ export default {
               })
             })
         })
-      
       })
     },
     footerType(item) {
@@ -255,8 +252,8 @@ export default {
     changeExample(item) {
       this.$route.query[name] = item.name
       this.activeName = 'js-editor'
-      this.type = item.type.toLowerCase()
-      this.example = item.name.toLowerCase()
+      this.type = item.type
+      this.example = item.name
       axios.all([this.getTempPage(), this.getExamplePage()]).then(
         axios.spread((tempPage, examplePage) => {
           this.tempHtml = tempPage.data
@@ -300,7 +297,6 @@ export default {
     },
     //全屏
     fullScreen(element) {
-
       if (element.requestFullscreen) {
         element.requestFullscreen()
       } else if (element.msRequestFullscreen) {
@@ -311,7 +307,6 @@ export default {
         element.webkitRequestFullscreen()
       }
     }
-
   }
 }
 </script>
@@ -366,18 +361,18 @@ export default {
         bottom: 44px;
         left: 20px;
       }
-      .top-content{
-    width: 100%;
-    height: 30px;
-    position: absolute;
-    /* z-index: 2; */
-    background-color: #000000b3;
-    .el-button{
-      margin: 2px;
-      background-color: unset;
-      color: rgb(238, 238, 238);
-      border: none;
-    }
+      .top-content {
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        /* z-index: 2; */
+        background-color: #000000b3;
+        .el-button {
+          margin: 2px;
+          background-color: unset;
+          color: rgb(238, 238, 238);
+          border: none;
+        }
       }
     }
     .sandcastl-codebox {

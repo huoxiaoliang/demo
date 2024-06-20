@@ -95,7 +95,7 @@
           "label": "XYZ影像图层"
         },
         {
-          "name": "WMSImageryLayer",
+          "name": "wmsImageryLayer",
           "label": "WMS服务图层"
         },
         {
