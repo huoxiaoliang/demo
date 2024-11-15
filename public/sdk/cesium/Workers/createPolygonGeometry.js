@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.114
+ * Version 1.123.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -25,83 +25,82 @@
 
 import {
   BoundingRectangle_default
-} from "./chunk-IQBYFRVW.js";
+} from "./chunk-VO4SXJXT.js";
 import {
   PolygonGeometryLibrary_default
-} from "./chunk-4EBHOMFX.js";
+} from "./chunk-IAX6MIST.js";
 import {
   ArcType_default
-} from "./chunk-IX2JCCNM.js";
+} from "./chunk-7EBHNJTG.js";
 import {
   GeometryInstance_default
-} from "./chunk-5WQ523AW.js";
+} from "./chunk-2XOUWNPN.js";
 import {
   GeometryPipeline_default
-} from "./chunk-LZGHD6NY.js";
-import "./chunk-R5X4OQT4.js";
-import "./chunk-WBQCVXR3.js";
+} from "./chunk-PH3T7LNP.js";
+import "./chunk-GRQQHWMD.js";
+import "./chunk-IVCFTVYW.js";
 import {
   GeometryOffsetAttribute_default
-} from "./chunk-NKPBIX7F.js";
+} from "./chunk-PNA47CR7.js";
 import {
   VertexFormat_default
-} from "./chunk-46UD5ABS.js";
+} from "./chunk-X6YBZOOA.js";
 import {
   EllipsoidTangentPlane_default
-} from "./chunk-PNBGBETF.js";
-import "./chunk-AIPU2VSX.js";
+} from "./chunk-76KRKKEF.js";
+import "./chunk-MV7YO647.js";
 import {
   PolygonPipeline_default,
   WindingOrder_default
-} from "./chunk-BZP4T2JJ.js";
-import "./chunk-RAEV7K66.js";
-import "./chunk-OVLG3FRS.js";
+} from "./chunk-GSJ6LWIS.js";
+import "./chunk-XDJ7V4NZ.js";
+import "./chunk-YT5PQMSP.js";
 import {
   IntersectionTests_default,
   Ray_default
-} from "./chunk-VRGFV2UO.js";
-import "./chunk-XWXM2O2R.js";
+} from "./chunk-DR56WFYZ.js";
+import "./chunk-KKMH4BKN.js";
 import {
   IndexDatatype_default
-} from "./chunk-S6SKF6DT.js";
-import "./chunk-VK3EJHWI.js";
+} from "./chunk-H3RMGG7L.js";
+import "./chunk-WMHJAREU.js";
 import {
   GeometryAttribute_default,
   Geometry_default
-} from "./chunk-JY5YEZFA.js";
+} from "./chunk-PJHRB4YJ.js";
 import {
-  BoundingSphere_default,
-  Quaternion_default
-} from "./chunk-F6SE42BK.js";
-import "./chunk-WZU2YLWG.js";
+  BoundingSphere_default
+} from "./chunk-54NYY4U4.js";
 import {
+  Quaternion_default,
   Rectangle_default
-} from "./chunk-QZAD5O7I.js";
+} from "./chunk-7D6T2WYT.js";
 import {
   ComponentDatatype_default
-} from "./chunk-GEJTYLCO.js";
+} from "./chunk-2IJZVFHY.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Cartographic_default,
   Ellipsoid_default,
   Matrix3_default
-} from "./chunk-72SANQJV.js";
+} from "./chunk-AER5CLXD.js";
 import {
   Math_default
-} from "./chunk-RV7ZYPFT.js";
-import "./chunk-6HZQPRUS.js";
-import "./chunk-JXDC723O.js";
+} from "./chunk-LVHHB5T6.js";
+import "./chunk-COHL4R3G.js";
+import "./chunk-NELAPOO6.js";
 import {
   defaultValue_default
-} from "./chunk-5M3U6ZMA.js";
+} from "./chunk-Q7IIOKAT.js";
 import {
   Check_default,
   DeveloperError_default
-} from "./chunk-S4MAZ3SS.js";
+} from "./chunk-EMCXAVSG.js";
 import {
   defined_default
-} from "./chunk-UGK3FCDY.js";
+} from "./chunk-K7QC3WDT.js";
 
 // packages/engine/Source/Core/Stereographic.js
 function Stereographic(position, tangentPlane) {
@@ -177,7 +176,7 @@ var scratchCartographic = new Cartographic_default();
 var scratchCartesian = new Cartesian3_default();
 Stereographic.prototype.getLatitude = function(ellipsoid) {
   if (!defined_default(ellipsoid)) {
-    ellipsoid = Ellipsoid_default.WGS84;
+    ellipsoid = Ellipsoid_default.default;
   }
   scratchCartographic.latitude = this.conformalLatitude;
   scratchCartographic.longitude = this.longitude;
@@ -384,7 +383,7 @@ function computeAttributes(options) {
             scratchPosition
           );
           p = ellipsoid.scaleToGeodeticSurface(p, p);
-          const st = projectTo2d(p, appendTextureCoordinatesCartesian2);
+          const st = projectTo2d([p], appendTextureCoordinatesCartesian2)[0];
           Cartesian2_default.subtract(st, origin, st);
           const stx = Math_default.clamp(st.x / boundingRectangle.width, 0, 1);
           const sty = Math_default.clamp(st.y / boundingRectangle.height, 0, 1);
@@ -736,7 +735,7 @@ function PolygonGeometry(options) {
   }
   const polygonHierarchy = options.polygonHierarchy;
   const vertexFormat = defaultValue_default(options.vertexFormat, VertexFormat_default.DEFAULT);
-  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84);
+  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
   const granularity = defaultValue_default(
     options.granularity,
     Math_default.RADIANS_PER_DEGREE
@@ -1295,13 +1294,11 @@ PolygonGeometry.createGeometry = function(polygonGeometry) {
         const length = geometryInstance.geometry.attributes.position.values.length;
         const offsetValue = polygonGeometry._offsetAttribute === GeometryOffsetAttribute_default.NONE ? 0 : 1;
         const applyOffset = new Uint8Array(length / 3).fill(offsetValue);
-        geometryInstance.geometry.attributes.applyOffset = new GeometryAttribute_default(
-          {
-            componentDatatype: ComponentDatatype_default.UNSIGNED_BYTE,
-            componentsPerAttribute: 1,
-            values: applyOffset
-          }
-        );
+        geometryInstance.geometry.attributes.applyOffset = new GeometryAttribute_default({
+          componentDatatype: ComponentDatatype_default.UNSIGNED_BYTE,
+          componentsPerAttribute: 1,
+          values: applyOffset
+        });
       }
       geometries.push(geometryInstance);
     }
@@ -1386,9 +1383,7 @@ Object.defineProperties(PolygonGeometry.prototype, {
   textureCoordinateRotationPoints: {
     get: function() {
       if (!defined_default(this._textureCoordinateRotationPoints)) {
-        this._textureCoordinateRotationPoints = textureCoordinateRotationPoints(
-          this
-        );
+        this._textureCoordinateRotationPoints = textureCoordinateRotationPoints(this);
       }
       return this._textureCoordinateRotationPoints;
     }

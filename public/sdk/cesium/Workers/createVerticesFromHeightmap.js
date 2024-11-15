@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.114
+ * Version 1.123.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -26,56 +26,55 @@
 import {
   EllipsoidalOccluder_default,
   TerrainEncoding_default
-} from "./chunk-5YLJ77FF.js";
+} from "./chunk-22FZ334F.js";
 import {
   createTaskProcessorWorker_default
-} from "./chunk-ODW7WYM4.js";
+} from "./chunk-IJWXYSFC.js";
 import {
   WebMercatorProjection_default
-} from "./chunk-DTAIXKTO.js";
+} from "./chunk-GBPW65E3.js";
 import {
   OrientedBoundingBox_default
-} from "./chunk-FP6GYBFX.js";
-import "./chunk-R5X4OQT4.js";
-import "./chunk-PNBGBETF.js";
+} from "./chunk-VHGI7D3P.js";
+import "./chunk-GRQQHWMD.js";
+import "./chunk-76KRKKEF.js";
 import {
   AxisAlignedBoundingBox_default
-} from "./chunk-AIPU2VSX.js";
-import "./chunk-VRGFV2UO.js";
-import "./chunk-XWXM2O2R.js";
+} from "./chunk-MV7YO647.js";
+import "./chunk-DR56WFYZ.js";
+import "./chunk-KKMH4BKN.js";
 import {
-  BoundingSphere_default,
-  Transforms_default
-} from "./chunk-F6SE42BK.js";
-import "./chunk-WZU2YLWG.js";
+  BoundingSphere_default
+} from "./chunk-54NYY4U4.js";
 import {
   Matrix4_default,
-  Rectangle_default
-} from "./chunk-QZAD5O7I.js";
-import "./chunk-GEJTYLCO.js";
+  Rectangle_default,
+  Transforms_default
+} from "./chunk-7D6T2WYT.js";
+import "./chunk-2IJZVFHY.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Ellipsoid_default
-} from "./chunk-72SANQJV.js";
+} from "./chunk-AER5CLXD.js";
 import {
   Math_default
-} from "./chunk-RV7ZYPFT.js";
-import "./chunk-6HZQPRUS.js";
+} from "./chunk-LVHHB5T6.js";
+import "./chunk-COHL4R3G.js";
 import {
   RuntimeError_default
-} from "./chunk-JXDC723O.js";
+} from "./chunk-NELAPOO6.js";
 import {
   defaultValue_default
-} from "./chunk-5M3U6ZMA.js";
+} from "./chunk-Q7IIOKAT.js";
 import {
   DeveloperError_default
-} from "./chunk-S4MAZ3SS.js";
+} from "./chunk-EMCXAVSG.js";
 import {
   __commonJS,
   __toESM,
   defined_default
-} from "./chunk-UGK3FCDY.js";
+} from "./chunk-K7QC3WDT.js";
 
 // node_modules/lerc/LercDecode.js
 var require_LercDecode = __commonJS({
@@ -1507,10 +1506,12 @@ var require_LercDecode = __commonJS({
             var s = 0;
             switch (t) {
               case 0:
+              //ubyte
               case 1:
                 s = 1;
                 break;
               case 2:
+              //short
               case 3:
                 s = 2;
                 break;
@@ -1531,10 +1532,12 @@ var require_LercDecode = __commonJS({
             var t = dt;
             switch (dt) {
               case 2:
+              //short
               case 4:
                 t = dt - tc;
                 break;
               case 3:
+              //ushort
               case 5:
                 t = dt - 2 * tc;
                 break;
@@ -1932,7 +1935,7 @@ HeightmapTessellator.computeVertices = function(options) {
   const skirtHeight = options.skirtHeight;
   const hasSkirts = skirtHeight > 0;
   const isGeographic = defaultValue_default(options.isGeographic, true);
-  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84);
+  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
   const oneOverGlobeSemimajorAxis = 1 / ellipsoid.maximumRadius;
   const nativeRectangle = Rectangle_default.clone(options.nativeRectangle);
   const rectangle = Rectangle_default.clone(options.rectangle);
@@ -2019,9 +2022,7 @@ HeightmapTessellator.computeVertices = function(options) {
   let southMercatorY;
   let oneOverMercatorHeight;
   if (includeWebMercatorT) {
-    southMercatorY = WebMercatorProjection_default.geodeticLatitudeToMercatorAngle(
-      geographicSouth
-    );
+    southMercatorY = WebMercatorProjection_default.geodeticLatitudeToMercatorAngle(geographicSouth);
     oneOverMercatorHeight = 1 / (WebMercatorProjection_default.geodeticLatitudeToMercatorAngle(geographicNorth) - southMercatorY);
   }
   const minimum = minimumScratch;
@@ -2167,9 +2168,7 @@ HeightmapTessellator.computeVertices = function(options) {
         webMercatorTs[index] = webMercatorT;
       }
       if (includeGeodeticSurfaceNormals) {
-        geodeticSurfaceNormals[index] = ellipsoid.geodeticSurfaceNormal(
-          position
-        );
+        geodeticSurfaceNormals[index] = ellipsoid.geodeticSurfaceNormal(position);
       }
     }
   }

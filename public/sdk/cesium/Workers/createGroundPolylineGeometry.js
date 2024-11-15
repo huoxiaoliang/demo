@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.114
+ * Version 1.123.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -25,73 +25,72 @@
 
 import {
   WebMercatorProjection_default
-} from "./chunk-DTAIXKTO.js";
+} from "./chunk-GBPW65E3.js";
 import {
   ArcType_default
-} from "./chunk-IX2JCCNM.js";
+} from "./chunk-7EBHNJTG.js";
 import {
   EncodedCartesian3_default
-} from "./chunk-WBQCVXR3.js";
+} from "./chunk-IVCFTVYW.js";
 import {
   EllipsoidGeodesic_default
-} from "./chunk-L2ZN645J.js";
+} from "./chunk-7CKQ7PVJ.js";
 import {
   arrayRemoveDuplicates_default
-} from "./chunk-RAEV7K66.js";
+} from "./chunk-XDJ7V4NZ.js";
 import {
   EllipsoidRhumbLine_default
-} from "./chunk-OVLG3FRS.js";
+} from "./chunk-YT5PQMSP.js";
 import {
   IntersectionTests_default
-} from "./chunk-VRGFV2UO.js";
+} from "./chunk-DR56WFYZ.js";
 import {
   Plane_default
-} from "./chunk-XWXM2O2R.js";
+} from "./chunk-KKMH4BKN.js";
 import {
   GeometryAttribute_default,
   Geometry_default
-} from "./chunk-JY5YEZFA.js";
+} from "./chunk-PJHRB4YJ.js";
 import {
   BoundingSphere_default,
-  GeographicProjection_default,
+  GeographicProjection_default
+} from "./chunk-54NYY4U4.js";
+import {
   Quaternion_default,
+  Rectangle_default,
   Resource_default,
   buildModuleUrl_default
-} from "./chunk-F6SE42BK.js";
-import "./chunk-WZU2YLWG.js";
-import {
-  Rectangle_default
-} from "./chunk-QZAD5O7I.js";
+} from "./chunk-7D6T2WYT.js";
 import {
   ComponentDatatype_default
-} from "./chunk-GEJTYLCO.js";
+} from "./chunk-2IJZVFHY.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Cartographic_default,
   Ellipsoid_default,
   Matrix3_default
-} from "./chunk-72SANQJV.js";
+} from "./chunk-AER5CLXD.js";
 import {
   Math_default
-} from "./chunk-RV7ZYPFT.js";
-import "./chunk-6HZQPRUS.js";
-import "./chunk-JXDC723O.js";
+} from "./chunk-LVHHB5T6.js";
+import "./chunk-COHL4R3G.js";
+import "./chunk-NELAPOO6.js";
 import {
   defaultValue_default
-} from "./chunk-5M3U6ZMA.js";
+} from "./chunk-Q7IIOKAT.js";
 import {
   Check_default,
   DeveloperError_default
-} from "./chunk-S4MAZ3SS.js";
+} from "./chunk-EMCXAVSG.js";
 import {
   defined_default
-} from "./chunk-UGK3FCDY.js";
+} from "./chunk-K7QC3WDT.js";
 
 // packages/engine/Source/Core/GeographicTilingScheme.js
 function GeographicTilingScheme(options) {
   options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
-  this._ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84);
+  this._ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
   this._rectangle = defaultValue_default(options.rectangle, Rectangle_default.MAX_VALUE);
   this._projection = new GeographicProjection_default(this._ellipsoid);
   this._numberOfLevelZeroTilesX = defaultValue_default(
@@ -249,7 +248,7 @@ ApproximateTerrainHeights.getMinimumMaximumHeights = function(rectangle, ellipso
       "You must call ApproximateTerrainHeights.initialize and wait for the promise to resolve before using this function"
     );
   }
-  ellipsoid = defaultValue_default(ellipsoid, Ellipsoid_default.WGS84);
+  ellipsoid = defaultValue_default(ellipsoid, Ellipsoid_default.default);
   const xyLevel = getTileXYLevel(rectangle);
   let minTerrainHeight = ApproximateTerrainHeights._defaultMinTerrainHeight;
   let maxTerrainHeight = ApproximateTerrainHeights._defaultMaxTerrainHeight;
@@ -303,7 +302,7 @@ ApproximateTerrainHeights.getBoundingSphere = function(rectangle, ellipsoid) {
       "You must call ApproximateTerrainHeights.initialize and wait for the promise to resolve before using this function"
     );
   }
-  ellipsoid = defaultValue_default(ellipsoid, Ellipsoid_default.WGS84);
+  ellipsoid = defaultValue_default(ellipsoid, Ellipsoid_default.default);
   const xyLevel = getTileXYLevel(rectangle);
   let maxTerrainHeight = ApproximateTerrainHeights._defaultMaxTerrainHeight;
   if (defined_default(xyLevel)) {
@@ -423,7 +422,7 @@ function GroundPolylineGeometry(options) {
   this.granularity = defaultValue_default(options.granularity, 9999);
   this.loop = defaultValue_default(options.loop, false);
   this.arcType = defaultValue_default(options.arcType, ArcType_default.GEODESIC);
-  this._ellipsoid = Ellipsoid_default.WGS84;
+  this._ellipsoid = Ellipsoid_default.default;
   this._projectionIndex = 0;
   this._workerName = "createGroundPolylineGeometry";
   this._scene3DOnly = false;

@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.114
+ * Version 1.123.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -25,63 +25,62 @@
 
 import {
   BoundingRectangle_default
-} from "./chunk-IQBYFRVW.js";
+} from "./chunk-VO4SXJXT.js";
 import {
   CornerType_default,
   PolylineVolumeGeometryLibrary_default
-} from "./chunk-7XEAYGZK.js";
-import "./chunk-JCNXK6EL.js";
-import "./chunk-L2ZN645J.js";
-import "./chunk-PNBGBETF.js";
-import "./chunk-AIPU2VSX.js";
+} from "./chunk-ZPTNVB3S.js";
+import "./chunk-KJ65M35B.js";
+import "./chunk-7CKQ7PVJ.js";
+import "./chunk-76KRKKEF.js";
+import "./chunk-MV7YO647.js";
 import {
   PolygonPipeline_default,
   WindingOrder_default
-} from "./chunk-BZP4T2JJ.js";
+} from "./chunk-GSJ6LWIS.js";
 import {
   arrayRemoveDuplicates_default
-} from "./chunk-RAEV7K66.js";
-import "./chunk-OVLG3FRS.js";
-import "./chunk-VRGFV2UO.js";
-import "./chunk-XWXM2O2R.js";
+} from "./chunk-XDJ7V4NZ.js";
+import "./chunk-YT5PQMSP.js";
+import "./chunk-DR56WFYZ.js";
+import "./chunk-KKMH4BKN.js";
 import {
   IndexDatatype_default
-} from "./chunk-S6SKF6DT.js";
+} from "./chunk-H3RMGG7L.js";
 import {
   GeometryAttributes_default
-} from "./chunk-VK3EJHWI.js";
+} from "./chunk-WMHJAREU.js";
 import {
   GeometryAttribute_default,
   Geometry_default,
   PrimitiveType_default
-} from "./chunk-JY5YEZFA.js";
+} from "./chunk-PJHRB4YJ.js";
 import {
   BoundingSphere_default
-} from "./chunk-F6SE42BK.js";
-import "./chunk-WZU2YLWG.js";
-import "./chunk-QZAD5O7I.js";
+} from "./chunk-54NYY4U4.js";
+import "./chunk-7D6T2WYT.js";
 import {
   ComponentDatatype_default
-} from "./chunk-GEJTYLCO.js";
+} from "./chunk-2IJZVFHY.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Ellipsoid_default
-} from "./chunk-72SANQJV.js";
+} from "./chunk-AER5CLXD.js";
 import {
   Math_default
-} from "./chunk-RV7ZYPFT.js";
-import "./chunk-6HZQPRUS.js";
-import "./chunk-JXDC723O.js";
+} from "./chunk-LVHHB5T6.js";
+import "./chunk-COHL4R3G.js";
+import "./chunk-NELAPOO6.js";
 import {
   defaultValue_default
-} from "./chunk-5M3U6ZMA.js";
+} from "./chunk-Q7IIOKAT.js";
 import {
   DeveloperError_default
-} from "./chunk-S4MAZ3SS.js";
+} from "./chunk-EMCXAVSG.js";
 import {
   defined_default
-} from "./chunk-UGK3FCDY.js";
+} from "./chunk-K7QC3WDT.js";
 
 // packages/engine/Source/Core/PolylineVolumeOutlineGeometry.js
 function computeAttributes(positions, shape) {
@@ -146,7 +145,7 @@ function PolylineVolumeOutlineGeometry(options) {
   this._positions = positions;
   this._shape = shape;
   this._ellipsoid = Ellipsoid_default.clone(
-    defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84)
+    defaultValue_default(options.ellipsoid, Ellipsoid_default.default)
   );
   this._cornerType = defaultValue_default(options.cornerType, CornerType_default.ROUNDED);
   this._granularity = defaultValue_default(

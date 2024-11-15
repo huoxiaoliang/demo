@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.114
+ * Version 1.123.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -25,72 +25,71 @@
 
 import {
   RectangleGeometryLibrary_default
-} from "./chunk-MY3VNFGQ.js";
+} from "./chunk-BH5M522L.js";
 import {
   GeometryInstance_default
-} from "./chunk-5WQ523AW.js";
+} from "./chunk-2XOUWNPN.js";
 import {
   GeometryPipeline_default
-} from "./chunk-LZGHD6NY.js";
-import "./chunk-R5X4OQT4.js";
-import "./chunk-WBQCVXR3.js";
+} from "./chunk-PH3T7LNP.js";
+import "./chunk-GRQQHWMD.js";
+import "./chunk-IVCFTVYW.js";
 import {
   GeometryOffsetAttribute_default
-} from "./chunk-NKPBIX7F.js";
+} from "./chunk-PNA47CR7.js";
 import {
   VertexFormat_default
-} from "./chunk-46UD5ABS.js";
+} from "./chunk-X6YBZOOA.js";
 import {
   PolygonPipeline_default
-} from "./chunk-BZP4T2JJ.js";
-import "./chunk-OVLG3FRS.js";
-import "./chunk-VRGFV2UO.js";
-import "./chunk-XWXM2O2R.js";
+} from "./chunk-GSJ6LWIS.js";
+import "./chunk-YT5PQMSP.js";
+import "./chunk-DR56WFYZ.js";
+import "./chunk-KKMH4BKN.js";
 import {
   IndexDatatype_default
-} from "./chunk-S6SKF6DT.js";
+} from "./chunk-H3RMGG7L.js";
 import {
   GeometryAttributes_default
-} from "./chunk-VK3EJHWI.js";
+} from "./chunk-WMHJAREU.js";
 import {
   GeometryAttribute_default,
   Geometry_default,
   PrimitiveType_default
-} from "./chunk-JY5YEZFA.js";
+} from "./chunk-PJHRB4YJ.js";
 import {
-  BoundingSphere_default,
-  Quaternion_default
-} from "./chunk-F6SE42BK.js";
-import "./chunk-WZU2YLWG.js";
+  BoundingSphere_default
+} from "./chunk-54NYY4U4.js";
 import {
   Matrix2_default,
+  Quaternion_default,
   Rectangle_default
-} from "./chunk-QZAD5O7I.js";
+} from "./chunk-7D6T2WYT.js";
 import {
   ComponentDatatype_default
-} from "./chunk-GEJTYLCO.js";
+} from "./chunk-2IJZVFHY.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Cartographic_default,
   Ellipsoid_default,
   Matrix3_default
-} from "./chunk-72SANQJV.js";
+} from "./chunk-AER5CLXD.js";
 import {
   Math_default
-} from "./chunk-RV7ZYPFT.js";
-import "./chunk-6HZQPRUS.js";
-import "./chunk-JXDC723O.js";
+} from "./chunk-LVHHB5T6.js";
+import "./chunk-COHL4R3G.js";
+import "./chunk-NELAPOO6.js";
 import {
   defaultValue_default
-} from "./chunk-5M3U6ZMA.js";
+} from "./chunk-Q7IIOKAT.js";
 import {
   Check_default,
   DeveloperError_default
-} from "./chunk-S4MAZ3SS.js";
+} from "./chunk-EMCXAVSG.js";
 import {
   defined_default
-} from "./chunk-UGK3FCDY.js";
+} from "./chunk-K7QC3WDT.js";
 
 // packages/engine/Source/Core/RectangleGeometry.js
 var positionScratch = new Cartesian3_default();
@@ -922,7 +921,7 @@ function RectangleGeometry(options) {
   options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
   const rectangle = options.rectangle;
   Check_default.typeOf.object("rectangle", rectangle);
-  Rectangle_default.validate(rectangle);
+  Rectangle_default._validate(rectangle);
   if (rectangle.north < rectangle.south) {
     throw new DeveloperError_default(
       "options.rectangle.north must be greater than or equal to options.rectangle.south"
@@ -936,7 +935,7 @@ function RectangleGeometry(options) {
     Math_default.RADIANS_PER_DEGREE
   );
   this._ellipsoid = Ellipsoid_default.clone(
-    defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84)
+    defaultValue_default(options.ellipsoid, Ellipsoid_default.default)
   );
   this._surfaceHeight = Math.max(height, extrudedHeight);
   this._rotation = defaultValue_default(options.rotation, 0);
@@ -1031,7 +1030,7 @@ RectangleGeometry.computeRectangle = function(options, result) {
   options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
   const rectangle = options.rectangle;
   Check_default.typeOf.object("rectangle", rectangle);
-  Rectangle_default.validate(rectangle);
+  Rectangle_default._validate(rectangle);
   if (rectangle.north < rectangle.south) {
     throw new DeveloperError_default(
       "options.rectangle.north must be greater than or equal to options.rectangle.south"
@@ -1041,7 +1040,7 @@ RectangleGeometry.computeRectangle = function(options, result) {
     options.granularity,
     Math_default.RADIANS_PER_DEGREE
   );
-  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.WGS84);
+  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
   const rotation = defaultValue_default(options.rotation, 0);
   return computeRectangle(rectangle, granularity, rotation, ellipsoid, result);
 };
@@ -1248,9 +1247,7 @@ Object.defineProperties(RectangleGeometry.prototype, {
   textureCoordinateRotationPoints: {
     get: function() {
       if (!defined_default(this._textureCoordinateRotationPoints)) {
-        this._textureCoordinateRotationPoints = textureCoordinateRotationPoints(
-          this
-        );
+        this._textureCoordinateRotationPoints = textureCoordinateRotationPoints(this);
       }
       return this._textureCoordinateRotationPoints;
     }

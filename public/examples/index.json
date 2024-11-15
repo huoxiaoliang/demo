@@ -56,6 +56,11 @@
           "name": "tetrahedron",
           "label": "四面体",
           "pictureType": "gif"
+        },
+        {
+          "name": "tileset",
+          "label": "3dtiles",
+          "pictureType": "gif"
         }
       ]
     },
@@ -108,8 +113,7 @@
         },
         {
           "name": "tilesetLayer",
-          "label": "3dtile图层",
-          "pictureType": "gif"
+          "label": "3dtile图层裁剪"
         },
         {
           "name": "s3mLayer",
