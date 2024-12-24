@@ -154,7 +154,7 @@
           "label": "加载蒙层"
         },
         {
-          "name": "KeyboardRoaming",
+          "name": "keyboardRoaming",
           "label": "行走模式"
         },
         {

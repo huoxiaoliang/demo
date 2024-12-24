@@ -9,8 +9,40 @@
 <div id="viewer-container"></div>
 <script>
   initViewer()
-  layer = new Creatar3d.S3MLayer({ url: 'examples/data/CBD/cbd.scp' })
+  layer = new Creatar3d.S3MLayer({ url: 'https://www.supermapol.com/realspace/services/3D-JinJiangS3MB/rest/realspace/datas/Combine/config' })
   map.addLayer(layer)
   layer.flyTo()
+
+  addGuiController()
+  function drawPolygon() {
+    map.graphicLayer.draw({
+      type: 'polygon',
+      callback: (graphic) => {
+        layer.addExcavationRegion(graphic.positions)
+        graphic.remove()
+      }
+    })
+  }
+
+  function addGuiController() {
+    let gui = new dat.GUI()
+    let controls = {
+      enable: true,
+      unionClippingRegions: true,
+      draw: drawPolygon,
+      clear: () => {
+        layer.clearExcavationRegion()
+      }
+    }
+    gui
+      .add(controls, 'unionClippingRegions')
+      .onChange((value) => {
+        layer.setExcavationMode(value ? 1 : 0)
+      })
+      .name('是否外切')
+    gui.add(controls, 'draw').name('绘制范围')
+
+    gui.add(controls, 'clear').name('清除')
+  }
 </script>
 <style></style>
