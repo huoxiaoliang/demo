@@ -1,11 +1,7 @@
 <div id="viewer-container"></div>
 <script>
   initViewer()
-  map.setOptions({
-    widgetController: {
-      enableImagerySwitchTerrain: true // 默认加载地形
-    }
-  })
+
   layer = new Creatar3d.GraphicLayer()
   map.addLayer(layer)
   getJSON('examples/data/point.json', function (data) {

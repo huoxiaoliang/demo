@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.123.1
+ * Version 1.134.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -26,52 +26,49 @@
 import {
   EllipsoidalOccluder_default,
   TerrainEncoding_default
-} from "./chunk-22FZ334F.js";
+} from "./chunk-J2XQVKVH.js";
 import {
   createTaskProcessorWorker_default
-} from "./chunk-IJWXYSFC.js";
+} from "./chunk-TGJQMEL4.js";
 import {
   WebMercatorProjection_default
-} from "./chunk-GBPW65E3.js";
+} from "./chunk-KEPPNSBL.js";
 import {
   OrientedBoundingBox_default
-} from "./chunk-VHGI7D3P.js";
-import "./chunk-GRQQHWMD.js";
-import "./chunk-76KRKKEF.js";
+} from "./chunk-DAJKOQW6.js";
+import "./chunk-PZUZCAX3.js";
+import "./chunk-NYYQZ3LH.js";
 import {
   AxisAlignedBoundingBox_default
-} from "./chunk-MV7YO647.js";
-import "./chunk-DR56WFYZ.js";
-import "./chunk-KKMH4BKN.js";
+} from "./chunk-XG54SG4O.js";
+import "./chunk-W6KMV4F5.js";
+import "./chunk-PJAA7QSC.js";
 import {
   BoundingSphere_default
-} from "./chunk-54NYY4U4.js";
+} from "./chunk-ASVODZNK.js";
 import {
   Matrix4_default,
   Rectangle_default,
   Transforms_default
-} from "./chunk-7D6T2WYT.js";
-import "./chunk-2IJZVFHY.js";
+} from "./chunk-UKA7OISV.js";
+import "./chunk-UFSYRVC5.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Cartographic_default,
   Ellipsoid_default
-} from "./chunk-AER5CLXD.js";
+} from "./chunk-LV3G32QE.js";
 import {
   Math_default
-} from "./chunk-LVHHB5T6.js";
-import "./chunk-COHL4R3G.js";
+} from "./chunk-LU7DLY2L.js";
+import "./chunk-XJVRYJVZ.js";
 import {
   RuntimeError_default
-} from "./chunk-NELAPOO6.js";
-import {
-  defaultValue_default
-} from "./chunk-Q7IIOKAT.js";
-import "./chunk-EMCXAVSG.js";
+} from "./chunk-FE565QHX.js";
+import "./chunk-DBHL2UVG.js";
 import {
   defined_default
-} from "./chunk-K7QC3WDT.js";
+} from "./chunk-3RKX3UFI.js";
 
 // packages/engine/Source/Workers/createVerticesFromGoogleEarthEnterpriseBuffer.js
 var sizeOfUint16 = Uint16Array.BYTES_PER_ELEMENT;
@@ -80,7 +77,7 @@ var sizeOfUint32 = Uint32Array.BYTES_PER_ELEMENT;
 var sizeOfFloat = Float32Array.BYTES_PER_ELEMENT;
 var sizeOfDouble = Float64Array.BYTES_PER_ELEMENT;
 function indexOfEpsilon(arr, elem, elemType) {
-  elemType = defaultValue_default(elemType, Math_default);
+  elemType = elemType ?? Math_default;
   const count = arr.length;
   for (let i = 0; i < count; ++i) {
     if (elemType.equalsEpsilon(arr[i], elem, Math_default.EPSILON12)) {

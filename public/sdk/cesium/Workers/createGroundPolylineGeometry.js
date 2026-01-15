@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.123.1
+ * Version 1.134.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -25,82 +25,74 @@
 
 import {
   WebMercatorProjection_default
-} from "./chunk-GBPW65E3.js";
+} from "./chunk-KEPPNSBL.js";
 import {
   ArcType_default
-} from "./chunk-7EBHNJTG.js";
+} from "./chunk-T7HU6E7G.js";
 import {
   EncodedCartesian3_default
-} from "./chunk-IVCFTVYW.js";
+} from "./chunk-RR3NCT4R.js";
 import {
   EllipsoidGeodesic_default
-} from "./chunk-7CKQ7PVJ.js";
+} from "./chunk-G3CKZ34K.js";
 import {
   arrayRemoveDuplicates_default
-} from "./chunk-XDJ7V4NZ.js";
+} from "./chunk-QNOIRRJK.js";
 import {
   EllipsoidRhumbLine_default
-} from "./chunk-YT5PQMSP.js";
+} from "./chunk-2SI7DEW5.js";
 import {
   IntersectionTests_default
-} from "./chunk-DR56WFYZ.js";
+} from "./chunk-W6KMV4F5.js";
 import {
   Plane_default
-} from "./chunk-KKMH4BKN.js";
+} from "./chunk-PJAA7QSC.js";
 import {
   GeometryAttribute_default,
   Geometry_default
-} from "./chunk-PJHRB4YJ.js";
+} from "./chunk-2QPH5QDK.js";
 import {
   BoundingSphere_default,
   GeographicProjection_default
-} from "./chunk-54NYY4U4.js";
+} from "./chunk-ASVODZNK.js";
 import {
   Quaternion_default,
   Rectangle_default,
   Resource_default,
   buildModuleUrl_default
-} from "./chunk-7D6T2WYT.js";
+} from "./chunk-UKA7OISV.js";
 import {
   ComponentDatatype_default
-} from "./chunk-2IJZVFHY.js";
+} from "./chunk-UFSYRVC5.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Cartographic_default,
   Ellipsoid_default,
+  Frozen_default,
   Matrix3_default
-} from "./chunk-AER5CLXD.js";
+} from "./chunk-LV3G32QE.js";
 import {
   Math_default
-} from "./chunk-LVHHB5T6.js";
-import "./chunk-COHL4R3G.js";
-import "./chunk-NELAPOO6.js";
-import {
-  defaultValue_default
-} from "./chunk-Q7IIOKAT.js";
+} from "./chunk-LU7DLY2L.js";
+import "./chunk-XJVRYJVZ.js";
+import "./chunk-FE565QHX.js";
 import {
   Check_default,
   DeveloperError_default
-} from "./chunk-EMCXAVSG.js";
+} from "./chunk-DBHL2UVG.js";
 import {
   defined_default
-} from "./chunk-K7QC3WDT.js";
+} from "./chunk-3RKX3UFI.js";
 
 // packages/engine/Source/Core/GeographicTilingScheme.js
 function GeographicTilingScheme(options) {
-  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
-  this._ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
-  this._rectangle = defaultValue_default(options.rectangle, Rectangle_default.MAX_VALUE);
+  options = options ?? Frozen_default.EMPTY_OBJECT;
+  this._ellipsoid = options.ellipsoid ?? Ellipsoid_default.default;
+  this._rectangle = options.rectangle ?? Rectangle_default.MAX_VALUE;
   this._projection = new GeographicProjection_default(this._ellipsoid);
-  this._numberOfLevelZeroTilesX = defaultValue_default(
-    options.numberOfLevelZeroTilesX,
-    2
-  );
-  this._numberOfLevelZeroTilesY = defaultValue_default(
-    options.numberOfLevelZeroTilesY,
-    1
-  );
+  this._numberOfLevelZeroTilesX = options.numberOfLevelZeroTilesX ?? 2;
+  this._numberOfLevelZeroTilesY = options.numberOfLevelZeroTilesY ?? 1;
 }
 Object.defineProperties(GeographicTilingScheme.prototype, {
   /**
@@ -248,7 +240,7 @@ ApproximateTerrainHeights.getMinimumMaximumHeights = function(rectangle, ellipso
       "You must call ApproximateTerrainHeights.initialize and wait for the promise to resolve before using this function"
     );
   }
-  ellipsoid = defaultValue_default(ellipsoid, Ellipsoid_default.default);
+  ellipsoid = ellipsoid ?? Ellipsoid_default.default;
   const xyLevel = getTileXYLevel(rectangle);
   let minTerrainHeight = ApproximateTerrainHeights._defaultMinTerrainHeight;
   let maxTerrainHeight = ApproximateTerrainHeights._defaultMaxTerrainHeight;
@@ -302,7 +294,7 @@ ApproximateTerrainHeights.getBoundingSphere = function(rectangle, ellipsoid) {
       "You must call ApproximateTerrainHeights.initialize and wait for the promise to resolve before using this function"
     );
   }
-  ellipsoid = defaultValue_default(ellipsoid, Ellipsoid_default.default);
+  ellipsoid = ellipsoid ?? Ellipsoid_default.default;
   const xyLevel = getTileXYLevel(rectangle);
   let maxTerrainHeight = ApproximateTerrainHeights._defaultMaxTerrainHeight;
   if (defined_default(xyLevel)) {
@@ -407,7 +399,7 @@ var MITER_BREAK_LARGE = Math.cos(Math_default.toRadians(150));
 var WALL_INITIAL_MIN_HEIGHT = 0;
 var WALL_INITIAL_MAX_HEIGHT = 1e3;
 function GroundPolylineGeometry(options) {
-  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  options = options ?? Frozen_default.EMPTY_OBJECT;
   const positions = options.positions;
   if (!defined_default(positions) || positions.length < 2) {
     throw new DeveloperError_default("At least two positions are required.");
@@ -417,11 +409,11 @@ function GroundPolylineGeometry(options) {
       "Valid options for arcType are ArcType.GEODESIC and ArcType.RHUMB."
     );
   }
-  this.width = defaultValue_default(options.width, 1);
+  this.width = options.width ?? 1;
   this._positions = positions;
-  this.granularity = defaultValue_default(options.granularity, 9999);
-  this.loop = defaultValue_default(options.loop, false);
-  this.arcType = defaultValue_default(options.arcType, ArcType_default.GEODESIC);
+  this.granularity = options.granularity ?? 9999;
+  this.loop = options.loop ?? false;
+  this.arcType = options.arcType ?? ArcType_default.GEODESIC;
   this._ellipsoid = Ellipsoid_default.default;
   this._projectionIndex = 0;
   this._workerName = "createGroundPolylineGeometry";
@@ -533,7 +525,7 @@ function getPosition(ellipsoid, cartographic, height, result) {
 GroundPolylineGeometry.pack = function(value, array, startingIndex) {
   Check_default.typeOf.object("value", value);
   Check_default.defined("array", array);
-  let index = defaultValue_default(startingIndex, 0);
+  let index = startingIndex ?? 0;
   const positions = value._positions;
   const positionsLength = positions.length;
   array[index++] = positionsLength;
@@ -553,7 +545,7 @@ GroundPolylineGeometry.pack = function(value, array, startingIndex) {
 };
 GroundPolylineGeometry.unpack = function(array, startingIndex, result) {
   Check_default.defined("array", array);
-  let index = defaultValue_default(startingIndex, 0);
+  let index = startingIndex ?? 0;
   const positionsLength = array[index++];
   const positions = new Array(positionsLength);
   for (let i = 0; i < positionsLength; i++) {

@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.123.1
+ * Version 1.134.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -25,71 +25,69 @@
 
 import {
   RectangleGeometryLibrary_default
-} from "./chunk-BH5M522L.js";
+} from "./chunk-W6I3LNPF.js";
 import {
   GeometryInstance_default
-} from "./chunk-2XOUWNPN.js";
+} from "./chunk-42EJCSIV.js";
 import {
   GeometryPipeline_default
-} from "./chunk-PH3T7LNP.js";
-import "./chunk-GRQQHWMD.js";
-import "./chunk-IVCFTVYW.js";
+} from "./chunk-MXOGBWMP.js";
+import "./chunk-PZUZCAX3.js";
+import "./chunk-RR3NCT4R.js";
 import {
   GeometryOffsetAttribute_default
-} from "./chunk-PNA47CR7.js";
+} from "./chunk-MQPDOWGH.js";
 import {
   VertexFormat_default
-} from "./chunk-X6YBZOOA.js";
+} from "./chunk-DDXI6UYW.js";
 import {
   PolygonPipeline_default
-} from "./chunk-GSJ6LWIS.js";
-import "./chunk-YT5PQMSP.js";
-import "./chunk-DR56WFYZ.js";
-import "./chunk-KKMH4BKN.js";
+} from "./chunk-CSDYSXBI.js";
+import "./chunk-2SI7DEW5.js";
+import "./chunk-W6KMV4F5.js";
+import "./chunk-PJAA7QSC.js";
 import {
   IndexDatatype_default
-} from "./chunk-H3RMGG7L.js";
+} from "./chunk-KVB73ECP.js";
 import {
   GeometryAttributes_default
-} from "./chunk-WMHJAREU.js";
+} from "./chunk-DTKSVIH5.js";
 import {
   GeometryAttribute_default,
   Geometry_default,
   PrimitiveType_default
-} from "./chunk-PJHRB4YJ.js";
+} from "./chunk-2QPH5QDK.js";
 import {
   BoundingSphere_default
-} from "./chunk-54NYY4U4.js";
+} from "./chunk-ASVODZNK.js";
 import {
   Matrix2_default,
   Quaternion_default,
   Rectangle_default
-} from "./chunk-7D6T2WYT.js";
+} from "./chunk-UKA7OISV.js";
 import {
   ComponentDatatype_default
-} from "./chunk-2IJZVFHY.js";
+} from "./chunk-UFSYRVC5.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Cartographic_default,
   Ellipsoid_default,
+  Frozen_default,
   Matrix3_default
-} from "./chunk-AER5CLXD.js";
+} from "./chunk-LV3G32QE.js";
 import {
   Math_default
-} from "./chunk-LVHHB5T6.js";
-import "./chunk-COHL4R3G.js";
-import "./chunk-NELAPOO6.js";
-import {
-  defaultValue_default
-} from "./chunk-Q7IIOKAT.js";
+} from "./chunk-LU7DLY2L.js";
+import "./chunk-XJVRYJVZ.js";
+import "./chunk-FE565QHX.js";
 import {
   Check_default,
   DeveloperError_default
-} from "./chunk-EMCXAVSG.js";
+} from "./chunk-DBHL2UVG.js";
 import {
   defined_default
-} from "./chunk-K7QC3WDT.js";
+} from "./chunk-3RKX3UFI.js";
 
 // packages/engine/Source/Core/RectangleGeometry.js
 var positionScratch = new Cartesian3_default();
@@ -918,7 +916,7 @@ function computeRectangle(rectangle, granularity, rotation, ellipsoid, result) {
   return Rectangle_default.fromCartesianArray(positions, ellipsoid, result);
 }
 function RectangleGeometry(options) {
-  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  options = options ?? Frozen_default.EMPTY_OBJECT;
   const rectangle = options.rectangle;
   Check_default.typeOf.object("rectangle", rectangle);
   Rectangle_default._validate(rectangle);
@@ -927,24 +925,19 @@ function RectangleGeometry(options) {
       "options.rectangle.north must be greater than or equal to options.rectangle.south"
     );
   }
-  const height = defaultValue_default(options.height, 0);
-  const extrudedHeight = defaultValue_default(options.extrudedHeight, height);
+  const height = options.height ?? 0;
+  const extrudedHeight = options.extrudedHeight ?? height;
   this._rectangle = Rectangle_default.clone(rectangle);
-  this._granularity = defaultValue_default(
-    options.granularity,
-    Math_default.RADIANS_PER_DEGREE
-  );
-  this._ellipsoid = Ellipsoid_default.clone(
-    defaultValue_default(options.ellipsoid, Ellipsoid_default.default)
-  );
+  this._granularity = options.granularity ?? Math_default.RADIANS_PER_DEGREE;
+  this._ellipsoid = Ellipsoid_default.clone(options.ellipsoid ?? Ellipsoid_default.default);
   this._surfaceHeight = Math.max(height, extrudedHeight);
-  this._rotation = defaultValue_default(options.rotation, 0);
-  this._stRotation = defaultValue_default(options.stRotation, 0);
+  this._rotation = options.rotation ?? 0;
+  this._stRotation = options.stRotation ?? 0;
   this._vertexFormat = VertexFormat_default.clone(
-    defaultValue_default(options.vertexFormat, VertexFormat_default.DEFAULT)
+    options.vertexFormat ?? VertexFormat_default.DEFAULT
   );
   this._extrudedHeight = Math.min(height, extrudedHeight);
-  this._shadowVolume = defaultValue_default(options.shadowVolume, false);
+  this._shadowVolume = options.shadowVolume ?? false;
   this._workerName = "createRectangleGeometry";
   this._offsetAttribute = options.offsetAttribute;
   this._rotatedRectangle = void 0;
@@ -954,7 +947,7 @@ RectangleGeometry.packedLength = Rectangle_default.packedLength + Ellipsoid_defa
 RectangleGeometry.pack = function(value, array, startingIndex) {
   Check_default.typeOf.object("value", value);
   Check_default.defined("array", array);
-  startingIndex = defaultValue_default(startingIndex, 0);
+  startingIndex = startingIndex ?? 0;
   Rectangle_default.pack(value._rectangle, array, startingIndex);
   startingIndex += Rectangle_default.packedLength;
   Ellipsoid_default.pack(value._ellipsoid, array, startingIndex);
@@ -967,7 +960,7 @@ RectangleGeometry.pack = function(value, array, startingIndex) {
   array[startingIndex++] = value._stRotation;
   array[startingIndex++] = value._extrudedHeight;
   array[startingIndex++] = value._shadowVolume ? 1 : 0;
-  array[startingIndex] = defaultValue_default(value._offsetAttribute, -1);
+  array[startingIndex] = value._offsetAttribute ?? -1;
   return array;
 };
 var scratchRectangle = new Rectangle_default();
@@ -986,7 +979,7 @@ var scratchOptions = {
 };
 RectangleGeometry.unpack = function(array, startingIndex, result) {
   Check_default.defined("array", array);
-  startingIndex = defaultValue_default(startingIndex, 0);
+  startingIndex = startingIndex ?? 0;
   const rectangle = Rectangle_default.unpack(array, startingIndex, scratchRectangle);
   startingIndex += Rectangle_default.packedLength;
   const ellipsoid = Ellipsoid_default.unpack(array, startingIndex, scratchEllipsoid);
@@ -1027,7 +1020,7 @@ RectangleGeometry.unpack = function(array, startingIndex, result) {
   return result;
 };
 RectangleGeometry.computeRectangle = function(options, result) {
-  options = defaultValue_default(options, defaultValue_default.EMPTY_OBJECT);
+  options = options ?? Frozen_default.EMPTY_OBJECT;
   const rectangle = options.rectangle;
   Check_default.typeOf.object("rectangle", rectangle);
   Rectangle_default._validate(rectangle);
@@ -1036,12 +1029,9 @@ RectangleGeometry.computeRectangle = function(options, result) {
       "options.rectangle.north must be greater than or equal to options.rectangle.south"
     );
   }
-  const granularity = defaultValue_default(
-    options.granularity,
-    Math_default.RADIANS_PER_DEGREE
-  );
-  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
-  const rotation = defaultValue_default(options.rotation, 0);
+  const granularity = options.granularity ?? Math_default.RADIANS_PER_DEGREE;
+  const ellipsoid = options.ellipsoid ?? Ellipsoid_default.default;
+  const rotation = options.rotation ?? 0;
   return computeRectangle(rectangle, granularity, rotation, ellipsoid, result);
 };
 var tangentRotationMatrixScratch = new Matrix3_default();

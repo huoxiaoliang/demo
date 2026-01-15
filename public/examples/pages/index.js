@@ -119,12 +119,6 @@ function initViewer(options = {}) {
     },
     cameraController: {
       enableCollisionDetection: false
-    },
-    widgetController: {
-      enableCompass2: true,
-      enableStateBar: true,
-      enableImagerySwitchTerrain: true,
-      enableDistanceLegend: true
     }
   })
 }

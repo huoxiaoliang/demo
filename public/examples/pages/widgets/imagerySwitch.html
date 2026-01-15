@@ -7,11 +7,6 @@
 <script>
   var layerOffline = null
   initViewer()
-  map.setOptions({
-    widgetController: {
-      enableImagerySwitchTerrain: true // 默认加载地形
-    }
-  })
 
   function add() {
     const offlineLayer = new Creatar3d.ImageLayer({

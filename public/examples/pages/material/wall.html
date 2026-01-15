@@ -1,11 +1,6 @@
 <div id="viewer-container"></div>
 <script>
   initViewer()
-  map.setOptions({
-    widgetController: {
-      enableImagerySwitchTerrain: false // 默认加载地形
-    }
-  })
   layer = new Creatar3d.GraphicLayer()
   map.addLayer(layer)
   getJSON('examples/data/梨树县边界.json', function (data) {

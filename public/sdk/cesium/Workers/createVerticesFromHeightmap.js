@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.123.1
+ * Version 1.134.1
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -26,62 +26,59 @@
 import {
   EllipsoidalOccluder_default,
   TerrainEncoding_default
-} from "./chunk-22FZ334F.js";
+} from "./chunk-J2XQVKVH.js";
 import {
   createTaskProcessorWorker_default
-} from "./chunk-IJWXYSFC.js";
+} from "./chunk-TGJQMEL4.js";
 import {
   WebMercatorProjection_default
-} from "./chunk-GBPW65E3.js";
+} from "./chunk-KEPPNSBL.js";
 import {
   OrientedBoundingBox_default
-} from "./chunk-VHGI7D3P.js";
-import "./chunk-GRQQHWMD.js";
-import "./chunk-76KRKKEF.js";
+} from "./chunk-DAJKOQW6.js";
+import "./chunk-PZUZCAX3.js";
+import "./chunk-NYYQZ3LH.js";
 import {
   AxisAlignedBoundingBox_default
-} from "./chunk-MV7YO647.js";
-import "./chunk-DR56WFYZ.js";
-import "./chunk-KKMH4BKN.js";
+} from "./chunk-XG54SG4O.js";
+import "./chunk-W6KMV4F5.js";
+import "./chunk-PJAA7QSC.js";
 import {
   BoundingSphere_default
-} from "./chunk-54NYY4U4.js";
+} from "./chunk-ASVODZNK.js";
 import {
   Matrix4_default,
   Rectangle_default,
   Transforms_default
-} from "./chunk-7D6T2WYT.js";
-import "./chunk-2IJZVFHY.js";
+} from "./chunk-UKA7OISV.js";
+import "./chunk-UFSYRVC5.js";
 import {
   Cartesian2_default,
   Cartesian3_default,
   Ellipsoid_default
-} from "./chunk-AER5CLXD.js";
+} from "./chunk-LV3G32QE.js";
 import {
   Math_default
-} from "./chunk-LVHHB5T6.js";
-import "./chunk-COHL4R3G.js";
+} from "./chunk-LU7DLY2L.js";
+import "./chunk-XJVRYJVZ.js";
 import {
   RuntimeError_default
-} from "./chunk-NELAPOO6.js";
-import {
-  defaultValue_default
-} from "./chunk-Q7IIOKAT.js";
+} from "./chunk-FE565QHX.js";
 import {
   DeveloperError_default
-} from "./chunk-EMCXAVSG.js";
+} from "./chunk-DBHL2UVG.js";
 import {
   __commonJS,
   __toESM,
   defined_default
-} from "./chunk-K7QC3WDT.js";
+} from "./chunk-3RKX3UFI.js";
 
 // node_modules/lerc/LercDecode.js
 var require_LercDecode = __commonJS({
   "node_modules/lerc/LercDecode.js"(exports, module) {
     /* Copyright 2015-2018 Esri. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 @preserve */
     (function() {
-      var LercDecode = function() {
+      var LercDecode = (function() {
         var CntZImage = {};
         CntZImage.defaultNoDataValue = -34027999387901484e22;
         CntZImage.decode = function(input, options) {
@@ -435,8 +432,8 @@ var require_LercDecode = __commonJS({
           return dest;
         };
         return CntZImage;
-      }();
-      var Lerc2Decode = function() {
+      })();
+      var Lerc2Decode = (function() {
         "use strict";
         var BitStuffer = {
           //methods ending with 2 are for the new byte order used by Lerc2.3 and above.
@@ -1749,14 +1746,14 @@ var require_LercDecode = __commonJS({
           }
         };
         return Lerc2Decode2;
-      }();
-      var isPlatformLittleEndian = function() {
+      })();
+      var isPlatformLittleEndian = (function() {
         var a = new ArrayBuffer(4);
         var b = new Uint8Array(a);
         var c = new Uint32Array(a);
         c[0] = 1;
         return b[0] === 1;
-      }();
+      })();
       var Lerc2 = {
         /************wrapper**********************************************/
         /**
@@ -1934,8 +1931,8 @@ HeightmapTessellator.computeVertices = function(options) {
   const height = options.height;
   const skirtHeight = options.skirtHeight;
   const hasSkirts = skirtHeight > 0;
-  const isGeographic = defaultValue_default(options.isGeographic, true);
-  const ellipsoid = defaultValue_default(options.ellipsoid, Ellipsoid_default.default);
+  const isGeographic = options.isGeographic ?? true;
+  const ellipsoid = options.ellipsoid ?? Ellipsoid_default.default;
   const oneOverGlobeSemimajorAxis = 1 / ellipsoid.maximumRadius;
   const nativeRectangle = Rectangle_default.clone(options.nativeRectangle);
   const rectangle = Rectangle_default.clone(options.rectangle);
@@ -1964,42 +1961,18 @@ HeightmapTessellator.computeVertices = function(options) {
   let relativeToCenter = options.relativeToCenter;
   const hasRelativeToCenter = defined_default(relativeToCenter);
   relativeToCenter = hasRelativeToCenter ? relativeToCenter : Cartesian3_default.ZERO;
-  const includeWebMercatorT = defaultValue_default(options.includeWebMercatorT, false);
-  const exaggeration = defaultValue_default(options.exaggeration, 1);
-  const exaggerationRelativeHeight = defaultValue_default(
-    options.exaggerationRelativeHeight,
-    0
-  );
+  const includeWebMercatorT = options.includeWebMercatorT ?? false;
+  const exaggeration = options.exaggeration ?? 1;
+  const exaggerationRelativeHeight = options.exaggerationRelativeHeight ?? 0;
   const hasExaggeration = exaggeration !== 1;
   const includeGeodeticSurfaceNormals = hasExaggeration;
-  const structure = defaultValue_default(
-    options.structure,
-    HeightmapTessellator.DEFAULT_STRUCTURE
-  );
-  const heightScale = defaultValue_default(
-    structure.heightScale,
-    HeightmapTessellator.DEFAULT_STRUCTURE.heightScale
-  );
-  const heightOffset = defaultValue_default(
-    structure.heightOffset,
-    HeightmapTessellator.DEFAULT_STRUCTURE.heightOffset
-  );
-  const elementsPerHeight = defaultValue_default(
-    structure.elementsPerHeight,
-    HeightmapTessellator.DEFAULT_STRUCTURE.elementsPerHeight
-  );
-  const stride = defaultValue_default(
-    structure.stride,
-    HeightmapTessellator.DEFAULT_STRUCTURE.stride
-  );
-  const elementMultiplier = defaultValue_default(
-    structure.elementMultiplier,
-    HeightmapTessellator.DEFAULT_STRUCTURE.elementMultiplier
-  );
-  const isBigEndian = defaultValue_default(
-    structure.isBigEndian,
-    HeightmapTessellator.DEFAULT_STRUCTURE.isBigEndian
-  );
+  const structure = options.structure ?? HeightmapTessellator.DEFAULT_STRUCTURE;
+  const heightScale = structure.heightScale ?? HeightmapTessellator.DEFAULT_STRUCTURE.heightScale;
+  const heightOffset = structure.heightOffset ?? HeightmapTessellator.DEFAULT_STRUCTURE.heightOffset;
+  const elementsPerHeight = structure.elementsPerHeight ?? HeightmapTessellator.DEFAULT_STRUCTURE.elementsPerHeight;
+  const stride = structure.stride ?? HeightmapTessellator.DEFAULT_STRUCTURE.stride;
+  const elementMultiplier = structure.elementMultiplier ?? HeightmapTessellator.DEFAULT_STRUCTURE.elementMultiplier;
+  const isBigEndian = structure.isBigEndian ?? HeightmapTessellator.DEFAULT_STRUCTURE.isBigEndian;
   let rectangleWidth = Rectangle_default.computeWidth(nativeRectangle);
   let rectangleHeight = Rectangle_default.computeHeight(nativeRectangle);
   const granularityX = rectangleWidth / (width - 1);

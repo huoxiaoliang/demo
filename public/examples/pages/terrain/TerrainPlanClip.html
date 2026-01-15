@@ -2,11 +2,7 @@
 <script>
   var terrainPlanClipThing = null
   initViewer()
-  map.setOptions({
-    widgetController: {
-      enableImagerySwitchTerrain: true // 默认加载地形
-    }
-  })
+
   map.graphicLayer.draw({
     type: 'polygon',
     callback: (graphic) => {
